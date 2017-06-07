@@ -20,3 +20,8 @@ Voraussetzung
 11. Kontrolle ob Protokoll https und Username / Passwort von GitHub eingetragen > Finish
 12. 'Save and Push'
 13. Bier trinken! Bravo!
+14. Was Fehler erhalten?
+### Eclipse Git Commit
+16. Klar gibt es einen Fehler Pushen geht nur wenn es etwas zu pushen gibt.
+17. Also erstmal commit machen auf Dateien!
+18. Push nochmal versuchen. Klappt. Gehe wieder zu Punkt 13.
