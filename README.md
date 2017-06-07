@@ -1,9 +1,9 @@
 # Schulprojekt JAVA ZF
 ## Eclipse Projekt auf GitHub bringen
 Voraussetzung
-*Bestehendes Eclipse Projekt
-*Projekt ist offen
-*(Git vorhanden in Eclipse) Standard?
+- Bestehendes Eclipse Projekt
+- Projekt ist offen
+- (Git vorhanden in Eclipse) Standard?
 
 ### Schritte in Eclipse
 1. Projekt im Package Explorer mit rechter Maustaste anklicken
