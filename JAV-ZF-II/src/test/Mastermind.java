@@ -7,23 +7,54 @@ public class Mastermind {
 	static int[] tipArray = {0, 0, 0, 0}; // Variable für Benutzer Tipp
 
 	public static void main(String[] args) {
+		generateCode(codeArray);
+		System.out.println(arrayToString(codeArray));
 		
 		tipUser(tipArray);
 
+//		Evaluate User Input
+		System.out.println("Anzahl mit richtiger Position: " + berechneAnzRichtiePosition(tipArray));
 
-//		generate 4 numbers and write them to codeArray
-		for (int i = 0; i < codeArray.length; i++) {
-			double random = Math.random() * 6 + 1;
-			codeArray[i] = (int)random;
-		}
 		
 //		test codeArray and tipArray
 		System.out.println(arrayToString(codeArray));
 		System.out.println(arrayToString(tipArray));
-		
-	
+
 	}
 
+	/** Generates the Code (Geheimcode) which the User has to guess.
+	 * @param codeArray2
+	 */
+	private static void generateCode(int[] codeArray2) {
+//		generate 4 numbers and write them to codeArray
+		for (int i = 0; i < codeArray.length; i++) {
+			double random = Math.random() * 6 + 1;
+			codeArray[i] = (int)random;
+		}		
+	}
+
+	//		insert compare b=(Zahl ohne Position)
+
+	/**
+	 * Berechnet die Anzahl der erratenen Zahlen auf der richtigen Position
+	 * @param tip
+	 * @return int Anzahl Zahlen Position richtig
+	 */
+	public static int berechneAnzRichtiePosition(int[] tip) {
+		int anzRichtige = 0;
+		for (int i = 0; i < 4; i++) {
+			//			System.out.println("test");
+			if (tip[i] == codeArray[i]) {
+				anzRichtige = anzRichtige + 1;
+			} 
+			//			anzRichtige = anzRichtige + 0;
+		}
+		return anzRichtige;
+	}
+	
+	
+	
+	
 //	Array to "xxxx" String converter
 	static String arrayToString(int[] array) {
 		String arrayToString = "";
