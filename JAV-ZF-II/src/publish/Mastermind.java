@@ -155,11 +155,12 @@ public class Mastermind {
 		return arrayToString;
 	}
 
-	/** Aks User for his guess and gets the Userinput. 
+	/** Ask User for his guess and gets the Userinput. 
 	 * @param tipArray
 	 */
 	public static void tipUser(int[] tipArray) {
-		System.out.println("Bitte geben Sie vier Zahlen zwischen 1-6 nach einander ein. Jede Zahl gefolgt von Enter.");
+		System.out.println("Bitte geben Sie vier Zahlen zwischen 1-6 nach "
+				+ "einander ein. Jede Zahl gefolgt von Enter.");
 		// TODO Zahleneingabe ohne Enter nach jeder Zahl ermöglichen
 		// TODO close reader
 		Scanner reader = new Scanner(System.in);
