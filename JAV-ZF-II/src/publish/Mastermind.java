@@ -13,7 +13,7 @@ public class Mastermind {
 	 */
 	static int[] codeArray = {0, 0, 0, 0};
 	static int[] tipArray = {0, 0, 0, 0};
-	static int versuche = 3;
+	static int versuche = 10;
 	static int zaehler = 0;
 
 
@@ -31,7 +31,11 @@ public class Mastermind {
 	 */
 	public static void main(String[] args) {
 		generateCode(codeArray);
-		System.out.println("Willkommen bei Masterminds"+"\n");
+		System.out.println("Willkommen bei Masterminds"+"\n"+"\n"
+				+ "Sie haben "+ versuche + " Versuche um den Code zu knacken."+"\n"
+				+ "Der Code besteht aus den Zahlen 1-6. Der Code besteht aus "+"\n"
+				+ "vier Stellen. Viel Erfolg!"
+				+ "\n");
 
 		do {
 			tipUser(tipArray);
@@ -126,6 +130,7 @@ public class Mastermind {
 		}
 		return anzRichtige;
 	}
+	
 	/**
 	 * Berechnet die Anzahl der erratenen Zahlen auf der richtigen Position
 	 * @param tip
