@@ -5,23 +5,33 @@ import java.util.Scanner;
 public class Mastermind {
 	static int[] codeArray = {0, 0, 0, 0}; // Init Variable Code
 	static int[] tipArray = {0, 0, 0, 0}; // Variable für Benutzer Tipp
+	static int versuche = 3; // Anzahl Rateversuche um Code zu knacken
+	static int zaehler = 0; // Variable um restliche Versuche zu berechnen 
+
 
 	public static void main(String[] args) {
 		generateCode(codeArray);
 		System.out.println(arrayToString(codeArray));
 
-		tipUser(tipArray);
+		do {
+			tipUser(tipArray);
 
-		//		Evaluate User Input
-		System.out.println("Anzahl richtige Zahlen ohne Betrachtung der Position: "
-				+ berechneAnrRichtigeOhnePos(tipArray));
-		System.out.println("Anzahl mit richtiger Position: "
-				+ berechneAnzRichtiePosition(tipArray));
+			//		Evaluate User Input
+			System.out.println("Anzahl richtige Zahlen ohne Betrachtung der Position: "
+					+ berechneAnrRichtigeOhnePos(tipArray));
+			System.out.println("Anzahl mit richtiger Position: "
+					+ berechneAnzRichtiePosition(tipArray));
 
 
-		//		test codeArray and tipArray
-		System.out.println(arrayToString(codeArray));
-		System.out.println(arrayToString(tipArray));
+			//		test codeArray and tipArray, Helper for debugging
+			System.out.println(arrayToString(codeArray));
+			System.out.println(arrayToString(tipArray));
+
+		} while (versuche > zaehler);
+		System.out.println("Keine Versuche mehr übrig. "
+				+ "Sie haben den Code nicht geknackt. "
+				+ "Das Spiel ist beendet...");
+
 
 	}
 
@@ -97,7 +107,12 @@ public class Mastermind {
 		for (int i = 0; i < tipArray.length; i++) {
 			tipArray[i] = reader.nextInt();
 		}
+		zaehler = zaehler + 1; 
+		System.out.println("Danke für den " + zaehler + ". Tip. "
+				+ "Sie haben noch " + (versuche-zaehler) + " versuche übrig.");
 	}
 
 
+
+	
 }
