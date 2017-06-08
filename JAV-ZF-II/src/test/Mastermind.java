@@ -9,14 +9,17 @@ public class Mastermind {
 	public static void main(String[] args) {
 		generateCode(codeArray);
 		System.out.println(arrayToString(codeArray));
-		
+
 		tipUser(tipArray);
 
-//		Evaluate User Input
-		System.out.println("Anzahl mit richtiger Position: " + berechneAnzRichtiePosition(tipArray));
+		//		Evaluate User Input
+		System.out.println("Anzahl richtige Zahlen ohne Betrachtung der Position: "
+				+ berechneAnrRichtigeOhnePos(tipArray));
+		System.out.println("Anzahl mit richtiger Position: "
+				+ berechneAnzRichtiePosition(tipArray));
 
-		
-//		test codeArray and tipArray
+
+		//		test codeArray and tipArray
 		System.out.println(arrayToString(codeArray));
 		System.out.println(arrayToString(tipArray));
 
@@ -26,15 +29,32 @@ public class Mastermind {
 	 * @param codeArray2
 	 */
 	private static void generateCode(int[] codeArray2) {
-//		generate 4 numbers and write them to codeArray
+		//		generate 4 numbers and write them to codeArray
 		for (int i = 0; i < codeArray.length; i++) {
 			double random = Math.random() * 6 + 1;
 			codeArray[i] = (int)random;
 		}		
 	}
 
-	//		insert compare b=(Zahl ohne Position)
-
+	/***
+	 * Berechnet die Anzahl der erratenen Zahlen aus dem Geheimcode ohne die 
+	 * Position der Zahlen zu berücksichtigen 
+	 * @param tip
+	 * @return int Anzahl erratene/vorhandene Zahlen
+	 */
+	public static int berechneAnrRichtigeOhnePos(int[] tip) {
+		// *Exit bei Treffer, damit jede Zahl nur einmal gezählt wird.
+		int anzRichtige = 0;
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				if (tip[i] == codeArray[j]) {
+					anzRichtige = anzRichtige + 1;
+					j = 4; // => Exit bei Treffer
+				} anzRichtige = anzRichtige + 0;
+			}
+		}
+		return anzRichtige;
+	}
 	/**
 	 * Berechnet die Anzahl der erratenen Zahlen auf der richtigen Position
 	 * @param tip
@@ -51,11 +71,12 @@ public class Mastermind {
 		}
 		return anzRichtige;
 	}
-	
-	
-	
-	
-//	Array to "xxxx" String converter
+
+
+	/** Converts any Int[] array to a single String
+	 * @param array
+	 * @return
+	 */
 	static String arrayToString(int[] array) {
 		String arrayToString = "";
 		for (int i = 0; i < array.length; i++) {
@@ -63,8 +84,8 @@ public class Mastermind {
 		}
 		return arrayToString;
 	}
-	
-	
+
+
 	/** Aks User for his guess and gets the Userinput. 
 	 * @param tipArray
 	 */
@@ -77,6 +98,6 @@ public class Mastermind {
 			tipArray[i] = reader.nextInt();
 		}
 	}
-	
-	
+
+
 }
