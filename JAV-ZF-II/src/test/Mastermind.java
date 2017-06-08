@@ -11,8 +11,20 @@ public class Mastermind {
 			codeArray[i] = (int)random;
 			System.out.println((int)random); // Prints random as int, Note the downcast	
 		}
+		
+//		test codeArray
+		System.out.println(arrayToString(codeArray));
+		
 //		convert array to string tipToString() exists
 //		save Tip to Array int[] arrayTip
 	}
 
+	
+	static String arrayToString(int[] array) {
+		String arrayToString = "";
+		for (int i = 0; i < array.length; i++) {
+			arrayToString = arrayToString + Integer.toString(array[i]);
+		}
+		return arrayToString;
+	}
 }
