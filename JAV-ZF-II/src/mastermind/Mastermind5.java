@@ -9,7 +9,7 @@ public class Mastermind5 {
 	static int[] code = {1, 1, 4, 2}; // Init Variable Code
 	static int[] tip = {0, 0, 0, 0}; // Variable für Benutzer Tipp
 	static int zaehler = 0; // Variable für Anzahl Versuch
-	static int versuche = 2; // Anzahl Versuche festlegen
+	static int versuche = 3; // Anzahl Versuche festlegen
 
 	public static void main(String[] args) {
 		/* Spiel Masterminds
@@ -37,14 +37,20 @@ public class Mastermind5 {
 			System.out.println("Anzahl mit richtiger Position: " + berechneAnzRichtiePosition(tip));
 
 			// Nur für Fehlersuche Kommentar entfernen 
-//			System.out.println(Arrays.toString(tip)); // old before tip was converted to String
-			System.out.println(geheimCode);
+			//			System.out.println(Arrays.toString(tip)); // old before tip was converted to String
+			System.out.println("geheimCode ist: " + geheimCode);
 			System.out.println("code is:" + code);
+			System.out.println("typToString is: " + tipToString(tip));
+			System.out.println("Arrays.toString(tip) is: " + Arrays.toString(tip));
+			System.out.println("is tipToString(tip) == tipToString(tip)?:" + (tipToString(tip) == tipToString(tip)));
+			System.out.println(tipToString(tip) == tipToString(tip));
+			System.out.println("is" == "is");
 
 			// Spiel Ende Code geknackt
 			// TODO aks Kurt how to check for tip == code and zaehler < versuche at the same time?
-		} while (tip != geheimCode  && zaehler < versuche);
-		if (tip == code) {
+			//		} while (tipToString(tip) != geheimCode && zaehler < versuche);
+		} while (tipToString(tip) != geheimCode);
+		if (tipToString(tip) == geheimCode) {
 			System.out.println("Glückwunsch Sie sind ein Mastermind!!");
 		}
 		// TODO neustart einfügen mit Abfrage J/N
@@ -68,14 +74,15 @@ public class Mastermind5 {
 		System.out.println("Danke für den " + zaehler + ". Tip. Sie haben noch " + (versuche-zaehler) + " versuche übrig.");
 	}
 
-	void tipToString(int[] tip) {
+	static String tipToString(int[] tip) {
 		String tipBecomesString = "";
 		for (int i = 0; i < tip.length; i++) {
 			tipBecomesString = tipBecomesString + Integer.toString(tip[i]);
-			
+
 		}
+		return tipBecomesString;
 	}
-	
+
 	/***
 	 * Berechnet die Anzahl der erratenen Zahlen aus dem Geheimcode ohne die 
 	 * Position der Zahlen zu berücksichtigen 
