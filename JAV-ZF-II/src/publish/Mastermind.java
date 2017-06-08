@@ -30,6 +30,7 @@ public class Mastermind {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		// TODO make it work as a runnable .jar!
 		generateCode(codeArray);
 		System.out.println("Willkommen bei Masterminds"+"\n"+"\n"
 				+ "Sie haben "+ versuche + " Versuche um den Code zu knacken."+"\n"
