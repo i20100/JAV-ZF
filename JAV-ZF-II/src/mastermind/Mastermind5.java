@@ -37,15 +37,19 @@ public class Mastermind5 {
 			System.out.println("Anzahl mit richtiger Position: " + berechneAnzRichtiePosition(tip));
 
 			// Nur für Fehlersuche Kommentar entfernen 
-//			System.out.println(Arrays.toString(tip)); // old before tip was converted to String
+			//			System.out.println(Arrays.toString(tip)); // old before tip was converted to String
 			System.out.println("geheimCode ist: " + geheimCode);
 			System.out.println("code is:" + code);
 			System.out.println("typToString is: " + tipToString(tip));
 			System.out.println("Arrays.toString(tip) is: " + Arrays.toString(tip));
+			System.out.println("is tipToString(tip) == tipToString(tip)?:" + (tipToString(tip) == tipToString(tip)));
+			System.out.println(tipToString(tip) == tipToString(tip));
+			System.out.println("is" == "is");
 
 			// Spiel Ende Code geknackt
 			// TODO aks Kurt how to check for tip == code and zaehler < versuche at the same time?
-		} while (tipToString(tip) != geheimCode && zaehler < versuche);
+			//		} while (tipToString(tip) != geheimCode && zaehler < versuche);
+		} while (tipToString(tip) != geheimCode);
 		if (tipToString(tip) == geheimCode) {
 			System.out.println("Glückwunsch Sie sind ein Mastermind!!");
 		}
@@ -74,11 +78,11 @@ public class Mastermind5 {
 		String tipBecomesString = "";
 		for (int i = 0; i < tip.length; i++) {
 			tipBecomesString = tipBecomesString + Integer.toString(tip[i]);
-			
+
 		}
 		return tipBecomesString;
 	}
-	
+
 	/***
 	 * Berechnet die Anzahl der erratenen Zahlen aus dem Geheimcode ohne die 
 	 * Position der Zahlen zu berücksichtigen 

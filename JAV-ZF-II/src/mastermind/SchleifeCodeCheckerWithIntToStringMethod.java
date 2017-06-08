@@ -8,7 +8,9 @@ public class SchleifeCodeCheckerWithIntToStringMethod {
 	static int[] tip = {0, 0, 0, 0}; // Variable für Benutzer Tipp
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		/* Aufbauend auf dem Code SchleifeCodeChecker soll hier geprüft werden
+		ob der Arrayvergleich == mit einer eigenen ArrayToString Lösung
+		erfolgreicher ist. Eigene Methode */
 		System.out.println("Code = " + (Arrays.toString(code)));
 		System.out.println("Tip = " + (Arrays.toString(tip)));
 		//int[] tip = {1, 1, 4, 2}; 

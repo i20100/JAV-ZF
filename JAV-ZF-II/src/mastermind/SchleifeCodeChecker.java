@@ -8,7 +8,7 @@ public class SchleifeCodeChecker {
 	static int[] tip = {0, 0, 0, 0}; // Variable für Benutzer Tipp
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		// Dieser Versuch zeigt das zwei Array mit == Vergleich False ergeben!!
 		System.out.println("Code = " + (Arrays.toString(code)));
 		System.out.println("Tip = " + (Arrays.toString(tip)));
 		//int[] tip = {1, 1, 4, 2}; 

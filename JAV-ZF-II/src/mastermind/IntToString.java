@@ -11,16 +11,8 @@ public class IntToString {
 		/* Testen von Int to String in Schleife. Resultat: true! aber wieso?
 		 * Versuch ausweiten! Zeile code2 hinzugefügt und Vergleich
 		 * codeToString == codeToString2 => Resultat: false!
-		 * 3. Versuch: Prüfen umweg über variablen:
+		 * 3. Versuch: Prüfen Umweg über Variablen:
 		 * Bsp. String a = code, String b = code2?*/
-
-
-//		System.out.println("codeToString: " + codeToString);
-//		System.out.println("codeToString2: "+ codeToString2);
-//		System.out.println("Vergleich von codeToString == codeToString");
-//		System.out.println(codeToString == codeToString);
-//		System.out.println("Vergleich von codeToString == codeToString2");
-//		System.out.println(codeToString == codeToString2);
 
 		System.out.println("a: " + a);
 		System.out.println("b: "+ b);
