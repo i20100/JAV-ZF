@@ -30,7 +30,12 @@ public class Mastermind {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO make it work as a runnable .jar!
+		// TODO make it work as a runnable .jar! which opens console? or
+		// TODO make runnable exe
+		// TODO give tip history before every tip (array(arraytipnr(tip,amp,aop))
+		// TODO make input possible as one number of 4 digits
+		// TODO commit git when last version of CLI only
+		// TODO make a GUI with colors to click and submit
 		generateCode(codeArray);
 		System.out.println("Willkommen bei Masterminds"+"\n"+"\n"
 				+ "Sie haben "+ versuche + " Versuche um den Code zu knacken."+"\n"
