@@ -1,6 +1,5 @@
 package mod226;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class L04_Aufg1_Zufallszahlen_Array_Sortieren {
@@ -48,7 +47,7 @@ public class L04_Aufg1_Zufallszahlen_Array_Sortieren {
 		}
 		System.out.println(Arrays.toString(arso));
 
-
+        // Sorting of arso Array form low to high
 		for (int j = 0; j < arso.length; j++) {
 			for (int i = 0; i < arso.length-1; i++) {
 				if (arso[i] > arso [i+1]) {
@@ -60,6 +59,7 @@ public class L04_Aufg1_Zufallszahlen_Array_Sortieren {
 		}
 		System.out.println(Arrays.toString(arso));
 
+		// Counting times where value from original Array was higher than now in sorted Array
 		for (int i = 0; i < arso.length; i++) {
 			if (arra[i] > arso[i]) {
 				counterArraPosHigher  = counterArraPosHigher +1;
@@ -69,5 +69,4 @@ public class L04_Aufg1_Zufallszahlen_Array_Sortieren {
 		System.out.println("An "+counterArraPosHigher +" Positionen war im unsortierten Array eine grössere Zahl.");
 
 	}
-
 }
