@@ -83,40 +83,83 @@ public class L04_Aufg2_TrippleArray_Minimal_Temp {
 		}
 		 */
 
-		//TODO sort for lowest
-		//TODO Print Like: lowest are in day(line) x, location(group) y, time(Element) y for all lowest temp.
+		//DONE sort for lowest
 		for (int i = 0; i < tempMinArray.length; i++) {
 			for (int j = 0; j < groups; j++) {
-				for (int k = 0; k < samples-1; k++) {
-					if (tempMinArray[i][j][k]>tempMinArray[i][j][k+1]) {
-						int tempMin = tempMinArray[i][j][k];
-						tempMinArray[i][j][k+1]=tempMinArray[i][j][k];
-						tempMinArray[i][j][k+1]=tempMin;
+				for (int j2 = 0; j2 < samples; j2++) {
+					for (int k = 0; k < samples-1; k++) {
+						if (tempMinArray[i][j][k]>tempMinArray[i][j][k+1]) {
+							int tempMin = tempMinArray[i][j][k];
+							tempMinArray[i][j][k]=tempMinArray[i][j][k+1];
+							tempMinArray[i][j][k+1]=tempMin;
+						}
 					}
 				}
 			}
 		}
 
-		//TODO sort for lowest broken redo it with 4 numbers fix!!
+		//DONE find lowest number in whole 3-d array. means get lowest number for each group and sort for lowest
+		//DONE find lowest temp? write daily lows in one array and sort for lowest 
+		//Array size? Per group 1 number, 3 groups times number of days
+		int[] lowestAll = new int [days*groups];
+		int counter = 0;
+		for (int i = 0; i < tempMinArray.length; i++) {
+			for (int j = 0; j < groups; j++) {
+				lowestAll[counter] = tempMinArray[i][j][0];
+				counter = counter+1;
+			}
+		}
+		System.out.println(Arrays.toString(lowestAll));
+
+		//DONE sort lowestAll for lowest
+		//Reminder: lowest temperature is lowestAll[0]
+		for (int i = 0; i < lowestAll.length; i++) {
+			for (int j = 0; j < lowestAll.length-1; j++) {
+				if (lowestAll[j]>lowestAll[j+1]) {
+					int buffer = lowestAll[j];
+					lowestAll[j]=lowestAll[j+1];
+					lowestAll[j+1]=buffer;
+				}
+			}
+		}
+		System.out.println(Arrays.toString(lowestAll));
+		
+		//DONE Print Like: lowest are in day(line) x, location(group) y, time(Element) y for all lowest temp.
+		System.out.println("Die tiefste gemessene Temperatur ist: "+lowestAll[0]+ ", und wurde gemessen an:");
+		for (int i = 0; i < temperaturesArray.length; i++) {
+			for (int j = 0; j < groups; j++) {
+				for (int k = 0; k < samples; k++) {
+					if (lowestAll[0]==temperaturesArray[i][j][k]) {
+						System.out.println("Tag: "+ i +" "
+								+"Station: "+ j+ " "
+								+"Element: "+ k);
+					}
+				}
+			}
+		}
+
+
+		//DONE sort for lowest broken redo it with 4 numbers fix!!
+		//Main error above? copy i+1 to i, was copy i to i+1!
+		/*		
 		int[] tempFix = {25, 26, 23, 22};
 		System.out.println(Arrays.toString(tempFix));
-		
 		for (int i = 0; i < tempFix.length; i++) {
-			
-		for (int j = 0; j < tempFix.length-1; j++) {
-			if (tempFix[j]>tempFix[j+1]) {
-				int tempMin= tempFix[j];
-				tempFix[j]=tempFix[j+1];
-				tempFix[j+1]=tempMin;
-			}
+			for (int j = 0; j < tempFix.length-1; j++) {
+				if (tempFix[j]>tempFix[j+1]) {
+					int tempMin= tempFix[j];
+					tempFix[j]=tempFix[j+1];
+					tempFix[j+1]=tempMin;
+				}
 			}
 		}
 		System.out.println(Arrays.toString(tempFix));
-		
-		
-/*		
+
+		 */
+
 		//DONE print sorted array as test
-		for (int i = 0; i < tempMinArray.length; i++) {
+		
+/*		for (int i = 0; i < tempMinArray.length; i++) {
 			for (int j = 0; j < groups; j++) {
 				System.out.print("(");
 				for (int k = 0; k < samples; k++) {
@@ -129,7 +172,6 @@ public class L04_Aufg2_TrippleArray_Minimal_Temp {
 			System.out.println();
 		}
 */
-
 
 	}
 }
