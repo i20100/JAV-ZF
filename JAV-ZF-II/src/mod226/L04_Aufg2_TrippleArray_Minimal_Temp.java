@@ -4,15 +4,15 @@ import java.util.Arrays;
 
 public class L04_Aufg2_TrippleArray_Minimal_Temp {
 
-	private static int days = 3;
+	private static int days = 6;
 	private static int groups = 3;
 	private static int samples = 4;
 
 	public static void main(String[] args) {
-		// TODO Idea: on six days, three locations, four temperature messeurements each
+		//DONE Idea: on six days, three locations, four temperature messeurements each
 		//DONE write a random number generator for numbers between 20-30
-		// DONE write this 3d-array with random numbers (20-30)
-		//TODO generate a scanner which tells where are the lowest temps. and prints em
+		//DONE write this 3d-array with random numbers (20-30)
+		//DONE generate a scanner which tells where are the lowest temps. and prints em
 		// Like: lowest are in day(line) x, location(group) y, time(Element) y for all lowest temp.
 
 		int[][][] temperaturesArray = new int[days][groups][samples];
@@ -109,7 +109,7 @@ public class L04_Aufg2_TrippleArray_Minimal_Temp {
 				counter = counter+1;
 			}
 		}
-		System.out.println(Arrays.toString(lowestAll));
+		//System.out.println(Arrays.toString(lowestAll)); // on only for debugging
 
 		//DONE sort lowestAll for lowest
 		//Reminder: lowest temperature is lowestAll[0]
@@ -122,8 +122,8 @@ public class L04_Aufg2_TrippleArray_Minimal_Temp {
 				}
 			}
 		}
-		System.out.println(Arrays.toString(lowestAll));
-		
+		//System.out.println(Arrays.toString(lowestAll)); // on only for debugging
+
 		//DONE Print Like: lowest are in day(line) x, location(group) y, time(Element) y for all lowest temp.
 		System.out.println("Die tiefste gemessene Temperatur ist: "+lowestAll[0]+ ", und wurde gemessen an:");
 		for (int i = 0; i < temperaturesArray.length; i++) {
@@ -157,9 +157,9 @@ public class L04_Aufg2_TrippleArray_Minimal_Temp {
 
 		 */
 
-		//DONE print sorted array as test
-		
-/*		for (int i = 0; i < tempMinArray.length; i++) {
+		//DONE print sorted array as test only for debugging
+
+		/*		for (int i = 0; i < tempMinArray.length; i++) {
 			for (int j = 0; j < groups; j++) {
 				System.out.print("(");
 				for (int k = 0; k < samples; k++) {
@@ -171,7 +171,7 @@ public class L04_Aufg2_TrippleArray_Minimal_Temp {
 			}
 			System.out.println();
 		}
-*/
+		 */
 
 	}
 }
