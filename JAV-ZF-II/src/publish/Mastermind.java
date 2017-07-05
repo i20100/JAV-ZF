@@ -1,6 +1,7 @@
 package publish;
 
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Mastermind {
@@ -12,8 +13,9 @@ public class Mastermind {
 	 * user to find the code zaehler = counter for tries of user to find the
 	 * code
 	 */
-	public static int[] codeArray = { 0, 0, 0, 0 };
-	static int[] tipArray = { 0, 0, 0, 0 };
+	//	public static int[] codeArray = { 0, 0, 0, 0 }; //FIXME reactivate for live version! 
+	public static int[] codeArray = { 1, 1, 2, 4 }; // Just for testing!
+	public static int[] tipArray = { 0, 0, 0, 0 };
 	static int versuche = 10;
 	static int zaehler = 0;
 
@@ -91,11 +93,13 @@ public class Mastermind {
 		System.out.println("          ###       ### ########### ###    #### #########           ");
 		System.out.println();
 
-		Scanner sc = new Scanner(System.in);
+		//		Scanner sc = new Scanner(System.in);
 		System.out.println("\n\n             Drücke Enter um fortzufahren..");
-		String next = sc.nextLine();
+		//		@SuppressWarnings("unused")
+		//		String next = sc.nextLine(); //Just to get the Enter to continue the program
+		//		sc.close(); //FIXME closing the scanner here makes the whole program fail, but why?
 		//		String next = sc.next(); does not work!! but sc.nextLine(); gets the Enter =)
-		//TODO close scanner
+		//DONE close scanner
 		//TODO clear console, this is a hard one
 
 		System.out.println("Willkommen bei Mastermind" + "\n" + "\n" + 
@@ -105,7 +109,7 @@ public class Mastermind {
 				+ "\n");
 
 		do {
-			tipUser(tipArray);
+			tipUser();
 			tipEqualCode();
 			evalUserInput();
 			debugger(); // Uncomment this line for exit debug mode aka hide code
@@ -240,36 +244,53 @@ public class Mastermind {
 
 	/**
 	 * Ask User for his guess and gets the Userinput.
-	 * 
 	 * @param tipArray
 	 */
-	public static void tipUser(int[] tipArray) {
-		//TODO implement try, catch Exception handler
+	public static void tipUser() {
+		//DONE implement try, catch Exception handler
 		//DONE Solve question, if it is possible to get each int separate from
 		// a int like 1980 => 1, 9, 8, 0 ???
 		// ANSWER: => YES, see class ScannerIntToSingleInt.java
-		System.out.println(
-				"Bitte geben Sie vier Zahlen zwischen 1-6 nach " 
-						+ "einander ein gefolgt von Enter. Bsp. XXXX->Enter");
+
 		// DONE Zahleneingabe ohne Enter nach jeder Zahl ermöglichen
-		//FIXME Tip can be given in one number but the whole game doesnt work anymore, 
+		//DONE Tip can be given in one number but the whole game doesn't work anymore,
+		// -> changed static tipArray to public static tipArray 
 		// rework game to work with new tip as whole number given!!
-		// DONE close reader
-		Scanner reader = new Scanner(System.in);
+		//TODO close reader
 
-		int tipUser = reader.nextInt();
-		System.out.println(tipUser); // just for testing!
+		int tipUser = -1;
 
+		do {
+			System.out.println(
+					"Bitte geben Sie vier Zahlen zwischen 1-6 nach " 
+							+ "einander ein gefolgt von Enter. Bsp. XXXX->Enter");
+
+			Scanner reader = new Scanner(System.in);
+			try {
+				tipUser = reader.nextInt();
+
+			} catch (InputMismatchException e) {
+				System.out.println("Eingabe für Tip ungültig!");
+			}
+			
+			if (6666 < tipUser) {
+				System.out.println("Tip ist ausserhalb der erlaubten Zahlen.");
+				//FIXME restart at the start of this do loop
+			}
+			
+			
+		} while (tipUser < 0);
+		//		System.out.println(tipUser); // just for testing!
 		String tipToDigits = String.valueOf(tipUser);
 		for(int i = 0; i < tipToDigits.length(); i++) {
 			int j = Character.digit(tipToDigits.charAt(i), 10);
 			System.out.println("digit: " + j);
 			//TODO write each digit into new Array[][][] when working with new usertiparray
 
-//			tipArray[zaehler] = reader.nextInt(); 
+			tipArray[i] = j;
 
-			zaehler = zaehler + 1;
 		}
-		reader.close();
+		zaehler = zaehler + 1;
+		//		reader.close(); //TODO closing the scanner here is a problem? but why?
 	}
 }
