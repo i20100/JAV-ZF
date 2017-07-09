@@ -18,7 +18,8 @@ public class Mastermind {
 	public static int[] tipArray = { 0, 0, 0, 0 };
 	static int versuche = 10;
 	static int zaehler = 0;
-	private boolean debugMode = false;
+	private static boolean debugMode = false;
+	private static Scanner sc;
 
 	/**
 	 * Dies ist das Spiel Mastermind.
@@ -27,7 +28,7 @@ public class Mastermind {
 	 * aus. Der Spieler versucht diesen "Code" zu erraten. Dazu gibt er eine
 	 * Kombination der 6 möglichen Zahlen ein. Das Programm vergleicht die
 	 * Eingabe mit dem "Code" und wertet diese aus. Ist der "Code" geknackt oder
-	 * die Anzahl versuche aufgebraucht wird das Spiel beendet.
+	 * die Anzahl Versuche aufgebraucht wird das Spiel beendet.
 	 * <p>
 	 * 
 	 * @param args
@@ -37,15 +38,17 @@ public class Mastermind {
 	public static void main(String[] args) throws Exception {
 		//XXX handle InputMismatchExeption with try {} catch (){}!, could be nicer but works
 		//DONE re-implement generate code!
-		//TODO beautiful menu from menu.jpage implement the like into mastermind?
-		// started under ***mastermind>MenuMastermind.java***
+		//DONE beautiful menu from menu.jpage implement the like into mastermind?
+		// started under ***mastermind>MenuMastermind.java*** impelmented
 		// [1] Spiel starten
-		// [2] Spieloptionen -> todo add debugMode boolean <b> ** debugg on / off option ** </b> 
+		// [2] Spiel Erklärung
+		// [3] Spieloptionen -> todo add debugMode boolean <b> ** debugg on / off option ** </b> 
+		//DONE change code visible according to debugMode state!
 		//FIXME berechneAnrRichtigeOhnePos not working as it should!
-		//TODO close reader at end of main?
 		//TODO make runnable exe
 		//TODO give tip history before every tip (array(arraytipnr(tip,amp,aop))
 		//TODO make tiphistory as table? https://stackoverflow.com/questions/15215326/how-can-i-create-table-using-ascii-in-a-console
+		//TODO close reader at end of main?
 		//DONE make input possible as one number of 4 digits 
 		//(shoulb be possible easy way with space, since java recognizes space as separator)
 		//TODO commit git when last version of CLI only
@@ -70,13 +73,16 @@ public class Mastermind {
 		//TODO			Die Ausgaben des Programms sollen so gestaltet werden, dass dem Benutzer jederzeit klar ist, was von ihm erwartet wird (Benutzerfreundlichkeit).
 
 		intro(); // disable for faster debugging
+		Menu();
 		generateCode(); // whole Method has blockcomment
 
 		do {
 			tipUser();
 			tipEqualCode();
 			evalUserInput();
-			debugger(); // Uncomment this line for exit debug mode aka hide code
+			if (debugMode == true) {
+				debugger(); // debugMode state can be set in the Menu!
+			}
 
 		} while (versuche > zaehler);
 		System.out.println(
@@ -86,7 +92,7 @@ public class Mastermind {
 	}
 
 
-	private static void intro() {
+	public static void intro() {
 		System.out.println("::::	 ::::     :::      :::::::: ::::::::::: :::::::::: :::::::::");  
 		System.out.println("*:*:*: :*:*:*   :*: :*:   :*:    :*:    :*:     :*:        :*:    :*:"); 
 		System.out.println("*:* *:*:* *:*  *:*   *:*  *:*           *:*     *:*        *:*    *:*"); 
@@ -104,7 +110,8 @@ public class Mastermind {
 		System.out.println("          ###       ### ########### ###    #### #########           ");
 		System.out.println();
 
-		Scanner sc = new Scanner(System.in);
+		sc = new Scanner(System.in);
+//		Scanner sc = new Scanner(System.in); since the scanner doesn't work for menu() exctract as fieldlike
 		System.out.println("\n\n             Drücke Enter um fortzufahren..");
 		@SuppressWarnings("unused")
 		String next = sc.nextLine(); //Just to get the Enter to continue the program
@@ -155,14 +162,14 @@ public class Mastermind {
 	}
 
 	/**
-	 * Use this for cheating, testing or debugging
+	 * @param debugMode
 	 * 
-	 * Uncomment the two lines below to see the code and user input as Strings
-	 * 
+	 * Shows or hides code in game.
+	 * Used for cheating, testing or debugging.
 	 */
 	private static void debugger() {
-		System.out.println(arrayToString(codeArray));
-		System.out.println(arrayToString(tipArray));
+		System.out.println("Code: " + arrayToString(codeArray));
+		System.out.println("Tip: " + arrayToString(tipArray));
 	}
 
 	/**
@@ -309,12 +316,93 @@ public class Mastermind {
 	}
 
 
-	public boolean isDebugMode() {
+	public static boolean isDebugMode() {
 		return debugMode;
 	}
 
 
-	public void setDebugMode(boolean debugMode) {
-		this.debugMode = debugMode;
+	public static void setDebugMode(boolean debugMode) {
+		Mastermind.debugMode = debugMode;
 	}
+
+private static void Menu() {
+	System.out.println("[1] Spiel starten");
+	System.out.println("[2] Spiel Info");
+	System.out.println("[3] Spiel Optionen");
+	System.out.println("Wähle Zahl, bestätige mit Enter:");
+
+	String s = sc.nextLine();
+
+	int key = Integer.parseInt(s);
+	//		int key = sc.nextInt(); // skips the break in the cases but why?
+
+	switch (key) {
+	case 1:
+		//TODO insert game starting mechanic
+		intro();
+		break;
+	case 2:
+		//TODO insert game info
+		System.out.println(spielInfo());
+		BackToMenu();
+		break;
+	case 3:
+		//TODO insert game options: debug/cheat toggle
+		//TODO show debugMode Status -> isDebugMode()
+		System.out.println("Im Debug Modus: " + isDebugMode());
+		System.out.println("[1] Debug Modus: true");
+		System.out.println("[2] Debug Modus: false");
+		System.out.println("Wähle Zahl, bestätige mit Enter:");
+
+		String s1 = sc.nextLine();
+
+		int key1 = Integer.parseInt(s1);
+		
+		switch (key1) {
+		case 1:
+			Mastermind.setDebugMode(true);
+//			setDebugMode = true;
+			break;
+		case 2:
+			Mastermind.setDebugMode(false);
+//			setDebugMode = false;
+			break;
+
+		default:
+			//FIXME catch if user doesn't choose a number!
+			
+			
+//			Menu();
+			break;
+		}
+		
+//		BackToMenu(); // goto Menu() instead?
+		Menu();
+		break;
+	default:
+		BackToMenu();
+		//FIXME catch if user doesn't choose a number!
+		//TODO insert default is start game
+		break;
+	}
+}
+
+
+static void BackToMenu() {
+	System.out.println("\n Drücke Enter um fortzufahren..");
+	String next = sc.nextLine();
+	Menu();
+}
+
+private static String spielInfo() {
+	System.out.println("Dies ist das Spiel Mastermind.\r\n" + 
+			"Spielbeschreibung: Computer wählt aus 6 möglichen Farben (Zahlen 1-6) 4\r\n" + 
+			"aus. Der Spieler versucht diesen \"Code\" zu erraten. Dazu gibt er eine\r\n" + 
+			"Kombination der 6 möglichen Zahlen ein. Das Programm vergleicht die\r\n" + 
+			"Eingabe mit dem \"Code\" und wertet diese aus. Ist der \"Code\" geknackt oder\r\n" + 
+			"die Anzahl Versuche aufgebraucht wird das Spiel beendet.\r\n\n"
+			+ "Sie haben " + versuche + " Versuche um den Code zu knacken.");
+	return null;
+}
+
 }
