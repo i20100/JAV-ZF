@@ -13,11 +13,12 @@ public class Mastermind {
 	 * user to find the code zaehler = counter for tries of user to find the
 	 * code
 	 */
-	//	public static int[] codeArray = { 0, 0, 0, 0 }; //FIXME reactivate for live version! 
-	public static int[] codeArray = { 1, 1, 2, 4 }; // Just for testing!
+	public static int[] codeArray = { 0, 0, 0, 0 }; //FIXME reactivate for live version! 
+//	public static int[] codeArray = { 1, 1, 2, 4 }; // Just for testing!
 	public static int[] tipArray = { 0, 0, 0, 0 };
 	static int versuche = 10;
 	static int zaehler = 0;
+	private boolean debugMode = false;
 
 	/**
 	 * Dies ist das Spiel Mastermind.
@@ -30,19 +31,22 @@ public class Mastermind {
 	 * <p>
 	 * 
 	 * @param args
+	 * @throws Exception 
 	 * @throws IOException 
 	 */
-	public static void main(String[] args) {
-		//TODO handle InputMismatchExeption with try {} catch (){}!
-		//TODO re-implement generate code!
+	public static void main(String[] args) throws Exception {
+		//XXX handle InputMismatchExeption with try {} catch (){}!, could be nicer but works
+		//DONE re-implement generate code!
 		//TODO beautiful menu from menu.jpage implement the like into mastermind?
+		// started under ***mastermind>MenuMastermind.java***
 		// [1] Spiel starten
-		// [2] Spieloptionen -> todo add <b> ** debugg on / off option ** </b> 
-		//TODO Revert to last commit? new class GenerateCode not usable, stick with code in file for now!
+		// [2] Spieloptionen -> todo add debugMode boolean <b> ** debugg on / off option ** </b> 
+		//FIXME berechneAnrRichtigeOhnePos not working as it should!
+		//TODO close reader at end of main?
 		//TODO make runnable exe
 		//TODO give tip history before every tip (array(arraytipnr(tip,amp,aop))
 		//TODO make tiphistory as table? https://stackoverflow.com/questions/15215326/how-can-i-create-table-using-ascii-in-a-console
-		//TODO make input possible as one number of 4 digits 
+		//DONE make input possible as one number of 4 digits 
 		//(shoulb be possible easy way with space, since java recognizes space as separator)
 		//TODO commit git when last version of CLI only
 		//TODO release game for friends
@@ -65,17 +69,24 @@ public class Mastermind {
 		//
 		//TODO			Die Ausgaben des Programms sollen so gestaltet werden, dass dem Benutzer jederzeit klar ist, was von ihm erwartet wird (Benutzerfreundlichkeit).
 
+		intro(); // disable for faster debugging
+		generateCode(); // whole Method has blockcomment
 
-		//		 generateCode(codeArray); // whole Method has blockcomment
-		// GenerateCode();
+		do {
+			tipUser();
+			tipEqualCode();
+			evalUserInput();
+			debugger(); // Uncomment this line for exit debug mode aka hide code
 
-		// GenerateCode genCode = new GenerateCode();
-		// genCode.genCode(codeArray);
+		} while (versuche > zaehler);
+		System.out.println(
+				"Keine Versuche mehr übrig. " + "Sie haben den Code nicht geknackt."
+						+ " " + "Das Spiel ist beendet...");
+		exit();
+	}
 
-		/*
-		 * Horse p0 = new Horse(); Horse p1 = new Horse(); p1.move();
-		 */
 
+	private static void intro() {
 		System.out.println("::::	 ::::     :::      :::::::: ::::::::::: :::::::::: :::::::::");  
 		System.out.println("*:*:*: :*:*:*   :*: :*:   :*:    :*:    :*:     :*:        :*:    :*:"); 
 		System.out.println("*:* *:*:* *:*  *:*   *:*  *:*           *:*     *:*        *:*    *:*"); 
@@ -93,45 +104,34 @@ public class Mastermind {
 		System.out.println("          ###       ### ########### ###    #### #########           ");
 		System.out.println();
 
-		//		Scanner sc = new Scanner(System.in);
+		Scanner sc = new Scanner(System.in);
 		System.out.println("\n\n             Drücke Enter um fortzufahren..");
-		//		@SuppressWarnings("unused")
-		//		String next = sc.nextLine(); //Just to get the Enter to continue the program
-		//		sc.close(); //FIXME closing the scanner here makes the whole program fail, but why?
-		//		String next = sc.next(); does not work!! but sc.nextLine(); gets the Enter =)
-		//DONE close scanner
-		//TODO clear console, this is a hard one
+		@SuppressWarnings("unused")
+		String next = sc.nextLine(); //Just to get the Enter to continue the program
+		//sc.close(); //FIXME closing the scanner here makes the whole program fail, but why?
+		//String next = sc.next(); does not work!! but sc.nextLine(); gets the Enter =)
+		//TODO close scanner
+		//TODO clear console?
 
 		System.out.println("Willkommen bei Mastermind" + "\n" + "\n" + 
 				"Sie haben " + versuche+ " Versuche um den Code zu knacken." + "\n"
 				+ "Der Code besteht aus den Zahlen 1-6. Der Code besteht aus " + "\n"
 				+ "vier Stellen. Viel Erfolg!"
 				+ "\n");
-
-		do {
-			tipUser();
-			tipEqualCode();
-			evalUserInput();
-			debugger(); // Uncomment this line for exit debug mode aka hide code
-
-		} while (versuche > zaehler);
-		System.out.println(
-				"Keine Versuche mehr übrig. " + "Sie haben den Code nicht geknackt."
-						+ " " + "Das Spiel ist beendet...");
-		exit();
 	}
 
 
-	/*
-	 * private static void generateCode(int[] codeArray2) { /** Generates the
-	 * "Code" (Geheimcode) which the User has to guess.
-	 * 
-	 * @param codeArray2
-	 */ /*
-	 * // generate 4 numbers and write them to codeArray for (int i = 0; i <
-	 * codeArray.length; i++) { double random = Math.random() * 6 + 1;
-	 * codeArray[i] = (int)random; } }
+	/**
+	 * Generates the code the user has to guess.
 	 */
+	private static void generateCode() {
+		//		generate 4 numbers and write them to codeArray
+		for (int i = 0; i < codeArray.length; i++) {
+			double random = Math.random() * 6 + 1;
+			codeArray[i] = (int)random;
+		}
+	}
+
 
 	private static void exit() {
 		System.exit(1);
@@ -246,7 +246,7 @@ public class Mastermind {
 	 * Ask User for his guess and gets the Userinput.
 	 * @param tipArray
 	 */
-	public static void tipUser() {
+	public static void tipUser() throws Exception{
 		//DONE implement try, catch Exception handler
 		//DONE Solve question, if it is possible to get each int separate from
 		// a int like 1980 => 1, 9, 8, 0 ???
@@ -256,41 +256,65 @@ public class Mastermind {
 		//DONE Tip can be given in one number but the whole game doesn't work anymore,
 		// -> changed static tipArray to public static tipArray 
 		// rework game to work with new tip as whole number given!!
-		//TODO close reader
 
 		int tipUser = -1;
-
+		
 		do {
 			System.out.println(
-					"Bitte geben Sie vier Zahlen zwischen 1-6 nach " 
-							+ "einander ein gefolgt von Enter. Bsp. XXXX->Enter");
+					"Bitte geben Sie vier Zahlen zwischen 1-6 als " 
+							+ "eine Zahl ein. Gefolgt von Enter. Bsp. 2222->Enter");
 
 			Scanner reader = new Scanner(System.in);
 			try {
 				tipUser = reader.nextInt();
 
+				//XXX tried those two throws on different positions, obviously this isn't the right way
+				// but it works, only the message will not be displayed but it triggers and get catched
+				// and handled as intended.
+				if (6666 < tipUser) {
+					throw new Exception("Tip ist über 6666! Bitte geben Sie einen Tip unter 6667 ein.");
+				}
+				if (0 < tipUser && tipUser < 1110) {
+					throw new Exception("Tip ist unter 1111! Bitte geben Sie einen Tip über 1110 ein.");
+				}
+
 			} catch (InputMismatchException e) {
 				System.out.println("Eingabe für Tip ungültig!");
+				tipUser = -1; // restart tipUser() by setting tipUser below zero;
+			} catch (Exception e) {
+				System.out.println("Eingabe für Tip: " + tipUser + ", diese Eingabe ist ungültig. "
+						+ "Eingabe muss zwischen 1111-6666 liegen.");
+				tipUser = -1; // restart tipUser() by setting tipUser below zero;
 			}
 			
-			if (6666 < tipUser) {
-				System.out.println("Tip ist ausserhalb der erlaubten Zahlen.");
-				//FIXME restart at the start of this do loop
-			}
+			/*if (6666 < tipUser) { // THIS IS THE OLD way it worked also as if statement instead of exception
+				System.out.println("Tip ist ausserhalb der erlaubten Zahlen.");				//XXX restart at the start of this do loop, solved whitout exception
+				tipUser = -1; //idea leave the loop and restart if catched an exception
+			}*/ // commented out and replaced with throw new InputMismatchException
 			
-			
-		} while (tipUser < 0);
+		} while (tipUser < 0); //XXX rework the whole do while and try catch to work also within the limits
+		// 6666 < tipUser > 1110!! at a later time
 		//		System.out.println(tipUser); // just for testing!
 		String tipToDigits = String.valueOf(tipUser);
 		for(int i = 0; i < tipToDigits.length(); i++) {
 			int j = Character.digit(tipToDigits.charAt(i), 10);
 			System.out.println("digit: " + j);
-			//TODO write each digit into new Array[][][] when working with new usertiparray
+			//TODO write each digit into new Array[][][] when working with NEW usertiparray
 
 			tipArray[i] = j;
 
 		}
 		zaehler = zaehler + 1;
 		//		reader.close(); //TODO closing the scanner here is a problem? but why?
+	}
+
+
+	public boolean isDebugMode() {
+		return debugMode;
+	}
+
+
+	public void setDebugMode(boolean debugMode) {
+		this.debugMode = debugMode;
 	}
 }
