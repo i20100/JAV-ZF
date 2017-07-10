@@ -15,6 +15,7 @@ public class Mastermind {
 	 */
 	public static int[] codeArray = { 0, 0, 0, 0 }; //FIXME reactivate for live version! 
 //	public static int[] codeArray = { 1, 1, 2, 4 }; // Just for testing!
+	private static int[] copyCode; // needed for user evaluation
 	public static int[] tipArray = { 0, 0, 0, 0 };
 	static int versuche = 10;
 	static int zaehler = 0;
@@ -44,10 +45,11 @@ public class Mastermind {
 		// [2] Spiel Erklärung
 		// [3] Spieloptionen -> todo add debugMode boolean <b> ** debugg on / off option ** </b> 
 		//DONE change code visible according to debugMode state!
-		//FIXME berechneAnrRichtigeOhnePos not working as it should!
-		//TODO make runnable exe
+		//DONE berechneAnrRichtigeOhnePos not working as it should!
+		//DONE remove syso("digit:...)
 		//TODO give tip history before every tip (array(arraytipnr(tip,amp,aop))
 		//TODO make tiphistory as table? https://stackoverflow.com/questions/15215326/how-can-i-create-table-using-ascii-in-a-console
+		//TODO make runnable exe
 		//TODO close reader at end of main?
 		//DONE make input possible as one number of 4 digits 
 		//(shoulb be possible easy way with space, since java recognizes space as separator)
@@ -201,14 +203,26 @@ public class Mastermind {
 	 * 
 	 * @param tip
 	 * @return int Anzahl erratene/vorhandene Zahlen
+	 * 
+	 * The way it works is it copies the code, then checks for matches
+	 * between tip and copy.
 	 */
 	public static int berechneAnrRichtigeOhnePos(int[] tip) {
-		// *Exit bei Treffer, damit jede Zahl nur einmal gezählt wird.
+		// DONE FIX output not correct - add overwrite when matching with -1!
+		// DONE Exit bei Treffer, damit jede Zahl nur einmal gezählt wird.
+		// DONE overwrite means copy of code is needed! can't overwrite code!!!
+		// this is the copy job!
+		copyCode = new int[4];
+		for (int i = 0; i < codeArray.length; i++) {
+			copyCode[i] = codeArray[i];
+		}
+		
 		int anzRichtige = 0;
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
-				if (tip[i] == codeArray[j]) {
+				if (tip[i] == copyCode[j]) {
 					anzRichtige = anzRichtige + 1;
+					copyCode[j]=-1;
 					j = 4; // => Exit bei Treffer
 				}
 				anzRichtige = anzRichtige + 0;
@@ -305,7 +319,7 @@ public class Mastermind {
 		String tipToDigits = String.valueOf(tipUser);
 		for(int i = 0; i < tipToDigits.length(); i++) {
 			int j = Character.digit(tipToDigits.charAt(i), 10);
-			System.out.println("digit: " + j);
+			//System.out.println("digit: " + j); // just for Testing if it works
 			//TODO write each digit into new Array[][][] when working with NEW usertiparray
 
 			tipArray[i] = j;
