@@ -13,14 +13,20 @@ public class Mastermind {
 	 * user to find the code zaehler = counter for tries of user to find the
 	 * code
 	 */
+	static int versuche = 10;
+	static int zaehler = 0;
+
 	public static int[] codeArray = { 0, 0, 0, 0 }; //FIXME reactivate for live version! 
 //	public static int[] codeArray = { 1, 1, 2, 4 }; // Just for testing!
 	private static int[] copyCode; // needed for user evaluation
 	public static int[] tipArray = { 0, 0, 0, 0 };
-	static int versuche = 10;
-	static int zaehler = 0;
+	private static int[][] tipHistory = new int[versuche][3];
+	
 	private static boolean debugMode = false;
 	private static Scanner sc;
+	private static int tipUser;
+	private static int anzRichtigeOP;
+	private static int anzRichtige;
 
 	/**
 	 * Dies ist das Spiel Mastermind.
@@ -47,7 +53,8 @@ public class Mastermind {
 		//DONE change code visible according to debugMode state!
 		//DONE berechneAnrRichtigeOhnePos not working as it should!
 		//DONE remove syso("digit:...)
-		//TODO give tip history before every tip (array(arraytipnr(tip,amp,aop))
+		//DONE give tip history before every tip (array(arraytipnr(tip,amp,aop))
+		//TODO insert restart game when game ends via solved or out of tries
 		//TODO make tiphistory as table? https://stackoverflow.com/questions/15215326/how-can-i-create-table-using-ascii-in-a-console
 		//TODO make runnable exe
 		//TODO close reader at end of main?
@@ -82,6 +89,7 @@ public class Mastermind {
 			tipUser();
 			tipEqualCode();
 			evalUserInput();
+			tipHistory();
 			if (debugMode == true) {
 				debugger(); // debugMode state can be set in the Menu!
 			}
@@ -147,12 +155,15 @@ public class Mastermind {
 	}
 
 	/**
-	 * Calls up the functions to evaluate the user input and displays the
-	 * results.
+	 * Calls up the functions to evaluate the user input 
 	 * 
 	 * Calls functions: berechneAnrRichtigeOhnePos berechneAnzRichtiePosition
 	 */
 	private static void evalUserInput() {
+		berechneAnrRichtigeOhnePos(tipArray);
+		berechneAnzRichtiePosition(tipArray);
+
+		/*// Old way of tip feedback to user
 		System.out.println(
 				"Anzahl richtige Zahlen ohne Betrachtung der Position: " 
 						+ berechneAnrRichtigeOhnePos(tipArray));
@@ -161,6 +172,9 @@ public class Mastermind {
 		System.out.println(
 				"Danke für den " + zaehler + ". Tip. " + "Sie haben noch " 
 						+ (versuche - zaehler) + " versuche übrig.");
+						*/
+						
+						
 	}
 
 	/**
@@ -217,18 +231,18 @@ public class Mastermind {
 			copyCode[i] = codeArray[i];
 		}
 		
-		int anzRichtige = 0;
+		anzRichtigeOP = 0;
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
 				if (tip[i] == copyCode[j]) {
-					anzRichtige = anzRichtige + 1;
+					anzRichtigeOP = anzRichtigeOP + 1;
 					copyCode[j]=-1;
 					j = 4; // => Exit bei Treffer
 				}
-				anzRichtige = anzRichtige + 0;
+				anzRichtigeOP = anzRichtigeOP + 0;
 			}
 		}
-		return anzRichtige;
+		return anzRichtigeOP;
 	}
 
 	/**
@@ -238,7 +252,7 @@ public class Mastermind {
 	 * @return int Anzahl Zahlen Position richtig
 	 */
 	public static int berechneAnzRichtiePosition(int[] tip) {
-		int anzRichtige = 0;
+		anzRichtige = 0;
 		for (int i = 0; i < 4; i++) {
 			// System.out.println("test");
 			if (tip[i] == codeArray[i]) {
@@ -264,7 +278,7 @@ public class Mastermind {
 	}
 
 	/**
-	 * Ask User for his guess and gets the Userinput.
+	 * Ask User for his guess and gets the Userinput and stores it in tipArray
 	 * @param tipArray
 	 */
 	public static void tipUser() throws Exception{
@@ -278,7 +292,7 @@ public class Mastermind {
 		// -> changed static tipArray to public static tipArray 
 		// rework game to work with new tip as whole number given!!
 
-		int tipUser = -1;
+		tipUser = -1;
 		
 		do {
 			System.out.println(
@@ -327,6 +341,29 @@ public class Mastermind {
 		}
 		zaehler = zaehler + 1;
 		//		reader.close(); //TODO closing the scanner here is a problem? but why?
+	}
+
+
+	private static void tipHistory() {
+		//TODO tipHistory has to be saved
+		//TODO tipHistory has to be displayed
+		
+		
+		//TipHistory save mechanism
+		tipHistory[zaehler-1][0] = tipUser;
+		tipHistory[zaehler-1][1] = anzRichtigeOP;
+		tipHistory[zaehler-1][2] = anzRichtige;
+		
+		
+		//TipHistory display machanism
+		for (int i = 0; i < zaehler; i++) {
+			System.out.println("Tip Nummer " + (i + 1) + ": " + tipHistory[i][0] +
+					". Anzahl richtige Zahlen ohne Position: "
+					+ tipHistory[i][1] +
+					". Anzahl Richtige mit Position: "
+					+ tipHistory[i][2] + "."
+					);
+		}
 	}
 
 
