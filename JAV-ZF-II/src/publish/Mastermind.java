@@ -17,16 +17,17 @@ public class Mastermind {
 	static int zaehler = 0;
 
 	public static int[] codeArray = { 0, 0, 0, 0 }; //FIXME reactivate for live version! 
-//	public static int[] codeArray = { 1, 1, 2, 4 }; // Just for testing!
+	//	public static int[] codeArray = { 1, 1, 2, 4 }; // Just for testing!
 	private static int[] copyCode; // needed for user evaluation
 	public static int[] tipArray = { 0, 0, 0, 0 };
 	private static int[][] tipHistory = new int[versuche][3];
-	
+
 	private static boolean debugMode = false;
 	private static Scanner sc;
 	private static int tipUser;
 	private static int anzRichtigeOP;
 	private static int anzRichtige;
+	private static boolean gameRestartLoop = true;
 
 	/**
 	 * Dies ist das Spiel Mastermind.
@@ -54,9 +55,9 @@ public class Mastermind {
 		//DONE berechneAnrRichtigeOhnePos not working as it should!
 		//DONE remove syso("digit:...)
 		//DONE give tip history before every tip (array(arraytipnr(tip,amp,aop))
-		//TODO insert restart game when game ends via solved or out of tries
+		//DONE insert restart game when game ends via solved or out of tries
 		//TODO make tiphistory as table? https://stackoverflow.com/questions/15215326/how-can-i-create-table-using-ascii-in-a-console
-		//TODO make runnable exe
+		//DONE make runnable exe
 		//TODO close reader at end of main?
 		//DONE make input possible as one number of 4 digits 
 		//(shoulb be possible easy way with space, since java recognizes space as separator)
@@ -81,24 +82,36 @@ public class Mastermind {
 		//
 		//TODO			Die Ausgaben des Programms sollen so gestaltet werden, dass dem Benutzer jederzeit klar ist, was von ihm erwartet wird (Benutzerfreundlichkeit).
 
-		intro(); // disable for faster debugging
-		Menu();
-		generateCode(); // whole Method has blockcomment
-
 		do {
-			tipUser();
-			tipEqualCode();
-			evalUserInput();
-			tipHistory();
-			if (debugMode == true) {
-				debugger(); // debugMode state can be set in the Menu!
-			}
+			intro(); // disable for faster debugging
+			Menu();
+			generateCode(); // whole Method has blockcomment
 
-		} while (versuche > zaehler);
-		System.out.println(
-				"Keine Versuche mehr übrig. " + "Sie haben den Code nicht geknackt."
-						+ " " + "Das Spiel ist beendet...");
+			do {
+				tipUser();
+				tipEqualCode();
+				evalUserInput();
+				tipHistory();
+				if (debugMode == true) {
+					debugger(); // debugMode state can be set in the Menu!
+				}
+
+			} while (versuche > zaehler);
+
+			restartCodeNotFound();
+
+		} while (gameRestartLoop  = true);
 		exit();
+	}
+
+
+	private static void restartCodeNotFound() {
+		System.out.println("\n" +
+				"Keine Versuche mehr übrig. " + "Sie haben den Code nicht geknackt." +
+				"\n" + "Der richtige Code lautet: "+ arrayToString(codeArray) + "." + 
+				"\n" + "Das Spiel ist zu Ende." + "\n\n" + "Drücke Enter um Spiel neu zu Starten.");
+		@SuppressWarnings("unused")
+		String next = sc.nextLine(); //Just to get the Enter to continue the program
 	}
 
 
@@ -121,7 +134,7 @@ public class Mastermind {
 		System.out.println();
 
 		sc = new Scanner(System.in);
-//		Scanner sc = new Scanner(System.in); since the scanner doesn't work for menu() exctract as fieldlike
+		//		Scanner sc = new Scanner(System.in); since the scanner doesn't work for menu() exctract as fieldlike
 		System.out.println("\n\n             Drücke Enter um fortzufahren..");
 		@SuppressWarnings("unused")
 		String next = sc.nextLine(); //Just to get the Enter to continue the program
@@ -130,11 +143,7 @@ public class Mastermind {
 		//TODO close scanner
 		//TODO clear console?
 
-		System.out.println("Willkommen bei Mastermind" + "\n" + "\n" + 
-				"Sie haben " + versuche+ " Versuche um den Code zu knacken." + "\n"
-				+ "Der Code besteht aus den Zahlen 1-6. Der Code besteht aus " + "\n"
-				+ "vier Stellen. Viel Erfolg!"
-				+ "\n");
+		System.out.println("Willkommen bei Mastermind" + "\n"); 
 	}
 
 
@@ -172,9 +181,9 @@ public class Mastermind {
 		System.out.println(
 				"Danke für den " + zaehler + ". Tip. " + "Sie haben noch " 
 						+ (versuche - zaehler) + " versuche übrig.");
-						*/
-						
-						
+		 */
+
+
 	}
 
 	/**
@@ -207,7 +216,7 @@ public class Mastermind {
 	 * 
 	 */
 	private static void endGame() {
-		System.out.println("Glückwunsch Sie sind ein Mastermind!!" + " Spiel beendet.");
+		System.out.println("\n"+"Glückwunsch Sie sind ein Mastermind!!" + " Spiel beendet.");
 		exit();
 	}
 
@@ -230,7 +239,7 @@ public class Mastermind {
 		for (int i = 0; i < codeArray.length; i++) {
 			copyCode[i] = codeArray[i];
 		}
-		
+
 		anzRichtigeOP = 0;
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
@@ -293,7 +302,7 @@ public class Mastermind {
 		// rework game to work with new tip as whole number given!!
 
 		tipUser = -1;
-		
+
 		do {
 			System.out.println(
 					"Bitte geben Sie vier Zahlen zwischen 1-6 als " 
@@ -321,12 +330,12 @@ public class Mastermind {
 						+ "Eingabe muss zwischen 1111-6666 liegen.");
 				tipUser = -1; // restart tipUser() by setting tipUser below zero;
 			}
-			
+
 			/*if (6666 < tipUser) { // THIS IS THE OLD way it worked also as if statement instead of exception
 				System.out.println("Tip ist ausserhalb der erlaubten Zahlen.");				//XXX restart at the start of this do loop, solved whitout exception
 				tipUser = -1; //idea leave the loop and restart if catched an exception
 			}*/ // commented out and replaced with throw new InputMismatchException
-			
+
 		} while (tipUser < 0); //XXX rework the whole do while and try catch to work also within the limits
 		// 6666 < tipUser > 1110!! at a later time
 		//		System.out.println(tipUser); // just for testing!
@@ -347,15 +356,15 @@ public class Mastermind {
 	private static void tipHistory() {
 		//TODO tipHistory has to be saved
 		//TODO tipHistory has to be displayed
-		
-		
+
+
 		//TipHistory save mechanism
 		tipHistory[zaehler-1][0] = tipUser;
 		tipHistory[zaehler-1][1] = anzRichtigeOP;
 		tipHistory[zaehler-1][2] = anzRichtige;
-		
-		
-		//TipHistory display machanism
+
+
+		//TipHistory display mechanism
 		for (int i = 0; i < zaehler; i++) {
 			System.out.println("Tip Nummer " + (i + 1) + ": " + tipHistory[i][0] +
 					". Anzahl richtige Zahlen ohne Position: "
@@ -376,84 +385,80 @@ public class Mastermind {
 		Mastermind.debugMode = debugMode;
 	}
 
-private static void Menu() {
-	System.out.println("[1] Spiel starten");
-	System.out.println("[2] Spiel Info");
-	System.out.println("[3] Spiel Optionen");
-	System.out.println("Wähle Zahl, bestätige mit Enter:");
+	private static void Menu() {
+		System.out.println("[1] Spiel starten");
+		System.out.println("[2] Spiel Info");
+		System.out.println("[3] Spiel Optionen" + "\n");
+		System.out.println("Wähle eine Zahl, bestätige mit Enter:");
 
-	String s = sc.nextLine();
+		String s = sc.nextLine();
 
-	int key = Integer.parseInt(s);
-	//		int key = sc.nextInt(); // skips the break in the cases but why?
+		int key = Integer.parseInt(s);
+		//		int key = sc.nextInt(); // skips the break in the cases but why?
 
-	switch (key) {
-	case 1:
-		//TODO insert game starting mechanic
-		intro();
-		break;
-	case 2:
-		//TODO insert game info
-		System.out.println(spielInfo());
-		BackToMenu();
-		break;
-	case 3:
-		//TODO insert game options: debug/cheat toggle
-		//TODO show debugMode Status -> isDebugMode()
-		System.out.println("Im Debug Modus: " + isDebugMode());
-		System.out.println("[1] Debug Modus: true");
-		System.out.println("[2] Debug Modus: false");
-		System.out.println("Wähle Zahl, bestätige mit Enter:");
-
-		String s1 = sc.nextLine();
-
-		int key1 = Integer.parseInt(s1);
-		
-		switch (key1) {
+		switch (key) {
 		case 1:
-			Mastermind.setDebugMode(true);
-//			setDebugMode = true;
+			//TODO insert game starting mechanic
+			intro();
 			break;
 		case 2:
-			Mastermind.setDebugMode(false);
-//			setDebugMode = false;
+			//TODO insert game info
+			spielInfo();
+			BackToMenu();
 			break;
+		case 3:
+			//TODO insert game options: debug/cheat toggle
+			//TODO show debugMode Status -> isDebugMode()
+			System.out.println("Im Debug Modus: " + isDebugMode());
+			System.out.println("[1] Debug Modus: true");
+			System.out.println("[2] Debug Modus: false" + "\n");
+			System.out.println("Wähle eine Zahl, bestätige mit Enter:");
 
+			String s1 = sc.nextLine();
+
+			int key1 = Integer.parseInt(s1);
+
+			switch (key1) {
+			case 1:
+				Mastermind.setDebugMode(true);
+				//			setDebugMode = true;
+				break;
+			case 2:
+				Mastermind.setDebugMode(false);
+				//			setDebugMode = false;
+				break;
+
+			default:
+				//FIXME catch if user doesn't choose a number!
+				//			Menu();
+				break;
+			}
+
+			//		BackToMenu(); // goto Menu() instead?
+			Menu();
+			break;
 		default:
+			BackToMenu();
 			//FIXME catch if user doesn't choose a number!
-			
-			
-//			Menu();
+			//TODO insert default is start game
 			break;
 		}
-		
-//		BackToMenu(); // goto Menu() instead?
-		Menu();
-		break;
-	default:
-		BackToMenu();
-		//FIXME catch if user doesn't choose a number!
-		//TODO insert default is start game
-		break;
 	}
-}
 
+	static void BackToMenu() {
+		System.out.println("\n Drücke Enter um fortzufahren..");
+		String next = sc.nextLine();
+		Menu();
+	}
 
-static void BackToMenu() {
-	System.out.println("\n Drücke Enter um fortzufahren..");
-	String next = sc.nextLine();
-	Menu();
-}
-
-private static String spielInfo() {
-	System.out.println("Dies ist das Spiel Mastermind.\r\n" + 
-			"Spielbeschreibung: Computer wählt aus 6 möglichen Farben (Zahlen 1-6) 4\r\n" + 
-			"aus. Der Spieler versucht diesen \"Code\" zu erraten. Dazu gibt er eine\r\n" + 
-			"Kombination der 6 möglichen Zahlen ein. Das Programm vergleicht die\r\n" + 
-			"Eingabe mit dem \"Code\" und wertet diese aus. Ist der \"Code\" geknackt oder\r\n" + 
-			"die Anzahl Versuche aufgebraucht wird das Spiel beendet.\r\n\n"
-			+ "Sie haben " + versuche + " Versuche um den Code zu knacken.");
-	return null;
-}
+	private static void spielInfo() {
+		System.out.println("\n" + 
+				"Spielbeschreibung: Der Computer wählt aus 6 möglichen Zahlen, 1-6, vier\r\n" + 
+				"aus. Der Spieler versucht diese \"geheime Zahlenkombination\" zu erraten.\r\n"	+ 
+				"Dazu gibt er eine Kombination der 6 möglichen Zahlen als Tip ein. Das \r\n"+ 
+				"Programm vergleicht den Tip mit dem \"geheimen Code\" und wertet den Tip aus.\r\n" + 
+				"Ist der \"Code\" geknackt oder die Anzahl Versuche aufgebraucht wird das Spiel beendet.\r\n\n"
+				+ "Es stehen " + versuche + " Versuche zur Verfügung um den Code zu knacken. Viel Erfolg!");
+	}
 
 }
