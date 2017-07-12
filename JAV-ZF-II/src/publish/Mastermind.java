@@ -13,30 +13,31 @@ public class Mastermind {
 	 * user to find the code zaehler = counter for tries of user to find the
 	 * code
 	 */
-	static int versuche = 10;
-	static int zaehler = 0;
+	static int tries = 10;
+	static int counter = 0;
 
 	public static int[] codeArray = { 0, 0, 0, 0 }; //FIXME reactivate for live version! 
 	//	public static int[] codeArray = { 1, 1, 2, 4 }; // Just for testing!
 	private static int[] copyCode; // needed for user evaluation
 	public static int[] tipArray = { 0, 0, 0, 0 };
-	private static int[][] tipHistory = new int[versuche][3];
+	private static int[][] tipHistory = new int[tries][3];
 
 	private static boolean debugMode = false;
 	private static Scanner sc;
 	private static int tipUser;
-	private static int anzRichtigeOP;
-	private static int anzRichtige;
+	private static int numbCorrectWithoutPos;
+	private static int numbCorretPos;
 	private static boolean gameRestartLoop = true;
 
 	/**
-	 * Dies ist das Spiel Mastermind.
+	 * This is the game Mastermind.
 	 * <p>
-	 * Spielbeschreibung: Computer wählt aus 6 möglichen Farben (Zahlen 1-6) 4
-	 * aus. Der Spieler versucht diesen "Code" zu erraten. Dazu gibt er eine
-	 * Kombination der 6 möglichen Zahlen ein. Das Programm vergleicht die
-	 * Eingabe mit dem "Code" und wertet diese aus. Ist der "Code" geknackt oder
-	 * die Anzahl Versuche aufgebraucht wird das Spiel beendet.
+	 * Game description: The computer chooses four colors 
+	 * from six possible ones (represented as numbers 1-6).
+	 * The player tries to guess this combination of numbers.
+	 * The try is given as a four digit number by the player.
+	 * The programm compares the try with the "code" and gives some feedback.
+	 * If the "code" has been found or there are no more tries left the game ends.
 	 * <p>
 	 * 
 	 * @param args
@@ -48,9 +49,9 @@ public class Mastermind {
 		//DONE re-implement generate code!
 		//DONE beautiful menu from menu.jpage implement the like into mastermind?
 		// started under ***mastermind>MenuMastermind.java*** impelmented
-		// [1] Spiel starten
-		// [2] Spiel Erklärung
-		// [3] Spieloptionen -> todo add debugMode boolean <b> ** debugg on / off option ** </b> 
+		// [1] Start game
+		// [2] Game Manual
+		// [3] Options -> todo add debugMode boolean <b> ** debugg on / off option ** </b> 
 		//DONE change code visible according to debugMode state!
 		//DONE berechneAnrRichtigeOhnePos not working as it should!
 		//DONE remove syso("digit:...)
@@ -65,20 +66,18 @@ public class Mastermind {
 		//TODO release game for friends
 		//TODO make a GUI with colors to click and submit
 		//TODO implement missing Game requirements from doc AB226A-01-1.docx:
-		//TODO	Da auf der Konsole keinerlei grafische Ausgabe möglich ist, sollen die Farben durch einzelne Buchstaben dargestellt werden:
+		//TODO according to task switch colors to letters:
 		//
-		//			r	Rot
-		//			b	Blau
-		//			g	Grün
-		//			y	Gelb
-		//			w	Weiss
-		//			s	Schwarz
+		//			r	red
+		//			g	green
+		//			y	yellow
+		//			p	pink
+		//			w	white
+		//			b	black
 		//
 		//TODO			Die Eingabe des Spielers soll jeweils auf einer neuen Zeile eingelesen werden. Sie soll aus einer Folge von vier Buchstaben ohne Zwischenraum bestehen und wird mit der Return-Taste abgeschlossen.
 		//
-		//TODO			Das Programm soll die Benutzereingabe auf Korrektheit überprüfen (validieren) und im Falle einer fehlerhaften Eingabe eine entsprechende Meldung ausgeben und zur Wiederholung der Eingabe auffordern.
-		//
-		//TODO			Bei einer gültigen Eingabe soll auf einer neuen Zeile die Bewertung der Eingabe ausgegeben werden (Schritt 3 in obigem Ablauf).
+		//TODO			Das Programm soll die Benutzereingabe auf Korrektheit checken (validieren) und im Falle einer fehlerhaften Eingabe eine entsprechende Meldung ausgeben und zur Wiederholung der Eingabe auffordern.
 		//
 		//TODO			Die Ausgaben des Programms sollen so gestaltet werden, dass dem Benutzer jederzeit klar ist, was von ihm erwartet wird (Benutzerfreundlichkeit).
 
@@ -96,7 +95,7 @@ public class Mastermind {
 					debugger(); // debugMode state can be set in the Menu!
 				}
 
-			} while (versuche > zaehler);
+			} while (tries > counter);
 
 			restartCodeNotFound();
 
@@ -107,9 +106,9 @@ public class Mastermind {
 
 	private static void restartCodeNotFound() {
 		System.out.println("\n" +
-				"Keine Versuche mehr übrig. " + "Sie haben den Code nicht geknackt." +
-				"\n" + "Der richtige Code lautet: "+ arrayToString(codeArray) + "." + 
-				"\n" + "Das Spiel ist zu Ende." + "\n\n" + "Drücke Enter um Spiel neu zu Starten.");
+				"No tries left. " + "Code not found." +
+				"\n" + "Code was: "+ arrayToString(codeArray) + "." + 
+				"\n" + "Game over." + "\n\n" + "Press Enter to start new game.");
 		@SuppressWarnings("unused")
 		String next = sc.nextLine(); //Just to get the Enter to continue the program
 	}
@@ -135,7 +134,7 @@ public class Mastermind {
 
 		sc = new Scanner(System.in);
 		//		Scanner sc = new Scanner(System.in); since the scanner doesn't work for menu() exctract as fieldlike
-		System.out.println("\n\n             Drücke Enter um fortzufahren..");
+		System.out.println("\n\n             press Enter to continue..");
 		@SuppressWarnings("unused")
 		String next = sc.nextLine(); //Just to get the Enter to continue the program
 		//sc.close(); //FIXME closing the scanner here makes the whole program fail, but why?
@@ -143,7 +142,7 @@ public class Mastermind {
 		//TODO close scanner
 		//TODO clear console?
 
-		System.out.println("Willkommen bei Mastermind" + "\n"); 
+		System.out.println("Welcome to Mastermind" + "\n"); 
 	}
 
 
@@ -169,18 +168,18 @@ public class Mastermind {
 	 * Calls functions: berechneAnrRichtigeOhnePos berechneAnzRichtiePosition
 	 */
 	private static void evalUserInput() {
-		berechneAnrRichtigeOhnePos(tipArray);
-		berechneAnzRichtiePosition(tipArray);
+		findNumbCorrectWithoutPos(tipArray);
+		findNumbCorrectPos(tipArray);
 
 		/*// Old way of tip feedback to user
 		System.out.println(
-				"Anzahl richtige Zahlen ohne Betrachtung der Position: " 
-						+ berechneAnrRichtigeOhnePos(tipArray));
-		System.out.println("Anzahl mit richtiger Position: " 
-				+ berechneAnzRichtiePosition(tipArray));
+				"Number without correct position: " 
+						+ findNumbCorrectWithoutPos(tipArray));
+		System.out.println("Number with correct position: " 
+				+ findNumbCorrectPos(tipArray));
 		System.out.println(
-				"Danke für den " + zaehler + ". Tip. " + "Sie haben noch " 
-						+ (versuche - zaehler) + " versuche übrig.");
+				"Thanks for tip" + zaehler + ". " + "You have  " 
+						+ (versuche - zaehler) + " tries left.");
 		 */
 
 
@@ -216,23 +215,22 @@ public class Mastermind {
 	 * 
 	 */
 	private static void endGame() {
-		System.out.println("\n"+"Glückwunsch Sie sind ein Mastermind!!" + " Spiel beendet.");
+		System.out.println("\n"+"Well done, you truly are a Mastermind!!" + " Game over.");
 		exit();
 	}
 
 	/***
-	 * Berechnet die Anzahl der erratenen Zahlen aus dem Geheimcode ohne die
-	 * Position der Zahlen zu berücksichtigen
+	 * finds the number of existing numbers without position in code and counts them
 	 * 
 	 * @param tip
-	 * @return int Anzahl erratene/vorhandene Zahlen
+	 * @return int number of correct numbers guessed
 	 * 
 	 * The way it works is it copies the code, then checks for matches
 	 * between tip and copy.
 	 */
-	public static int berechneAnrRichtigeOhnePos(int[] tip) {
+	public static int findNumbCorrectWithoutPos(int[] tip) {
 		// DONE FIX output not correct - add overwrite when matching with -1!
-		// DONE Exit bei Treffer, damit jede Zahl nur einmal gezählt wird.
+		// DONE exit when match
 		// DONE overwrite means copy of code is needed! can't overwrite code!!!
 		// this is the copy job!
 		copyCode = new int[4];
@@ -240,40 +238,38 @@ public class Mastermind {
 			copyCode[i] = codeArray[i];
 		}
 
-		anzRichtigeOP = 0;
+		numbCorrectWithoutPos = 0;
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
 				if (tip[i] == copyCode[j]) {
-					anzRichtigeOP = anzRichtigeOP + 1;
+					numbCorrectWithoutPos = numbCorrectWithoutPos + 1;
 					copyCode[j]=-1;
-					j = 4; // => Exit bei Treffer
+					j = 4; // => exit when match
 				}
-				anzRichtigeOP = anzRichtigeOP + 0;
+				numbCorrectWithoutPos = numbCorrectWithoutPos + 0;
 			}
 		}
-		return anzRichtigeOP;
+		return numbCorrectWithoutPos;
 	}
 
 	/**
-	 * Berechnet die Anzahl der erratenen Zahlen auf der richtigen Position
+	 * finds the number of existing numbers with position in code and counts them
 	 * 
 	 * @param tip
-	 * @return int Anzahl Zahlen Position richtig
+	 * @return int number of correct numbers on correct position guessed
 	 */
-	public static int berechneAnzRichtiePosition(int[] tip) {
-		anzRichtige = 0;
+	public static int findNumbCorrectPos(int[] tip) {
+		numbCorretPos = 0;
 		for (int i = 0; i < 4; i++) {
-			// System.out.println("test");
 			if (tip[i] == codeArray[i]) {
-				anzRichtige = anzRichtige + 1;
+				numbCorretPos = numbCorretPos + 1;
 			}
-			// anzRichtige = anzRichtige + 0;
 		}
-		return anzRichtige;
+		return numbCorretPos;
 	}
 
 	/**
-	 * Converts any Int[] array to a single String
+	 * Converts any int[] array to a single String
 	 * 
 	 * @param array
 	 * @return
@@ -287,7 +283,7 @@ public class Mastermind {
 	}
 
 	/**
-	 * Ask User for his guess and gets the Userinput and stores it in tipArray
+	 * Ask User for his guess and gets the userInput and stores it in tipArray
 	 * @param tipArray
 	 */
 	public static void tipUser() throws Exception{
@@ -296,7 +292,7 @@ public class Mastermind {
 		// a int like 1980 => 1, 9, 8, 0 ???
 		// ANSWER: => YES, see class ScannerIntToSingleInt.java
 
-		// DONE Zahleneingabe ohne Enter nach jeder Zahl ermöglichen
+		//DONE Allow userInput as one number not 4 x 1 digit and 4xEnter
 		//DONE Tip can be given in one number but the whole game doesn't work anymore,
 		// -> changed static tipArray to public static tipArray 
 		// rework game to work with new tip as whole number given!!
@@ -305,8 +301,8 @@ public class Mastermind {
 
 		do {
 			System.out.println(
-					"Bitte geben Sie vier Zahlen zwischen 1-6 als " 
-							+ "eine Zahl ein. Gefolgt von Enter. Bsp. 2222->Enter");
+					"Enter 4 numbers between 1-6, followed by Enter. " +
+					"Example: 2222->Enter");
 
 			Scanner reader = new Scanner(System.in);
 			try {
@@ -316,23 +312,23 @@ public class Mastermind {
 				// but it works, only the message will not be displayed but it triggers and get catched
 				// and handled as intended.
 				if (6666 < tipUser) {
-					throw new Exception("Tip ist über 6666! Bitte geben Sie einen Tip unter 6667 ein.");
+					throw new Exception("Guess is over 6666! Guess needs to be under 6667.");
 				}
 				if (0 < tipUser && tipUser < 1110) {
-					throw new Exception("Tip ist unter 1111! Bitte geben Sie einen Tip über 1110 ein.");
+					throw new Exception("Guess is under 1111! Guess needs to be over 1110.");
 				}
 
 			} catch (InputMismatchException e) {
-				System.out.println("Eingabe für Tip ungültig!");
+				System.out.println("Guess invalid!");
 				tipUser = -1; // restart tipUser() by setting tipUser below zero;
 			} catch (Exception e) {
-				System.out.println("Eingabe für Tip: " + tipUser + ", diese Eingabe ist ungültig. "
-						+ "Eingabe muss zwischen 1111-6666 liegen.");
+				System.out.println("Guess: " + tipUser + ", is invalid. "
+						+ "needs to be between 1111-6666.");
 				tipUser = -1; // restart tipUser() by setting tipUser below zero;
 			}
 
 			/*if (6666 < tipUser) { // THIS IS THE OLD way it worked also as if statement instead of exception
-				System.out.println("Tip ist ausserhalb der erlaubten Zahlen.");				//XXX restart at the start of this do loop, solved whitout exception
+				System.out.println("Guess out of range.");				//XXX restart at the start of this do loop, solved whitout exception
 				tipUser = -1; //idea leave the loop and restart if catched an exception
 			}*/ // commented out and replaced with throw new InputMismatchException
 
@@ -348,7 +344,7 @@ public class Mastermind {
 			tipArray[i] = j;
 
 		}
-		zaehler = zaehler + 1;
+		counter = counter + 1;
 		//		reader.close(); //TODO closing the scanner here is a problem? but why?
 	}
 
@@ -359,17 +355,17 @@ public class Mastermind {
 
 
 		//TipHistory save mechanism
-		tipHistory[zaehler-1][0] = tipUser;
-		tipHistory[zaehler-1][1] = anzRichtigeOP;
-		tipHistory[zaehler-1][2] = anzRichtige;
+		tipHistory[counter-1][0] = tipUser;
+		tipHistory[counter-1][1] = numbCorrectWithoutPos;
+		tipHistory[counter-1][2] = numbCorretPos;
 
 
 		//TipHistory display mechanism
-		for (int i = 0; i < zaehler; i++) {
-			System.out.println("Tip Nummer " + (i + 1) + ": " + tipHistory[i][0] +
-					". Anzahl richtige Zahlen ohne Position: "
+		for (int i = 0; i < counter; i++) {
+			System.out.println("Tip number " + (i + 1) + ": " + tipHistory[i][0] +
+					". Correct numbers, incorrect position: "
 					+ tipHistory[i][1] +
-					". Anzahl Richtige mit Position: "
+					". Correct numbers and position: "
 					+ tipHistory[i][2] + "."
 					);
 		}
@@ -386,10 +382,10 @@ public class Mastermind {
 	}
 
 	private static void Menu() {
-		System.out.println("[1] Spiel starten");
-		System.out.println("[2] Spiel Info");
-		System.out.println("[3] Spiel Optionen" + "\n");
-		System.out.println("Wähle eine Zahl, bestätige mit Enter:");
+		System.out.println("[1] Start game");
+		System.out.println("[2] Game description");
+		System.out.println("[3] Game options" + "\n");
+		System.out.println("Enter a number, followed by Enter:");
 
 		String s = sc.nextLine();
 
@@ -409,10 +405,10 @@ public class Mastermind {
 		case 3:
 			//TODO insert game options: debug/cheat toggle
 			//TODO show debugMode Status -> isDebugMode()
-			System.out.println("Im Debug Modus: " + isDebugMode());
-			System.out.println("[1] Debug Modus: true");
-			System.out.println("[2] Debug Modus: false" + "\n");
-			System.out.println("Wähle eine Zahl, bestätige mit Enter:");
+			System.out.println("Debug Mode: " + isDebugMode());
+			System.out.println("[1] Set Debug Mode: true");
+			System.out.println("[2] Set Debug Mode: false" + "\n");
+			System.out.println("Enter a number, followed by Enter:");
 
 			String s1 = sc.nextLine();
 
@@ -446,19 +442,21 @@ public class Mastermind {
 	}
 
 	static void BackToMenu() {
-		System.out.println("\n Drücke Enter um fortzufahren..");
+		System.out.println("press Enter to continue..");
 		String next = sc.nextLine();
 		Menu();
 	}
 
 	private static void spielInfo() {
 		System.out.println("\n" + 
-				"Spielbeschreibung: Der Computer wählt aus 6 möglichen Zahlen, 1-6, vier\r\n" + 
-				"aus. Der Spieler versucht diese \"geheime Zahlenkombination\" zu erraten.\r\n"	+ 
-				"Dazu gibt er eine Kombination der 6 möglichen Zahlen als Tip ein. Das \r\n"+ 
-				"Programm vergleicht den Tip mit dem \"geheimen Code\" und wertet den Tip aus.\r\n" + 
-				"Ist der \"Code\" geknackt oder die Anzahl Versuche aufgebraucht wird das Spiel beendet.\r\n\n"
-				+ "Es stehen " + versuche + " Versuche zur Verfügung um den Code zu knacken. Viel Erfolg!");
+				"The computer chooses four colors from six possible ones " + "\n"
+				+ "(represented as numbers 1-6). The player tries to guess " + "\n"
+				+ "this combination of numbers. The try is given as a four " + "\n"
+				+ "digit number by the player. The programm compares the " + "\n"
+				+ "try with the \"code\" and gives some feedback. If the " + "\n"
+				+ "\"code\" has been found or there are no more tries left " + "\n"
+				+ "the game ends." + "\n"
+				+ tries + " is the number of tries given to break the code.");
 	}
 
 }
