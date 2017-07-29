@@ -13,7 +13,7 @@ public class Mastermind {
 	 * user to find the code zaehler = counter for tries of user to find the
 	 * code
 	 */
-	static int tries = 10;
+	static int tries = 2;
 	static int counter = 0;
 
 	public static int[] codeArray = { 0, 0, 0, 0 }; //FIXME reactivate for live version! 
@@ -45,6 +45,9 @@ public class Mastermind {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws Exception {
+		//DONE fix game end - proper end with info before closing the console
+		//XXX  fix game end - insert restart option and restart loop!
+		//FIXME new game wrong guess doesnt generate new code! check and fix!
 		//XXX handle InputMismatchExeption with try {} catch (){}!, could be nicer but works
 		//DONE re-implement generate code!
 		//DONE beautiful menu from menu.jpage implement the like into mastermind?
@@ -97,9 +100,10 @@ public class Mastermind {
 
 			} while (tries > counter);
 
-			restartCodeNotFound();
+			restartCodeNotFound();  // restart does not generate new code but why?
 
 		} while (gameRestartLoop  = true);
+		// Add congrats to player before game ends?
 		exit();
 	}
 
@@ -216,6 +220,10 @@ public class Mastermind {
 	 */
 	private static void endGame() {
 		System.out.println("\n"+"Well done, you truly are a Mastermind!!" + " Game over.");
+		//DONE add user input to terminate the console, else text is not visible.
+		System.out.println("\n\n"+"Press Enter.");
+		@SuppressWarnings("unused")
+		String next = sc.nextLine(); //Just to get the Enter to continue the program
 		exit();
 	}
 
