@@ -16,10 +16,9 @@ public class Mastermind {
 	static int tries = 2;
 	static int counter = 0;
 
-	public static int[] codeArray = { 0, 0, 0, 0 }; //FIXME reactivate for live version! 
-	//	public static int[] codeArray = { 1, 1, 2, 4 }; // Just for testing!
+	public static int[] codeArray = { 0, 0, 0, 0 };
 	private static int[] copyCode; // needed for user evaluation
-	public static int[] tipArray = { 0, 0, 0, 0 };
+	public static int[] tipArray = { 0, 0, 0, 0 };	
 	private static int[][] tipHistory = new int[tries][3];
 
 	private static boolean debugMode = false;
@@ -36,7 +35,7 @@ public class Mastermind {
 	 * from six possible ones (represented as numbers 1-6).
 	 * The player tries to guess this combination of numbers.
 	 * The try is given as a four digit number by the player.
-	 * The programm compares the try with the "code" and gives some feedback.
+	 * The program compares the try with the "code" and gives some feedback.
 	 * If the "code" has been found or there are no more tries left the game ends.
 	 * <p>
 	 * 
@@ -47,8 +46,10 @@ public class Mastermind {
 	public static void main(String[] args) throws Exception {
 		//DONE fix game end - proper end with info before closing the console
 		//XXX  fix game end - insert restart option and restart loop!
-		//FIXME new game wrong guess doesnt generate new code! check and fix!
+		//DONE wrong guess endgame doesn't generate new code! check and fix!
+		//Actualy the problem is with the counter which is not reset by a new game!
 		//XXX handle InputMismatchExeption with try {} catch (){}!, could be nicer but works
+		//XXX rewrite Game Info for the User, so it is eaysier to understand.
 		//DONE re-implement generate code!
 		//DONE beautiful menu from menu.jpage implement the like into mastermind?
 		// started under ***mastermind>MenuMastermind.java*** impelmented
@@ -100,7 +101,8 @@ public class Mastermind {
 
 			} while (tries > counter);
 
-			restartCodeNotFound();  // restart does not generate new code but why?
+			restartCodeNotFound();  // restart does generate new code but counter needs to be reset!
+			counter = 0; // reset counter for new game
 
 		} while (gameRestartLoop  = true);
 		// Add congrats to player before game ends?
@@ -390,9 +392,9 @@ public class Mastermind {
 	}
 
 	private static void Menu() {
-		System.out.println("[1] Start game");
-		System.out.println("[2] Game description");
-		System.out.println("[3] Game options" + "\n");
+		System.out.println("[1] Start");
+		System.out.println("[2] Info");
+		System.out.println("[3] Options" + "\n");
 		System.out.println("Enter a number, followed by Enter:");
 
 		String s = sc.nextLine();
@@ -402,12 +404,11 @@ public class Mastermind {
 
 		switch (key) {
 		case 1:
-			//TODO insert game starting mechanic
-			intro();
+			//DONE insert game starting mechanic, just break is enough!
 			break;
 		case 2:
 			//TODO insert game info
-			spielInfo();
+			gameInfo();
 			BackToMenu();
 			break;
 		case 3:
@@ -455,7 +456,7 @@ public class Mastermind {
 		Menu();
 	}
 
-	private static void spielInfo() {
+	private static void gameInfo() {
 		System.out.println("\n" + 
 				"The computer chooses four colors from six possible ones " + "\n"
 				+ "(represented as numbers 1-6). The player tries to guess " + "\n"
