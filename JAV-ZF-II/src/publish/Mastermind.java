@@ -13,7 +13,7 @@ public class Mastermind {
 	 * user to find the code zaehler = counter for tries of user to find the
 	 * code
 	 */
-	static int tries = 2;
+	static int tries = 10;
 	static int counter = 0;
 
 	public static int[] codeArray = { 0, 0, 0, 0 };
@@ -44,6 +44,8 @@ public class Mastermind {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws Exception {
+		//FIXME Julio found another Bug, Game closes after two tries as shown in Game Info (Tries = 2)
+		// where is this 2 set in the code? Find and replace with variable "tries"
 		//DONE fix game end - proper end with info before closing the console
 		//XXX  fix game end - insert restart option and restart loop!
 		//DONE add version number
@@ -138,7 +140,7 @@ public class Mastermind {
 		System.out.println("          #*#       #*#     #*#     #*#   #*#*# #*#    #*#           "); 
 		System.out.println("          ###       ### ########### ###    #### #########           ");
 		System.out.println();
-		System.out.println("          v.0.01");  //added Versionnumber (v.major.patchnumber) 
+		System.out.println("          v.0.02");  //added Versionnumber (version.major.patchnumber) 
 
 		sc = new Scanner(System.in);
 		//		Scanner sc = new Scanner(System.in); since the scanner doesn't work for menu() exctract as fieldlike
