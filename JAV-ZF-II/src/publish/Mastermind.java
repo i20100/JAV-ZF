@@ -44,8 +44,7 @@ public class Mastermind {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws Exception {
-		//FIXME Julio found another Bug, Game closes after two tries as shown in Game Info (Tries = 2)
-		// where is this 2 set in the code? Find and replace with variable "tries"
+		//DONE Julio found another Bug, Game closes after 2 tries, tries set to 10 again
 		//DONE fix game end - proper end with info before closing the console
 		//XXX  fix game end - insert restart option and restart loop!
 		//DONE add version number
