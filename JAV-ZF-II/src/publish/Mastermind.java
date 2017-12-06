@@ -44,7 +44,8 @@ public class Mastermind {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws Exception {
-		//XXX  sort Methods in order of appearance!
+		//XXX  Apply Coding best practices: only one lvl of nesting (Verschachtelung) per Method
+		//DONE  sort Methods in order of appearance!
 		//DONE Julio found another Bug, Game closes after 2 tries, tries set to 10 again
 		//DONE fix game end - proper end with info before closing the console
 		//XXX  fix game end - insert restart option and restart loop!
@@ -99,7 +100,7 @@ public class Mastermind {
 				evalUserInput();
 				tipHistory();
 				if (debugMode == true) {
-					printCodeAndTip(); // debugMode state can be set in the Menu!
+					printCodeAndTip(); // debugMode state, shows solution, can be set in the Menu!
 				}
 
 			} while (tries > counter);
