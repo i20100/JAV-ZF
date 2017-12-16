@@ -2,40 +2,41 @@ package mod226;
 
 import java.lang.reflect.Method;
 
-public class L05_Aufg1_Methode_Parameter_SwitchAnweisung {
+public class L05_Aufg1_Methode_Parameter_SwitchAnweisungRechner {
 
 	private static int result;
 
 	public static void main(String[] args) {
-
 		/*DONE At this stage I need to know more about methods in general 
 		 * => consulting book "Grundlagen JAVA" Chapter Methods p.40-44
 		 * This could be solved with only adding Text for invalid entries,
 		 * but then I can also learn how to write own Exceptions and
 		 * throw one of these...
 		 */
+		//XXX add return? operand1 is the result aka return value but this should not be printed always!
+		// if there is an invalid operator aka not int or 5 < operator < 1
+		//=> needs exception handling first
+		//DONE learn exception handling
+		//DONE therefore add custom exception handling
+		//DONE add try and catch
+		//DONE add throwing
+		//FUNNY it still does finish the operation or give out the invalid result!
+		//XXX fix this if you can, its not a bug but a problem I didn't think about.
+
+		System.out.println(result); // No value given to result, still it will give back 0!
 
 		// Normal Method call
+		calc(1,1,1);
+		System.out.println(result);
+
+		// special Method call
 		calc(1,1,6);
 		System.out.println(result);
 
 		// activate this method to test all cases
-		//		testAllCases();
-
-		// special Method call
-		calc(1,1,1);
-		System.out.println(result);
+		testAllCases();
 	}
 
-	//TODO add return? operand1 is the result aka return value but this should not be printed always!
-	// if there is an invalid operator aka not int or 5 < operator < 1
-	//=> needs exception handling first
-	//DONE learn exception handling
-	//DONE therefore add custom exception handling
-	//DONE add try and catch
-	//DONE add throwing
-	//FUNNY it still does finish the operation or give out the invalid result!
-	//XXX fix this if you can, its not a bug but a problem I didn't think about.
 
 	/**
 	 * Computes operand1 with operand2 with chosen operator
@@ -67,7 +68,6 @@ public class L05_Aufg1_Methode_Parameter_SwitchAnweisung {
 			// TODO: handle exception
 			System.out.println(e);
 		}
-
 		switch (operator) {
 		case 1:
 			result = operand1 + operand2;
@@ -91,11 +91,12 @@ public class L05_Aufg1_Methode_Parameter_SwitchAnweisung {
 	}
 
 	/**
-	 * Simple way to test all cases of operands
+	 *  Simple way to test all cases of operands
 	 */
 	private static void testAllCases() {
 		// Test all cases:
 		for (int i = 1; i < 7; i++) {
+			System.out.println("Test case: "+ i);
 			calc(2, 1, i);
 			System.out.println(result);
 		}
