@@ -2,9 +2,12 @@ package mastermind;
 
 import java.util.Scanner;
 
+import publish.Mastermind;
+
 public class MenuMastermind {
 
 	static Scanner sc = new Scanner(System.in);
+	private static boolean debugMode;
 
 	public static void main(String[] args) {
 		// TODO finish Menu similar to menu.jpage
@@ -25,6 +28,7 @@ public class MenuMastermind {
 		switch (key) {
 		case 1:
 			//TODO insert game starting mechanic
+			// mastermind.intro();
 			System.out.println("1 geht noch?");
 			BackToMenu();
 			break;
@@ -35,7 +39,32 @@ public class MenuMastermind {
 			break;
 		case 3:
 			//TODO insert game options: debug/cheat toggle
-			BackToMenu();
+			//TODO show debugMode Status -> isDebugMode()
+			System.out.println("Im Debug Modus: " + isDebugMode());
+			System.out.println("[1] Debug Modus: true");
+			System.out.println("[2] Debug Modus: false");
+			System.out.println("Wähle Zahl, bestätige mit Enter:");
+
+			String s1 = sc.nextLine();
+
+			int key1 = Integer.parseInt(s1);
+			
+			switch (key1) {
+			case 1:
+				Mastermind.setDebugMode(true);
+				//			setDebugMode = true;
+				break;
+			case 2:
+				Mastermind.setDebugMode(false);
+				//			setDebugMode = false;
+				break;
+
+//			default:
+//				break;
+			}
+			
+//			BackToMenu(); // goto Menu() instead?
+			Menu();
 			break;
 		default:
 			//TODO insert default is start game
@@ -56,5 +85,14 @@ public class MenuMastermind {
 				+ "Der Code besteht aus vier Stellen. Viel Erfolg!");
 		return null;
 	}
+	
+	public static boolean isDebugMode() {
+		return debugMode;
+	}
+
+	public static void setDebugMode(boolean debugMode) {
+		MenuMastermind.debugMode = debugMode;
+	}
+
 
 }

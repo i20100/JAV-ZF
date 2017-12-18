@@ -274,6 +274,9 @@ public class Mastermind {
 
 	}
 
+	/**
+	 * Check User Input via Exception
+	 */
 	private static void checkUserInputForErrors() {
 		do {
 			try {
@@ -289,7 +292,9 @@ public class Mastermind {
 			} catch (InputMismatchException e) {
 				System.out.println("Guess invalid!");
 				userInput = -1; // restart userInput() by setting userInput below zero;
-			} catch (Exception e) {
+			} catch (Exception e) {/*XXX why use the class Exception and not the expected exceptions?
+				*This is not good code! Worse would be the general Exception first, then InputMiss.. 
+				*would never be considered */
 				System.out.println("Guess: " + userInput + ", is invalid. "
 						+ "needs to be between 1111-6666.");
 				userInput = -1; // restart userInput() by setting userInput below zero;

@@ -18,18 +18,18 @@ public class SchleifeCodeCheckerWithIntToStringMethod {
 		System.out.println("Tip = " + (Arrays.toString(tip)));
 
 		//		convert Arrays to String => IntToString.java
-		codeToString()
+		codeToString();
 
 
 		//			Those two commentlines are for test only!
 		//			System.out.println(codeToString);
 	}
-	System.out.println(codeToString);
+/*	System.out.println(codeToString);
 
 	//		Check Tip == Code
 	if (tip == code) {
 		System.out.println("Tip == Code");
-	} System.out.println("Tip != Code");
+	} System.out.println("Tip != Code");*/
 
 	/*	do {
 			System.out.println("Checke Tip");
@@ -38,7 +38,7 @@ public class SchleifeCodeCheckerWithIntToStringMethod {
 			getTip();
 		} while (tip != code);*/
 
-}
+//}
 
 public static void codeToString() {
 	String codeToString = "";
@@ -46,6 +46,7 @@ public static void codeToString() {
 		codeToString = codeToString + Integer.toString(code[i]);
 
 	}
+}
 
 	static int[] setTip() {
 		int[] tip = {1, 1, 4, 2};
