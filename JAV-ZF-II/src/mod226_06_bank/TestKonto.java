@@ -36,10 +36,10 @@ public class TestKonto {
 		
 		Konto k4 = new Konto();
 		Kunde ku4 = new Kunde("Max", "Testermann", 1114);
-		System.out.println(ku4.getName());
+//		System.out.println(ku4.getName()); // War nur zum Testen von Kundenerstellung
 //		System.out.println(k4.getInhaberName()); // Gibt Fehler aus wenn Inhaber nicht vorher gesetzt wurde: k4.setInhaber(ku4); 
 		k4.setInhaber(ku4);
-		System.out.println(k4.getInhaberName());
+		System.out.println(k4.getInhaberName() + " " + k4.getInhaberVorname() + " " + k4.getInhaberKundennummer());
 		
 	}
 
