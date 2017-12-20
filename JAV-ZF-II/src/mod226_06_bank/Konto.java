@@ -22,7 +22,7 @@ public class Konto {
 		(Kein Zinseszins, Zinssatz auf ein Jahr bezogen)
 		DONE
 		getSaldo: Gibt den aktuellen Saldo zurück.
-		
+
 		DONE
 		Schreiben Sie eine Klasse TestKonto mit main-Methode. Diese soll zwei Kontoobjekte erzeugen und deren Methoden testen: z.B.
 		Zahlen Sie auf das erste Konto 500.75 CHF ein und verzinsen Sie es während 365 Tagen.
@@ -35,6 +35,27 @@ public class Konto {
 
 	private double saldo;
 	private double zinssatz = 0.01;
+	private Kunde inhaber;
+	
+	/** Standard Konstruktor Konto
+	 * Das Buch sagt wenn ein Konstruktor selber definiert wurde, muss dieser 
+	 * standard Konstruktor von Hand erstellt werden, sonst gebe es diesen 
+	 * nicht. Teste. -> Stimmt! Mit eignem Konstruktor und ohne diesen gibt
+	 * es einen Fehler bzw. lässt sich Konto() nicht mehr aufrufen!
+	 */
+	public Konto() {
+	}
+
+	/** Konstruktor Konto mit Zinssatz Angabe
+	 * @param zinssatz
+	 */
+	public Konto(int zinssatz) {
+		this.zinssatz = zinssatz;
+	}
+	
+	public Konto(Kunde inhaber) {
+		this.inhaber = inhaber;
+	}
 
 	public void einzahlen (double betrag) {
 		saldo = saldo + betrag;
@@ -49,18 +70,39 @@ public class Konto {
 		if (saldo >= 500000) {
 			zinssatz = 0;
 			// Methode direkt abbrechen? Keine Zinsberechnung nötig
-			
+
 		}
 		else if (saldo > 50000) {
 			zinssatz = zinssatz /2;
 		}
-		
+
 		//		Die Zinsformel lautet: Zins = Saldo * Zinssatz * Laufzeit / 365
 		//		(Kein Zinseszins, Zinssatz auf ein Jhr bezogen)
 		// Die anzahl Tage entspricht also der anzahl Tage seit der Konto Entstehung/Eröffnung.
 		double zins = saldo * zinssatz * tage / 365;
 		einzahlen (zins);
 	}
+
+	public Kunde getInhaber() {
+		return inhaber;
+	}
 	
+	public void setInhaber(Kunde inhaber) {
+		this.inhaber = inhaber;
+	}
+
+	public String getInhaberName() {
+//		String inhaberName = this.inhaber.getName();
+//		return inhaberName;
+		return this.inhaber.getName();
+	}
 	
+	public String getInhaberVorname() {
+		return this.inhaber.getVorname();
+	}
+	
+	public int getInhaberKundennummer() {
+		return this.inhaber.getKundennummer();
+	}
+
 }
