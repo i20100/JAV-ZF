@@ -1,4 +1,1 @@
-system.out.println("Hello"); //XXX this does not work as scrappage
-
-
-
+System.out.println("Hello"); //XXX this does not work as scrappage

@@ -2,7 +2,7 @@ import jcurses.widgets.*;
 import jcurses.system.Toolkit;
 import jcurses.system.CharColor;
 
-public class Numbers {
+public class Numsbers {
         public static void main(String[] args) {
 
             Window w = new Window(40, 20, true, "Numbers");
