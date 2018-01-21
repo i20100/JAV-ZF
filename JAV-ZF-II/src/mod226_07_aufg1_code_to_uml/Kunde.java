@@ -1,6 +1,5 @@
 package mod226_07_aufg1_code_to_uml;
 
-import java.awt.List;
 import java.util.ArrayList;
 
 public class Kunde {
