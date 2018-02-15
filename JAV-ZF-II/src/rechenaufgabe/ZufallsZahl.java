@@ -1,3 +1,5 @@
+package rechenaufgabe;
+
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("3bdc7d5d-e699-46de-835c-98093bb1be11")
