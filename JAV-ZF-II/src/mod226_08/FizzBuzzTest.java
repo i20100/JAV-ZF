@@ -15,9 +15,18 @@ import org.junit.jupiter.api.Test;
  * Ist die Zahl durch beide teilbar, schreibe Fizz Buzz.
  * 
  * Bsp. (1,2,Fizz,4,Buzz,Fizz,7,8,Fizz,Buzz,...)
+ * 
+ * Die Klasse FizzBuzz soll das Programm starten und die Zahlen in der Konsole ausgeben
  *
  */
 class FizzBuzzTest {
+	
+	// DONE schreibe noch eine Funktion SetEndzahl (Ausgabe beschraenken)
+	// DONE neue Klasse FizzBuzz mit Loop
+	// TODO Test Programm Ende wirklich bei endzahl, aber wie?
+	// TODO Test ZahlenLoop bis Endzahl
+	// DONE schreibe noch die Ausgabe auf die Konsole
+	// TODO animiere die Ausgabe als Sprechblasen, abwechselnd links und rechts
 
 	@Test
 	void testZahlenreihe() {
@@ -25,6 +34,25 @@ class FizzBuzzTest {
 		assertTrue(1 == init.getZahl());
 		assertTrue(2 == init.getZahl());
 	}
+	
+	@Test
+	void testSetEndzahl() {
+		Zahlenreihe init = new Zahlenreihe();
+		init.setEndzahl(10);
+		assertTrue(10 == init.getEndzahl());
+	}
+	
+	@Test
+	void testMainErsteZahl() {
+		Zahlenreihe init = new Zahlenreihe();
+		
+		Pruefer eins = new Pruefer(
+				init.getZahl()
+				);
+		
+		assertEquals("1", eins.Antwort());
+	}
+	
 
 
 	class PrueferTest {
@@ -59,7 +87,6 @@ class FizzBuzzTest {
 		Pruefer eins = new Pruefer(1);
 		assertEquals("1", eins.Antwort());
 			
-
 		Pruefer drei = new Pruefer(3);
 		assertEquals("Fizz", drei.Antwort());
 

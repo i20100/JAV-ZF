@@ -7,6 +7,7 @@ public class Pruefer {
 	private boolean teilbarFuenf;
 	private String zahlString;
 
+
 	public Pruefer(int i) {
 		this.zahl = i;
 		this.zahlString = Integer.toString(i);
@@ -35,7 +36,6 @@ public class Pruefer {
 	}
 
 	public String Antwort() {
-		// TODO Auto-generated method stub
 		if (teilbarDrei && teilbarFuenf == true) {
 			return "Fizz Buzz";
 		} else if (teilbarDrei == true && teilbarFuenf == false) {
@@ -45,8 +45,5 @@ public class Pruefer {
 		}
 		return zahlString;
 	}
-
-
-
 
 }
