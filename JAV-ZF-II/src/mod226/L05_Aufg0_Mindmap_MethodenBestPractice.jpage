@@ -1,0 +1,35 @@
+/*
+ * Eine Methode soll maximal eine Verschachtelungsebene enthalten.
+ * Schlechtes Beispiel:
+ */
+
+    private int[] zaehleStifteProFarbe(char[] code) {
+        int[] anzahlStifteProFarbe = new int[FARBEN.length];
+        for (int farbeIndex = 0; farbeIndex < FARBEN.length; farbeIndex++)
+            for (char stift : code)
+                if (stift == FARBEN[farbeIndex])
+                    anzahlStifteProFarbe[farbeIndex]++;
+        return anzahlStifteProFarbe;
+    }
+
+// Gutes Beispiel: die drei Verschachtelungen aus dem obigen Beispiel,
+// wurden in 3 einzelne Methoden aufgeteilt
+    private int[] zaehleStifteProFarbe(char[] code) {
+        int[] anzahlStifteProFarbe = new int[FARBEN.length];
+        for (int  farbeIndex = 0; farbeIndex < FARBEN.length; farbeIndex++)
+            anzahlStifteProFarbe[farbeIndex] =
+                zaehleStifteMitFarbe(FARBEN[farbeIndex], code);
+        return  anzahlStifteProFarbe;
+    }
+
+    private int zaehleStifteMitFarbe(int farbe, char[] code) {
+        int anzahlStifteMitFarbe = 0;
+        for (char  stift : code)
+            anzahlStifteMitFarbe += hatStiftFarbe(farbe, stift);
+        return  anzahlStifteMitFarbe;
+    }
+
+    private int hatStiftFarbe(int farbe, char  stift) {
+        if (stift == farbe)  return  1;
+        else return 0;
+    }

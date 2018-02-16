@@ -10,20 +10,20 @@ public class Mastermind {
 	 * 
 	 * codeArray = variable for saving the computer generated code tipArray =
 	 * variable for saving the user input versuche = number of tries for the
-	 * user to find the code zaehler = counter for tries of user to find the
+	 * user to find the code zaehler = usedTries for tries of user to find the
 	 * code
 	 */
 	static int tries = 10;
-	static int counter = 0;
+	static int usedTries = 0;
 
 	public static int[] codeArray = { 0, 0, 0, 0 };
-	private static int[] copyCode; // needed for user evaluation
+	private static int[] codeCopy; // needed for user evaluation
 	public static int[] tipArray = { 0, 0, 0, 0 };	
 	private static int[][] tipHistory = new int[tries][3];
 
 	private static boolean debugMode = false;
 	private static Scanner sc;
-	private static int tipUser;
+	private static int userInput;
 	private static int numbCorrectWithoutPos;
 	private static int numbCorretPos;
 	private static boolean gameRestartLoop = true;
@@ -45,13 +45,14 @@ public class Mastermind {
 	 */
 	public static void main(String[] args) throws Exception {
 		//XXX  Apply Coding best practices: only one lvl of nesting (Verschachtelung) per Method
+		//XXX  change do while of checkUserInput() to a simple if break?
 		//DONE  sort Methods in order of appearance!
 		//DONE Julio found another Bug, Game closes after 2 tries, tries set to 10 again
 		//DONE fix game end - proper end with info before closing the console
 		//XXX  fix game end - insert restart option and restart loop!
 		//DONE add version number
 		//DONE wrong guess endgame doesn't generate new code! check and fix!
-		//Actualy the problem is with the counter which is not reset by a new game!
+		//Actualy the problem is with the usedTries which is not reset by a new game!
 		//XXX handle InputMismatchExeption with try {} catch (){}!, could be nicer but works
 		//XXX rewrite Game Info for the User, so it is eaysier to understand.
 		//DONE re-implement generate code!
@@ -93,21 +94,9 @@ public class Mastermind {
 			intro(); // disable for faster debugging
 			Menu();
 			generateCode(); // whole Method has blockcomment
-
-			do {
-				tipUser();
-				tipEqualCode();
-				evalUserInput();
-				tipHistory();
-				if (debugMode == true) {
-					printCodeAndTip(); // debugMode state, shows solution, can be set in the Menu!
-				}
-
-			} while (tries > counter);
-
-			restartCodeNotFound();  // restart does generate new code but counter needs to be reset!
-			counter = 0; // reset counter for new game
-
+			checkUserInput();
+			restartCodeNotFound();  // restart does generate new code, but usedTries needs to be reset!
+			usedTries = 0; // reset of usedTries for a new game
 		} while (gameRestartLoop  = true);
 		// Add congrats to player before game ends?
 		exit();
@@ -130,8 +119,8 @@ public class Mastermind {
 		System.out.println("          #*#       #*#     #*#     #*#   #*#*# #*#    #*#           "); 
 		System.out.println("          ###       ### ########### ###    #### #########           ");
 		System.out.println();
-		System.out.println("          v.0.02");  //added Versionnumber (version.major.patchnumber) 
-		
+		System.out.println("          v.0.03");  //added Version number (version.major.patchnumber) 
+
 		sc = new Scanner(System.in);
 		//		Scanner sc = new Scanner(System.in); since the scanner doesn't work for menu() exctract as fieldlike
 		System.out.println("\n\n             press Enter to continue..");
@@ -141,7 +130,7 @@ public class Mastermind {
 		//String next = sc.next(); does not work!! but sc.nextLine(); gets the Enter =)
 		//TODO close scanner
 		//TODO clear console?
-		
+
 		System.out.println("Welcome to Mastermind" + "\n"); 
 	}
 
@@ -150,12 +139,12 @@ public class Mastermind {
 		System.out.println("[2] Info");
 		System.out.println("[3] Options" + "\n");
 		System.out.println("Enter a number, followed by Enter:");
-	
+
 		String s = sc.nextLine();
-	
+
 		int key = Integer.parseInt(s);
 		//		int key = sc.nextInt(); // skips the break in the cases but why?
-	
+
 		switch (key) {
 		case 1:
 			//DONE insert game starting mechanic, just break is enough!
@@ -172,11 +161,11 @@ public class Mastermind {
 			System.out.println("[1] Set Debug Mode: true");
 			System.out.println("[2] Set Debug Mode: false" + "\n");
 			System.out.println("Enter a number, followed by Enter:");
-	
+
 			String s1 = sc.nextLine();
-	
+
 			int key1 = Integer.parseInt(s1);
-	
+
 			switch (key1) {
 			case 1:
 				Mastermind.setDebugMode(true);
@@ -186,13 +175,13 @@ public class Mastermind {
 				Mastermind.setDebugMode(false);
 				//			setDebugMode = false;
 				break;
-	
+
 			default:
 				//FIXME catch if user doesn't choose a number!
 				//			Menu();
 				break;
 			}
-	
+
 			//		BackToMenu(); // goto Menu() instead?
 			Menu();
 			break;
@@ -241,70 +230,97 @@ public class Mastermind {
 		}
 	}
 
+	/** Contains all Methods used for handling the user input
+	 * @throws Exception
+	 */
+	private static void checkUserInput() throws Exception {
+		do {
+			aksForUserInput();
+			readUserInput();
+			checkUserInputForErrors(); 
+			convertUserInputToSingleDigits();
+			incrementUsedTries();
+			checkCodeFound(); // checks if Game was solved by Userinput
+			evalUserInput();
+			saveUserInputHistory();
+			printUserInputHistory();
+			if (debugMode == true) {
+				printCodeAndUserInput(); // debugMode state, shows solution, can be set in the Menu!
+			}
+
+		} while (tries > usedTries);
+	}
+
 	/**
-	 * Ask User for his guess and gets the userInput and stores it in tipArray
+	 * Displays the Text to the user to Enter his Guess
+	 */
+	private static void aksForUserInput() {
+		System.out.println(
+				"Enter 4 numbers between 1-6, followed by Enter. " +
+				"Example: 3456 -> Enter");
+	}
+
+	/**
+	 * Reads userInput akak fill userInput with next int
+	 * and checks for errors
 	 * @param tipArray
 	 */
-	public static void tipUser() throws Exception{
-		//DONE implement try, catch Exception handler
-		//DONE Solve question, if it is possible to get each int separate from
-		// a int like 1980 => 1, 9, 8, 0 ???
-		// ANSWER: => YES, see class ScannerIntToSingleInt.java
-	
-		//DONE Allow userInput as one number not 4 x 1 digit and 4xEnter
-		//DONE Tip can be given in one number but the whole game doesn't work anymore,
-		// -> changed static tipArray to public static tipArray 
-		// rework game to work with new tip as whole number given!!
-	
-		tipUser = -1;
-	
+	public static void readUserInput() throws Exception{
+
+		userInput = -1;
+		Scanner reader = new Scanner(System.in);
+		userInput = reader.nextInt();
+		//		reader.close(); //TODO closing the scanner here is a problem? but why?
+
+	}
+
+	/**
+	 * Check User Input via Exception
+	 */
+	private static void checkUserInputForErrors() {
 		do {
-			System.out.println(
-					"Enter 4 numbers between 1-6, followed by Enter. " +
-					"Example: 2222->Enter");
-	
-			Scanner reader = new Scanner(System.in);
 			try {
-				tipUser = reader.nextInt();
+				//XXX 1011 and 6667 gets catched, but 1667 not, this would need
+				// a new check system which checks each digit not the whole number!
 	
-				//XXX tried those two throws on different positions, obviously this isn't the right way
-				// but it works, only the message will not be displayed but it triggers and get catched
-				// and handled as intended.
-				if (6666 < tipUser) {
+				if (6666 < userInput) {
 					throw new Exception("Guess is over 6666! Guess needs to be under 6667.");
 				}
-				if (0 < tipUser && tipUser < 1110) {
+				if (0 < userInput && userInput < 1110) {
 					throw new Exception("Guess is under 1111! Guess needs to be over 1110.");
 				}
-	
 			} catch (InputMismatchException e) {
 				System.out.println("Guess invalid!");
-				tipUser = -1; // restart tipUser() by setting tipUser below zero;
-			} catch (Exception e) {
-				System.out.println("Guess: " + tipUser + ", is invalid. "
+				userInput = -1; // restart userInput() by setting userInput below zero;
+			} catch (Exception e) {/*XXX why use the class Exception and not the expected exceptions?
+				*This is not good code! Worse would be the general Exception first, then InputMiss.. 
+				*would never be considered */
+				System.out.println("Guess: " + userInput + ", is invalid. "
 						+ "needs to be between 1111-6666.");
-				tipUser = -1; // restart tipUser() by setting tipUser below zero;
+				userInput = -1; // restart userInput() by setting userInput below zero;
 			}
-	
-			/*if (6666 < tipUser) { // THIS IS THE OLD way it worked also as if statement instead of exception
-				System.out.println("Guess out of range.");				//XXX restart at the start of this do loop, solved whitout exception
-				tipUser = -1; //idea leave the loop and restart if catched an exception
-			}*/ // commented out and replaced with throw new InputMismatchException
-	
-		} while (tipUser < 0); //XXX rework the whole do while and try catch to work also within the limits
-		// 6666 < tipUser > 1110!! at a later time
-		//		System.out.println(tipUser); // just for testing!
-		String tipToDigits = String.valueOf(tipUser);
+		} while (userInput < 0);
+	}
+
+	/**
+	 * Add +1 for each Valid UserInput to keep track of used tries
+	 */
+	private static void incrementUsedTries() {
+		usedTries = usedTries + 1;
+	}
+
+	/** 
+	 * Convert userInput into single Digits, stores it in tipArray
+	 * @param tipArray
+	 */
+	public static void convertUserInputToSingleDigits() {
+		String tipToDigits = String.valueOf(userInput);
 		for(int i = 0; i < tipToDigits.length(); i++) {
 			int j = Character.digit(tipToDigits.charAt(i), 10);
 			//System.out.println("digit: " + j); // just for Testing if it works
 			//TODO write each digit into new Array[][][] when working with NEW usertiparray
-	
 			tipArray[i] = j;
-	
 		}
-		counter = counter + 1;
-		//		reader.close(); //TODO closing the scanner here is a problem? but why?
 	}
 
 	/**
@@ -314,7 +330,7 @@ public class Mastermind {
 	 * 
 	 * @return
 	 */
-	private static void tipEqualCode() {
+	private static void checkCodeFound() {
 		boolean areEqual = Arrays.equals(codeArray, tipArray);
 		if (areEqual == true) {
 			endGame();
@@ -322,8 +338,7 @@ public class Mastermind {
 	}
 
 	/**
-	 * Terminates game.
-	 * 
+	 * Prints Endgame Message, then terminates game.
 	 */
 	private static void endGame() {
 		System.out.println("\n"+"Well done, you truly are a Mastermind!!" + " Game over.");
@@ -336,25 +351,21 @@ public class Mastermind {
 
 	/**
 	 * Calls up the functions to evaluate the user input 
-	 * 
-	 * Calls functions: berechneAnrRichtigeOhnePos berechneAnzRichtiePosition
 	 */
 	private static void evalUserInput() {
+		copyCodeToArrayCodeCopy();
 		findNumbCorrectWithoutPos(tipArray);
 		findNumbCorrectPos(tipArray);
-	
-		/*// Old way of tip feedback to user
-		System.out.println(
-				"Number without correct position: " 
-						+ findNumbCorrectWithoutPos(tipArray));
-		System.out.println("Number with correct position: " 
-				+ findNumbCorrectPos(tipArray));
-		System.out.println(
-				"Thanks for tip" + zaehler + ". " + "You have  " 
-						+ (versuche - zaehler) + " tries left.");
-		 */
-	
-	
+	}
+
+	/**
+	 * Copy the "Code" into the Array codeCopy task for findNumbCorrectWithoutPos
+	 */
+	private static void copyCodeToArrayCodeCopy() {
+		codeCopy = new int[4];
+		for (int i = 0; i < codeArray.length; i++) {
+			codeCopy[i] = codeArray[i];
+		}
 	}
 
 	/***
@@ -363,25 +374,26 @@ public class Mastermind {
 	 * @param tip
 	 * @return int number of correct numbers guessed
 	 * 
-	 * The way it works is it copies the code, then checks for matches
-	 * between tip and copy.
+	 * The way it works:
+	 * Comparing two arrays by for a nested for loop.
+	 * for loop one = tip aka userInput
+	 * for loop two = codeCopy
+	 * so first 4 steps checks the first value of tip[] with all values of codecopy
+	 * If there is a match, it will increment numbCorrectWithoutPos and 
+	 * CHANGE THE CODECOPY value so it wont recount a same Tip Number with an
+	 * already counted Code Number!!
 	 */
-	public static int findNumbCorrectWithoutPos(int[] tip) {
+	private static int findNumbCorrectWithoutPos(int[] tip) {
 		// DONE FIX output not correct - add overwrite when matching with -1!
 		// DONE exit when match
 		// DONE overwrite means copy of code is needed! can't overwrite code!!!
-		// this is the copy job!
-		copyCode = new int[4];
-		for (int i = 0; i < codeArray.length; i++) {
-			copyCode[i] = codeArray[i];
-		}
-	
+
 		numbCorrectWithoutPos = 0;
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
-				if (tip[i] == copyCode[j]) {
+				if (tip[i] == codeCopy[j]) {
 					numbCorrectWithoutPos = numbCorrectWithoutPos + 1;
-					copyCode[j]=-1;
+					codeCopy[j]=-1; //Change Code so number does not count twice!
 					j = 4; // => exit when match
 				}
 				numbCorrectWithoutPos = numbCorrectWithoutPos + 0;
@@ -396,7 +408,7 @@ public class Mastermind {
 	 * @param tip
 	 * @return int number of correct numbers on correct position guessed
 	 */
-	public static int findNumbCorrectPos(int[] tip) {
+	private static int findNumbCorrectPos(int[] tip) {
 		numbCorretPos = 0;
 		for (int i = 0; i < 4; i++) {
 			if (tip[i] == codeArray[i]) {
@@ -406,21 +418,18 @@ public class Mastermind {
 		return numbCorretPos;
 	}
 
-	private static void tipHistory() {
-		//DONE tipHistory has to be saved
-		//DONE tipHistory has to be displayed
-	
-		//TipHistory save mechanism
-		tipHistory[counter-1][0] = tipUser;
-		tipHistory[counter-1][1] = numbCorrectWithoutPos;
-		tipHistory[counter-1][2] = numbCorretPos;
-	
-		//TipHistory display mechanism
-		for (int i = 0; i < counter; i++) {
+	private static void saveUserInputHistory() {
+		tipHistory[usedTries-1][0] = userInput;
+		tipHistory[usedTries-1][1] = numbCorrectWithoutPos;
+		tipHistory[usedTries-1][2] = numbCorretPos;
+	}
+
+	private static void printUserInputHistory() {
+		for (int i = 0; i < usedTries; i++) {
 			System.out.println("Tip number " + (i + 1) + ": " + tipHistory[i][0] +
-					". Correct numbers, incorrect position: "
+					". Amount of matching numbers: "
 					+ tipHistory[i][1] +
-					". Correct numbers and position: "
+					". Amount of correct positioned numbers: "
 					+ tipHistory[i][2] + "."
 					);
 		}
@@ -431,8 +440,9 @@ public class Mastermind {
 	 * 
 	 * Shows or hides code in game.
 	 * Used for cheating, testing or debugging.
+	 * Can be activated via Menu()
 	 */
-	private static void printCodeAndTip() {
+	private static void printCodeAndUserInput() {
 		System.out.println("Code: " + arrayToString(codeArray));
 		System.out.println("Tip: " + arrayToString(tipArray));
 	}
@@ -457,11 +467,10 @@ public class Mastermind {
 				"\n" + "Code was: "+ arrayToString(codeArray) + "." + 
 				"\n" + "Game over." + "\n\n" + "Press Enter to start new game.");
 		@SuppressWarnings("unused")
-		String next = sc.nextLine(); //Just to get the Enter to continue the program
+		String next = sc.nextLine(); // Get the Enter to continue the program
 	}
 
 	private static void exit() {
 		System.exit(1);
 	}
-
 }
