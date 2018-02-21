@@ -1,0 +1,49 @@
+public void menu()
+{
+    boolean exit = false;
+
+    System.out.println("-- Command interpreter --");
+    System.out.println("[1] Write results to console");
+    System.out.println("[2] Write results to text file");
+    System.out.println("[3] exit");
+    System.out.println("-------------------------");
+    System.out.print("Input Value: ");
+
+    String s = scaner.nextLine();
+
+    int i = Integer.parseInt(s);
+
+    switch (i)
+    {
+        case 1:
+        {
+            writeToScr(listPopulation);
+            System.out.println("\n\nPress any key to continue..");
+            scaner.next();
+            break;
+        }
+        case 2:
+        {
+            writeToFile(listPopulation);
+            System.out.println("\n\nPress any key to continue..");
+            scaner.next();
+            break;
+        }
+        case 3:
+        {
+            exit = true;
+            break;
+        }
+        default:
+        {
+            System.out.println("Unknown Entry.");
+            break;
+        }
+    }
+
+    if (exit)
+    {
+        System.out.println("Exit!");
+        return;
+    }
+}
