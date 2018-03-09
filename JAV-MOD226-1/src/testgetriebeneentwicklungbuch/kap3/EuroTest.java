@@ -1,9 +1,7 @@
 package testgetriebeneentwicklungbuch.kap3;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 
@@ -26,7 +24,7 @@ class EuroTest {
 	
 	@DisplayName("changed from testAdding to AddingTest")
 	@Test
-	void AddingTest() {
+	void testsAdding() {
 		Euro sum = two.add(two);
 		assertEquals(4.00, sum.getAmount(), 0.001);
 		assertEquals(2.00, two.getAmount(), 0.001);

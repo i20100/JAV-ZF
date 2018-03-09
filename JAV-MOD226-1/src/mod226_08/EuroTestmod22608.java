@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class EuroTest {
+class EuroTestmod22608 {
 
 	@Test
 	public void testAmount() {
