@@ -22,4 +22,8 @@ public class Euro {
 		return new Euro(this.cents + other.cents);
 	}
 
+	public Euro times(int factor) {
+		return new Euro(cents * factor);
+	}
+
 }

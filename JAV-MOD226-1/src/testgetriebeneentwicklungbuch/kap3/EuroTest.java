@@ -22,12 +22,20 @@ class EuroTest {
 		two = new Euro(2.00);
 	}
 	
-	@DisplayName("changed from testAdding to AddingTest")
 	@Test
+	@DisplayName("testAdding, test the add Method")
 	void testsAdding() {
 		Euro sum = two.add(two);
 		assertEquals(4.00, sum.getAmount(), 0.001);
 		assertEquals(2.00, two.getAmount(), 0.001);
+	}
+	
+	@Test
+	@DisplayName("test multiply")
+	void testMultiplying() {
+		Euro result = two.times(7);
+		assertEquals(14, result.getAmount());
+		assertEquals(2, two.getAmount());
 	}
 
 	@Test

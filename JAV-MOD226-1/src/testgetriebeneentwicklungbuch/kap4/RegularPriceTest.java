@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import mod226_08.Euro;
 
 class RegularPriceTest {
+//	TODO refactor rename Euro.add to Euro.plus
 	private RegularPrice price;
 
 	@BeforeEach
@@ -17,27 +18,47 @@ class RegularPriceTest {
 		price = new RegularPrice();
 	}
 
-
 	@Test
 	@DisplayName(value = "GetCharge for One Day")
 	// rewritten the test from the book cause it does not work the same way with JUnit5
 	void testGetChargeOneDay() {
 		Euro euro = new Euro(1.50);
 		Euro euro2 = price.getCharge(1);
-		System.out.println(euro);
-		System.out.println(price.getCharge(1));
-		assertEquals(euro.getAmount(), euro2.getAmount(), 0.001);
+		System.out.println(euro.getAmount());
+		System.out.println(euro2.getAmount());
+		assertEquals(1.5, euro2.getAmount(), 0.001);
 	}
 
 	@Test
-	@DisplayName(value = "GetCharge for One Day")
+	@DisplayName(value = "GetCharge for Three Days")
 	void testChargingThreeDaysRental() {
 		Euro euro3 = new Euro(1.50);
 		Euro euro4 = price.getCharge(3);
-		assertEquals(euro3.getAmount(), euro4.getAmount(), 0.001);
+		System.out.println(euro3.getAmount());
+		System.out.println(euro4.getAmount());
+		assertEquals(1.5, euro4.getAmount(), 0.001);
 	}
 
+	@Test
+	@DisplayName(value = "GetCharge for Four Days")
+	void testChargingFourDaysRental() {
+		Euro euro = new Euro(1.50);
+		Euro euro2 = price.getCharge(4);
+		System.out.println(euro.getAmount());
+		System.out.println(euro2.getAmount());
+		assertEquals(3, euro2.getAmount(), 0.001);
+	}
 
+	@Test
+	@DisplayName(value = "GetCharge for Five Days")
+	void testChargingFiveDaysRental() {
+		Euro euro = new Euro(1.50);
+		Euro euro2 = price.getCharge(5);
+		System.out.println(euro.getAmount());
+		System.out.println(euro2.getAmount());
+		assertEquals(4.5, euro2.getAmount(), 0.001);
+	}
+	
 
 	@Test
 	@Disabled
