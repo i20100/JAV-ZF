@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import mod226_08.Euro;
 
 class RegularPriceTest {
-//	TODO refactor rename Euro.add to Euro.plus
 	private RegularPrice price;
 
 	@BeforeEach

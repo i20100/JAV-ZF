@@ -16,9 +16,7 @@ public class Euro {
 		return cents / 100.0;
 	}
 
-	public Euro add(Euro other) {
-//				cents = this.cents + other.cents; // those two make old and new Euro the same object
-//				return other;*/
+	public Euro plus(Euro other) {
 		return new Euro(this.cents + other.cents);
 	}
 
