@@ -10,14 +10,14 @@ class MovieTest {
 	@Test
 	@DisplayName("testBasePrice")
 	void testBasePrice() {
-		assertEquals(2.00, Movie.getCharge(1), 0.001);
-		assertEquals(2.00, Movie.getCharge(2), 0.001);
+		assertEquals(2.00, Movie.tmpCharge(1).getAmount(), 0.001);
+		assertEquals(2.00, Movie.tmpCharge(2).getAmount(), 0.001);
 	}
 
 	@Test
 	@DisplayName("testPricePerDay")
 	void testPricePerDay() {
-		assertEquals(3.75, Movie.getCharge(3), 0.001);
-		assertEquals(5.50, Movie.getCharge(4), 0.001);
+		assertEquals(3.75, Movie.tmpCharge(3).getAmount(), 0.001);
+		assertEquals(5.50, Movie.tmpCharge(4).getAmount(), 0.001);
 	}
 }

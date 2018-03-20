@@ -10,11 +10,15 @@ public class Movie {
 	private static final int DAYS_DISCOUNTED = 2;
 
 	public static double getCharge(int daysRented) {
+		return tmpCharge(daysRented).getAmount();
+	}
+
+	public static Euro tmpCharge(int daysRented) {
 		Euro result = BASE_PRICE;
 		if (daysRented > DAYS_DISCOUNTED) {
 			int additionalDays = daysRented - DAYS_DISCOUNTED;
 			result = result.plus(PRICE_PER_DAY.times(additionalDays));
 		}
-		return result.getAmount();
+		return result;
 	}
 }
