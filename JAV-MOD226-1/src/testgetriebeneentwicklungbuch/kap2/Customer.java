@@ -4,7 +4,7 @@ public class Customer {
 	private double totalCharge = 0;
 
 	public void rentMovie(int daysRented) {
-	totalCharge = totalCharge + Movie.getCharge(daysRented);
+		totalCharge = totalCharge + Movie.getCharge(daysRented).getAmount();
 	}
 
 	public double getTotalCharge() {
