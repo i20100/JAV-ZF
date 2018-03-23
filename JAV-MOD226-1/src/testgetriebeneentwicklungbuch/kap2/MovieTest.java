@@ -5,12 +5,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import mod226_08.Euro;
+
 class MovieTest {
 
 	@Test
 	@DisplayName("testBasePrice")
 	void testBasePrice() {
-		assertEquals(2.00, Movie.getCharge(1).getAmount(), 0.001);
+		assertEquals(new Euro(2.00).getAmount(), Movie.getCharge(1).getAmount());
 		assertEquals(2.00, Movie.getCharge(2).getAmount(), 0.001);
 	}
 
