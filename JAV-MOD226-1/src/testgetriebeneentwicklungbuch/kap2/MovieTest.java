@@ -13,13 +13,13 @@ class MovieTest {
 	@DisplayName("testBasePrice")
 	void testBasePrice() {
 		assertEquals(new Euro(2.00).getAmount(), Movie.getCharge(1).getAmount());
-		assertEquals(2.00, Movie.getCharge(2).getAmount(), 0.001);
+		assertEquals(new Euro(2.00).getAmount(), Movie.getCharge(2).getAmount());
 	}
 
 	@Test
 	@DisplayName("testPricePerDay")
 	void testPricePerDay() {
-		assertEquals(3.75, Movie.getCharge(3).getAmount(), 0.001);
-		assertEquals(5.50, Movie.getCharge(4).getAmount(), 0.001);
+		assertEquals(new Euro(3.75).getAmount(), Movie.getCharge(3).getAmount(), 0.001);
+		assertEquals(new Euro(5.50).getAmount(), Movie.getCharge(4).getAmount(), 0.001);
 	}
 }

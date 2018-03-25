@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import mod226_08.Euro;
+
 class CustomerTest {
 	private Customer customer;
 	
@@ -15,14 +17,14 @@ class CustomerTest {
 	
 	@Test
 	void testRentingNoMovie() {
-		assertEquals(0, customer.getTotalCharge(), 0.001);
+		assertEquals(new Euro(0).getAmount(), customer.getTotalCharge().getAmount());
 		// 0.001 ist die Toleranz bei Fliesskommazahlen
 	}
 
 	@Test
 	void testRentingOneMovie() {
 		customer.rentMovie(1); // Ausleihe ein Tag
-		assertEquals(2, customer.getTotalCharge(), 0.001);
+		assertEquals(new Euro(2).getAmount(), customer.getTotalCharge().getAmount(), 0.001);
 	}
 
 
@@ -31,7 +33,7 @@ class CustomerTest {
 		customer.rentMovie(2); // Ausleihe zwei Tage
 		customer.rentMovie(3); // Asuleihe drei Tage
 		customer.rentMovie(4); // Ausleihe vier Tage
-		assertEquals(11.25, customer.getTotalCharge(), 0.001);
+		assertEquals(new Euro(11.25).getAmount(), customer.getTotalCharge().getAmount());
 	}
 
 }

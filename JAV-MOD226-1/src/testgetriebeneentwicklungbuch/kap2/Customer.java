@@ -1,13 +1,15 @@
 package testgetriebeneentwicklungbuch.kap2;
 
+import mod226_08.Euro;
+
 public class Customer {
-	private double totalCharge = 0;
+	private Euro totalCharge = new Euro(0);
 
 	public void rentMovie(int daysRented) {
-		totalCharge = totalCharge + Movie.getCharge(daysRented).getAmount();
+		totalCharge = totalCharge.plus(Movie.getCharge(daysRented));
 	}
 
-	public double getTotalCharge() {
+	public Euro getTotalCharge() {
 		return totalCharge;
 	}
 
