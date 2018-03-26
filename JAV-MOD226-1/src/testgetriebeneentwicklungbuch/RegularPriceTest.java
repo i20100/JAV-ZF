@@ -1,4 +1,4 @@
-package testgetriebeneentwicklungbuch.kap4;
+package testgetriebeneentwicklungbuch;
 
 import static org.junit.jupiter.api.Assertions.*;
 

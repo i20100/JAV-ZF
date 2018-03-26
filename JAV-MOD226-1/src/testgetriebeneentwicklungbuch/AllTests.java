@@ -1,4 +1,4 @@
-package testgetriebeneentwicklungbuch.kap3;
+package testgetriebeneentwicklungbuch;
 
 public class AllTests {
 	// This is just a place holder class

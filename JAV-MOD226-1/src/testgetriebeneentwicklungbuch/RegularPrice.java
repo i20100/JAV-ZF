@@ -1,4 +1,4 @@
-package testgetriebeneentwicklungbuch.kap4;
+package testgetriebeneentwicklungbuch;
 
 import mod226_08.Euro;
 
