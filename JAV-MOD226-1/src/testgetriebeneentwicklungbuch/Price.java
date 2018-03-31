@@ -4,9 +4,12 @@ import mod226_08.Euro;
 
 public class Price {
 
-	private static Euro basePrice;
-	private static Euro pricePerDay;
-	private static int  daysDiscounted;
+	private Euro basePrice;
+	private Euro pricePerDay;
+	private int  daysDiscounted;
+	
+	public final static Price NEWRELEASE = new Price(new Euro(2.00), new Euro(1.75), 2);
+	public final static Price REGULAR = new Price(new Euro(1.50), new Euro(1.50), 3);
 
 	public Price(Euro basePrice, Euro pricePerDay, int  daysDiscounted) {
 		this.basePrice = basePrice;
@@ -14,7 +17,7 @@ public class Price {
 		this.daysDiscounted = daysDiscounted;
 	}
 
-	public static Euro getCharge(int daysRented) {
+	public Euro getCharge(int daysRented) {
 		if (daysRented <= daysDiscounted) return basePrice;
 
 		int additionalDays = daysRented - daysDiscounted;
@@ -25,4 +28,8 @@ public class Price {
 		super();
 	}
 
+	public Euro getBasePrice() {
+		return basePrice;
+	}
+	
 }
