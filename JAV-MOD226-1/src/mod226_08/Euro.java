@@ -1,5 +1,7 @@
 package mod226_08;
 
+import java.text.NumberFormat;
+
 public class Euro {
 	//	private final long cents;
 	private long cents;
@@ -22,6 +24,12 @@ public class Euro {
 
 	public Euro times(int factor) {
 		return new Euro(cents * factor);
+	}
+
+	public String format() {
+		NumberFormat format = NumberFormat.getInstance();
+		format.setMinimumFractionDigits(2);
+		return format.format(getAmount());
 	}
 
 }

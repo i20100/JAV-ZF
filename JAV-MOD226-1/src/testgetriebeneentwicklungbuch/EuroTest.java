@@ -17,7 +17,7 @@ class EuroTest {
 	protected void setUp() {
 		two = new Euro(2.00);
 	}
-
+	
 	@Test
 	@DisplayName("test adding new plus")
 	void testsAdding() {
@@ -52,6 +52,12 @@ class EuroTest {
 	public void testRoundingDOWN() {
 		Euro rounded = new Euro(1.994);
 		assertEquals(1.99, rounded.getAmount(), 0.001);
+	}
+	
+	@Test
+	@DisplayName("testFormatting")
+	public void testFormatting() {
+		assertEquals("2.00", two.format());
 	}
 
 

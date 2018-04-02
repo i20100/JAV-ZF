@@ -3,6 +3,8 @@ package testinstanzen;
 import mod226_08.Euro;
 import testgetriebeneentwicklungbuch.Price;
 
+//Tests don't work anymore since the fix of the problem with Price.NEWRELEASE and Price.REGULAR
+//most old JUnit using Price or getCharge would not run. Now they do but this file doesn't anymore.
 public class NewPriceTest {
 
 	public static void main(String[] args) {
