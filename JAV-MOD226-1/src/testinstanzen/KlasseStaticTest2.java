@@ -2,8 +2,8 @@ package testinstanzen;
 
 public class KlasseStaticTest2 {
 
-	final int count=0;//will get memory when instance is created  
-	static final int countStatic = 0;
+	int count=0;//will get memory when instance is created  
+	static int countStatic = 0;
 //	int count=0;//will get memory when instance is created  
 //	static int countStatic = 0;
 

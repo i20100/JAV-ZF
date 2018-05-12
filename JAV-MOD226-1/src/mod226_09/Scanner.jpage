@@ -1,0 +1,5 @@
+Syntax error on token "liesBenutzerEingabe", AnnotationName expected after this token	public void liesBenutzerEingabe() {
+		Scanner sc = new Scanner(System.in);
+		benutzerEingabe = sc.nextLine();
+		System.out.println(benutzerEingabe);
+	}
