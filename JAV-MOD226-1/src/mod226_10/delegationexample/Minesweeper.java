@@ -21,8 +21,17 @@ public class Minesweeper {
 		do {
 			benutzerschnittstelle.zeigeSpielfeld(spielfeld);
 			benutzerschnittstelle.zeigeEingabeaufforderung();
-			Kommando kommando = benutzerschnittstelle.liesEingabe();
-			kommando.ausfuehren(spielfeld);
+			String[] eingabeTeile = benutzerschnittstelle.liesEingabe();
+			int zeile = Integer.valueOf(eingabeTeile[1]);
+			int spalte = Integer.valueOf(eingabeTeile[2]);
+			switch (eingabeTeile[0]) {
+			case "T":
+				spielfeld.aufdecken(spalte, zeile);
+				break;
+			case "M":
+				spielfeld.markieren(spalte, zeile);
+				break;
+			}
 		} while (spielLaeuft());
 		benutzerschnittstelle.zeigeSpielfeld(spielfeld);
 		benutzerschnittstelle.zeigeSchlussmeldung();

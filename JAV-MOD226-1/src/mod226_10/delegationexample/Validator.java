@@ -20,13 +20,6 @@ public class Validator {
 		}
 	}
 
-	public Kommando erzeugeKommando() {
-		String kommandoZeichen = eingabeTeile[0];
-		int zeile = Integer.valueOf(eingabeTeile[1]);
-		int spalte = Integer.valueOf(eingabeTeile[2]);
-		return new Kommando(kommandoZeichen, zeile, spalte);
-	}
-
 	public boolean istGueltig() {
 		return istGueltig;
 	}
