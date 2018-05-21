@@ -13,12 +13,12 @@ import mod226_09.Spielfeld;
 public class Benutzerschnittstelle {
 	private final Scanner scanner = new Scanner(System.in);
 
-	String[] liesEingabe() {
+	public Kommando liesEingabe() {
 		do {
 			String eingabe = scanner.nextLine();
 			Validator validator = new Validator(eingabe);
 			if (validator.istGueltig())
-				return validator.getEingabeTeile();
+				return validator.erzeugeKommando();
 			else
 				zeigeFehlermeldung();
 		} while (true);

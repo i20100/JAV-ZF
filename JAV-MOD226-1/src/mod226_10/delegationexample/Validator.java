@@ -24,7 +24,10 @@ public class Validator {
 		return istGueltig;
 	}
 
-	public String[] getEingabeTeile() {
-		return eingabeTeile;
+	public Kommando erzeugeKommando() {
+		String kommandoZeichen = eingabeTeile[0];
+		int zeile = Integer.valueOf(eingabeTeile[1]);
+		int spalte = Integer.valueOf(eingabeTeile[2]);
+		return new Kommando(kommandoZeichen, zeile, spalte);
 	}
 }

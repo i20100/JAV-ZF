@@ -21,25 +21,18 @@ public class Minesweeper {
 		do {
 			benutzerschnittstelle.zeigeSpielfeld(spielfeld);
 			benutzerschnittstelle.zeigeEingabeaufforderung();
-			String[] eingabeTeile = benutzerschnittstelle.liesEingabe();
-			int zeile = Integer.valueOf(eingabeTeile[1]);
-			int spalte = Integer.valueOf(eingabeTeile[2]);
-			switch (eingabeTeile[0]) {
-			case "T":
-				spielfeld.aufdecken(spalte, zeile);
-				break;
-			case "M":
-				spielfeld.markieren(spalte, zeile);
-				break;
-			}
+			Kommando kommando = benutzerschnittstelle.liesEingabe();
+			kommando.ausfuehren(spielfeld);
+			//FIXME klasse Spielfeld erstellen
 		} while (spielLaeuft());
 		benutzerschnittstelle.zeigeSpielfeld(spielfeld);
 		benutzerschnittstelle.zeigeSchlussmeldung();
 	}
 
-
 	@objid ("890def89-27b6-41a7-b38c-f02ea594a6ad")
 	private boolean spielLaeuft() {
+		//TODO Was soll hier rein, was war die Idee des Lehrers für diese Methode?
+		return true;
 	}
 
 }
