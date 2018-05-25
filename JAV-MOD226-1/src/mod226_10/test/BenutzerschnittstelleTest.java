@@ -2,8 +2,6 @@ package mod226_10.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Arrays;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -13,8 +11,8 @@ import org.junit.jupiter.api.Test;
 import mod226_10.mineswepfinal.Benutzerschnittstelle;
 import mod226_10.mineswepfinal.Kommando;
 import mod226_10.mineswepfinal.Spielfeld;
-import mod226_10.mineswepfinal.Validator;
 import mod226_10.mineswepfinal.Zelle;
+import mod226_10.mineswepfinal.KuenstlicheIntelligenz;
 
 class BenutzerschnittstelleTest {
 
@@ -24,7 +22,7 @@ class BenutzerschnittstelleTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		spielfeld = new Spielfeld();
-		spielfeld.erstelleSpielfeld();
+		spielfeld.initialisiereZellenInArray();
 		benutzerschnittstelle = new Benutzerschnittstelle();
 	}
 
@@ -36,7 +34,6 @@ class BenutzerschnittstelleTest {
 	@DisplayName("Test zellenArray enthält Zellen Objekte, d.h. Befehl erstelleSpielfeld() erstellt Array mit Objekten, nicht 'leeres' Array")
 	void testzeigeZellenArray() {
 		assertNotNull(spielfeld.zellenArray[0]);
-		//		System.out.println(Arrays.toString(spielfeld.zellenArray)); // Drucke Array auf Konsole aus. 
 	}
 
 	@Test
@@ -119,5 +116,23 @@ class BenutzerschnittstelleTest {
 		assertEquals("!", spielfeld.zellenArray[17].zeichen);
 	}
 
+	@Test
+	@DisplayName("Test aufdecken Bombe Zelle[0], Spiel endet")
+	void testBombeAufdeckenZelle0() {
+		spielfeld.zellenArray[0].setzeBombe();
+		Kommando kommando = new Kommando("T", 0, 0);
+		//TODO switch to spielEnde() implementieren bei aufdecken
+		kommando.ausfuehren(spielfeld);
+		assertEquals("*", spielfeld.zellenArray[0].zeichen);
+	}
 
+	@Test
+	@DisplayName("Test Bombenfelder zufällig auswählen")
+	void testBombenfelderAuswaehlen() {
+		int gewuenschteBomben = spielfeld.bomben;
+		KuenstlicheIntelligenz computer = new KuenstlicheIntelligenz();
+		computer.verteileBomben(spielfeld, gewuenschteBomben);
+		int verteilteBomben = computer.zaehleVerteilteBomben(spielfeld); 
+		assertEquals(gewuenschteBomben, verteilteBomben);
+		}
 }

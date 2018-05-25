@@ -17,19 +17,23 @@ public class Spielfeld {
 	public Zelle[] zellenArray = new Zelle[(spalten*zeilen)];
 
 	@objid ("c34c7b64-7e01-4c60-8aaa-f7843ceaddba")
-	public void erstelleSpielfeld() {
+	public void initialisiereZellenInArray() {
 		for (int i = 0; i < zellenArray.length; i++) {
 			zellenArray[i] = new Zelle();
 		}
 	}
-
+	
 	public void markieren(int zeile, int spalte) {
 		int i = spalte + (zeile * 8);
 		this.zellenArray[i].zeichen = "!";
 	}
 
 	public void aufdecken(int spalte, int zeile) {
-		// TODO Auto-generated method stub
+		int i = spalte + (zeile * 8);
+		if (zellenArray[i].bombe = true) {
+			this.zellenArray[i].zeichen = "*";
+			//TODO switch to spielEnde();
+		}
 
 	}
 

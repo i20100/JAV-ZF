@@ -14,7 +14,7 @@ public class Zelle {
     public String zustand = "verdeckt";
 
     @objid ("878845f6-60ca-4f59-9686-adb8435a75db")
-    public Bombe bombe;
+    public boolean bombe = false;
 
 	public String zeichen = " ";
 
@@ -24,6 +24,10 @@ public class Zelle {
 
     @objid ("7399c172-ea5c-431c-a912-76609ebaedd3")
     public void markieren() {
+    }
+    
+    public void setzeBombe() {
+    	this.bombe = true;
     }
 
 }

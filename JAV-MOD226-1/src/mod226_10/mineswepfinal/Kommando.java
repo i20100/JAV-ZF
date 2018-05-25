@@ -16,8 +16,12 @@ public class Kommando {
 		switch (kommadoZeichen) {
 		case "M":
 			spielfeld.markieren(zeile, spalte);
+			break;
 		case "T":
 			spielfeld.aufdecken(zeile, spalte);
+			break;
+        default: 
+        	System.err.println("Switch malfunction");
 		}
 	}
 
