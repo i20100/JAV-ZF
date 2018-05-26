@@ -2,6 +2,8 @@ package mod226_10.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Arrays;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -18,12 +20,14 @@ class BenutzerschnittstelleTest {
 
 	private Benutzerschnittstelle benutzerschnittstelle;
 	private Spielfeld spielfeld;
+	private KuenstlicheIntelligenz kI;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		spielfeld = new Spielfeld();
 		spielfeld.initialisiereZellenInArray();
 		benutzerschnittstelle = new Benutzerschnittstelle();
+
 	}
 
 	@AfterEach
@@ -127,12 +131,65 @@ class BenutzerschnittstelleTest {
 	}
 
 	@Test
+	@DisplayName("Test aufdecken Bombe Zelle[19], Spiel endet")
+	void testBombeAufdeckenZelle19() {
+		spielfeld.zellenArray[19].setzeBombe();
+		Kommando kommando = new Kommando("T", 2, 3);
+		//TODO switch to spielEnde() implementieren bei aufdecken
+		kommando.ausfuehren(spielfeld);
+		assertEquals("*", spielfeld.zellenArray[19].zeichen);
+	}
+
+	@Test
+	@DisplayName("Test aufdecken Nachbarzelle zu Bombe, Rückmeldung BombenAnzahl")
+	void testNachbarzelleZuBombeAufdecken() {
+		spielfeld.zellenArray[1].setzeBombe();
+		KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
+		kI.erstelleBombenListe(spielfeld);
+		kI.beschrifteNachbarzellenZuBomben(spielfeld);
+		Kommando kommando = new Kommando("T", 0, 2);
+		kommando.ausfuehren(spielfeld);
+		System.out.println("Test aufdecken Nachbarzelle zu Bombe");
+		System.out.println(benutzerschnittstelle.zeigeSpielfeld(spielfeld));
+		assertEquals("1", spielfeld.zellenArray[2].zeichen);
+	}
+	
+	@Test
+	@DisplayName("Test aufdecken Nachbarzelle zu zwei Bomben, Rückmeldung BombenAnzahl")
+	void testNachbarzelleZuBombeAufdeckenZweiBomben() {
+		spielfeld.zellenArray[3].setzeBombe();
+		spielfeld.zellenArray[5].setzeBombe();
+		KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
+		kI.erstelleBombenListe(spielfeld);
+		kI.beschrifteNachbarzellenZuBomben(spielfeld);
+		Kommando kommando = new Kommando("T", 0, 4);
+		kommando.ausfuehren(spielfeld);
+//		spielfeld.erstelleBombenListe();
+		System.out.println("Test aufdecken Nachbarzelle zu zwei Bomben");
+		System.out.println(benutzerschnittstelle.zeigeSpielfeld(spielfeld));
+		assertEquals("2", spielfeld.zellenArray[4].zeichen);
+	}
+	
+
+	@Test
 	@DisplayName("Test Bombenfelder zufällig auswählen")
 	void testBombenfelderAuswaehlen() {
-		int gewuenschteBomben = spielfeld.bomben;
-		KuenstlicheIntelligenz computer = new KuenstlicheIntelligenz();
-		computer.verteileBomben(spielfeld, gewuenschteBomben);
-		int verteilteBomben = computer.zaehleVerteilteBomben(spielfeld); 
+		int gewuenschteBomben = spielfeld.gewuenschteBomben;
+		KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
+		kI.verteileBomben(spielfeld, gewuenschteBomben);
+		int verteilteBomben = kI.zaehleVerteilteBomben(spielfeld); 
 		assertEquals(gewuenschteBomben, verteilteBomben);
-		}
+	}
+
+	@Test
+	@Disabled
+	@DisplayName("Teste erstelle BombenListe, d.h. Drucke Bobmenliste. @Disabled weil Liste auf Konsole ausgegeben wird")
+	void testErstelleBombenListe() {
+		int gewuenschteBomben = spielfeld.gewuenschteBomben;
+		kI.verteileBomben(spielfeld, gewuenschteBomben);
+		kI.erstelleBombenListe(spielfeld);
+		System.out.println(Arrays.toString(spielfeld.listeBombenOrte));
+	}
+	
+
 }

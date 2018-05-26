@@ -18,6 +18,8 @@ public class Zelle {
 
 	public String zeichen = " ";
 
+	public int bombenInNachbarschaft = 0;
+
     @objid ("41c8f7f1-e7be-4051-8495-a2b52bd9d0c3")
     public void aufdecken() {
     }
@@ -29,5 +31,13 @@ public class Zelle {
     public void setzeBombe() {
     	this.bombe = true;
     }
+    
+    public int findeNachbarBomben() {
+    	//TODO löschen
+		int benachbarteBomben = 0;
+		
+		return benachbarteBomben;
+
+	}
 
 }
