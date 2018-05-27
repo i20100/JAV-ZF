@@ -1,7 +1,5 @@
 package mod226_10.mineswepfinal;
 
-import java.util.List;
-
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("6f95d20d-8cb0-4295-b3ee-87d1508129d8")
