@@ -32,12 +32,4 @@ public class Zelle {
     	this.bombe = true;
     }
     
-    public int findeNachbarBomben() {
-    	//TODO löschen
-		int benachbarteBomben = 0;
-		
-		return benachbarteBomben;
-
-	}
-
 }

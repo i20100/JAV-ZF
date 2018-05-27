@@ -30,25 +30,22 @@ public class Benutzerschnittstelle {
 
 		String zeichneSpielfeld = 
 				"     0  1  2  3  4  5  6  7\n" +
-		zeichneZeilen(spielfeld, zeilen);
+						zeichneZeilen(spielfeld, zeilen, spalten);
 		return zeichneSpielfeld;
 	}
 
-	private String zeichneZeilen(Spielfeld spielfeld, int zeilen) {
-		String zeichneZeilen = "";
-		for (int i = 0; i < zeilen; i++) {
-			zeichneZeilen = zeichneZeilen+"  "+i+"  "+zeicheneZeile(spielfeld, i)+"\n";
-		}
-		return zeichneZeilen;
-	}
-
-	private String zeicheneZeile(Spielfeld spielfeld, int zeilenNummer) {
+	private String zeichneZeilen(Spielfeld spielfeld, int zeilen, int spalten) {
 		String zeile = "";
-		for (int i = 0; i < 8; i++) {
-			zeile = zeile+spielfeld.zellenArray[i+(zeilenNummer*8)].zeichen+"  ";
+		for (int i = 0; i < spielfeld.zellenArray.length; i++) {
+			zeile = zeile+"  "+i+"  ";
+			for (int j = 0; j < spielfeld.zellenArray[i].length; j++) {
+				zeile += spielfeld.zellenArray[i][j].zeichen+"  ";
+			}
+			zeile += "\n";
 		}
 		return zeile;
 	}
+
 
 	@objid ("556193ae-6eed-49f6-86c6-2bedb466d651")
 	public String zeigeEingabeaufforderung() {

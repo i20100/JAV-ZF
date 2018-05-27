@@ -16,9 +16,9 @@ public class Spielfeld {
 	public int gewuenschteBomben = 10;
 
 	@objid ("66f7561a-c9d2-4609-890f-2c1ccbbfa7a2")
-	public Zelle[] zellenArray = new Zelle[(spalten*zeilen)];
+	public Zelle[][] zellenArray = new Zelle[zeilen][spalten];
 
-	public int[] listeBombenOrte;
+	public int[][] listeBombenOrte;
 	//	public List<Integer> listeBombenOrte;
 
 	public Spielfeld() {}
@@ -26,45 +26,48 @@ public class Spielfeld {
 	public Spielfeld(Spielfeld spielfeld) {
 		initialisiereZellenInArray();
 		KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
-		kI.verteileBomben(spielfeld, gewuenschteBomben);
+		kI.bombenVerteilen(spielfeld, gewuenschteBomben);
 	}
 
 
 	@objid ("c34c7b64-7e01-4c60-8aaa-f7843ceaddba")
 	public void initialisiereZellenInArray() {
-		for (int i = 0; i < zellenArray.length; i++) {
-			zellenArray[i] = new Zelle();
+		for (int i = 0; i < zeilen; i++) {
+			for (int j = 0; j < spalten; j++) {
+				zellenArray[i][j] = new Zelle();
+			}
 		}
 	}
 
-//	public void erstelleBombenListe() {
-////		listeBombenOrte = new int[gewuenschteBomben];
-//		listeBombenOrte = new int[gewuenschteBomben];
-//		int zaehlerlisteBombenorte = 0;
-//		for (int j = 0; j < zellenArray.length; j++) {
-//			if (zellenArray[j].bombe == true) {
-//				listeBombenOrte[zaehlerlisteBombenorte] = j;
-//				zaehlerlisteBombenorte = zaehlerlisteBombenorte+1;
-//			}
-//		}
-//	}
+	public void erstelleBombenListe() {
+		listeBombenOrte = new int[gewuenschteBomben][2];
+		// TEST TODO löschen
+		
+		System.out.println(listeBombenOrte[0][0]);
+		int zaehlerlisteBombenorte = 0;
+		for (int i = 0; i < zellenArray.length; i++) {
+			for (int j = 0; j < zellenArray[i].length; j++) {
+				if (zellenArray[i][j].bombe == true) {
+					listeBombenOrte[zaehlerlisteBombenorte][0] = i;
+					listeBombenOrte[zaehlerlisteBombenorte][1] = j;
+					zaehlerlisteBombenorte += 1;
+				}
+			}
+		}
+	}
 
 	public void markieren(int zeile, int spalte) {
-		int i = spalte + (zeile * 8);
-		this.zellenArray[i].zeichen = "!";
+		zellenArray[zeile][spalte].zeichen = "!";
 	}
 
 	public void aufdecken(int zeile, int spalte) {
-		int i = spalte + (zeile * 8);
-
-		if (zellenArray[i].bombe == true) {
-			zellenArray[i].zeichen = "*";
+		if (zellenArray[zeile][spalte].bombe == true) {
+			zellenArray[zeile][spalte].zeichen = "*";
 			//TODO switch to spielEnde();
 		}
 		else {
-			zellenArray[i].zeichen = String.valueOf(zellenArray[i].bombenInNachbarschaft);
-			// TODO umstellen auf zeige versteckte Berechnung benachbarter Bomben
-			int nachbarBomben = this.zellenArray[i].findeNachbarBomben();
+			zellenArray[zeile][spalte].zeichen = String.valueOf(zellenArray[zeile][spalte].bombenInNachbarschaft);
+			// TODO merke Berechnung der Nachabarbomben muss bereits erfolgt sein
 		}
 
 	}
