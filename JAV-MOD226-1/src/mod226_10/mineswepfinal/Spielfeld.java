@@ -24,9 +24,8 @@ public class Spielfeld {
 	public Spielfeld(Spielfeld spielfeld) {
 		initialisiereZellenInArray();
 		KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
-		kI.bombenVerteilen(spielfeld, gewuenschteBomben);
+		kI.verteileBomben(spielfeld, gewuenschteBomben);
 	}
-
 
 	@objid ("c34c7b64-7e01-4c60-8aaa-f7843ceaddba")
 	public void initialisiereZellenInArray() {

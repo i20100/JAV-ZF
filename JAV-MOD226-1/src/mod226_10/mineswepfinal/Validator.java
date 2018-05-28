@@ -1,7 +1,5 @@
 package mod226_10.mineswepfinal;
 
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
-
 public class Validator {
 	private String[] eingabeTeile;
 	private boolean istGueltig = true;

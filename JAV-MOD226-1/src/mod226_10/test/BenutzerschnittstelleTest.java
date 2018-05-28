@@ -53,6 +53,8 @@ class BenutzerschnittstelleTest {
 		@DisplayName("Test initialisiereZellenInArray")
 		void testinitialisiereZellenInArray() {
 			assertNotNull(spielfeld.zellenArray[0][0]);
+			assertEquals(spielfeld.zeilen, spielfeld.zellenArray.length);
+			assertEquals(spielfeld.spalten, spielfeld.zellenArray[0].length);
 		}
 		
 		@Test
@@ -212,28 +214,40 @@ class BenutzerschnittstelleTest {
 		@Test
 		@DisplayName("Test bombeObenRechts")
 		void testbombeObenRechts() {
-//			spielfeld.zellenArray[0][spielfeld.zellenArray[0].length].setzeBombe();
-			spielfeld.zellenArray[0][7].setzeBombe();
-//			kI.bombeObenRechts(spielfeld);
-			
-			System.out.println("actual value of spielfeld.zellenArray[0].length: "+ spielfeld.zellenArray[0].length);
+//			System.out.println("actual value of spielfeld.zellenArray[0].length: "+ spielfeld.zellenArray[0].length); // ausdruck = 8!
 
-//			assertEquals(true, spielfeld.zellenArray[0][spielfeld.zellenArray[0].length].bombe);
+			int endeArrayReferenz = spielfeld.zellenArray[0].length-1; // merke, array.length Zahl wenn als Referenz verwendet = outofbound!! 
+//			spielfeld.zellenArray[0][7].setzeBombe(); // Bombe am Ende setzen!
+//			spielfeld.zellenArray[0][spielfeld.zellenArray[0].length].setzeBombe(); //setzte Bombe out of array!!
+			spielfeld.zellenArray[0][endeArrayReferenz].setzeBombe();
+			kI.bombeObenRechts(spielfeld);
+			
+			assertEquals(true, spielfeld.zellenArray[0][endeArrayReferenz].bombe);
 			assertEquals(true, spielfeld.zellenArray[0][7].bombe);
-//			assertEquals(1, spielfeld.zellenArray[0][spielfeld.zellenArray[0].length-1].bombenInNachbarschaft);
-//			assertEquals(1, spielfeld.zellenArray[1][spielfeld.zellenArray[0].length].bombenInNachbarschaft);
-//			assertEquals(1, spielfeld.zellenArray[1][spielfeld.zellenArray[0].length].bombenInNachbarschaft);
+			assertEquals(1, spielfeld.zellenArray[0][endeArrayReferenz-1].bombenInNachbarschaft);
+			assertEquals(1, spielfeld.zellenArray[1][endeArrayReferenz].bombenInNachbarschaft);
+			assertEquals(1, spielfeld.zellenArray[1][endeArrayReferenz].bombenInNachbarschaft);
 		}
 		
+	}
+	
+	@Test
+	@DisplayName("Test zaehleZellen")
+	void testzaehleZellen() {
+		int erwartet = spielfeld.zeilen*spielfeld.spalten;
 		
+		KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
+		int zellen = kI.zaehleZellen(spielfeld);
+		assertEquals(erwartet, zellen);
 	}
 
 	@Test
-	@DisplayName("Test Bomben zufällig verteilen")
-	void testBombenVerteilen() {
+	@DisplayName("Test verteileBomben zufällig verteilen")
+	// hinweis, methode auf outofbound Problem getestet. Alle Bomben werden innerhalb der
+	void testverteileBomben() {
 		int gewuenschteBomben = spielfeld.gewuenschteBomben;
 		KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
-		kI.bombenVerteilen(spielfeld, gewuenschteBomben);
+		kI.verteileBomben(spielfeld, gewuenschteBomben);
 		int verteilteBomben = kI.zaehleVerteilteBomben(spielfeld); 
 		assertEquals(gewuenschteBomben, verteilteBomben);
 	}
@@ -244,7 +258,7 @@ class BenutzerschnittstelleTest {
 	void testverteilteBomben() {
 		int gewuenschteBomben = spielfeld.gewuenschteBomben;
 		KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
-		kI.bombenVerteilen(spielfeld, gewuenschteBomben);
+		kI.verteileBomben(spielfeld, gewuenschteBomben);
 		spielfeld.erstelleBombenListe();
 		assertEquals(gewuenschteBomben, spielfeld.listeBombenOrte.length);
 		assertEquals(2, spielfeld.listeBombenOrte[0].length);
