@@ -38,9 +38,7 @@ public class Spielfeld {
 
 	public void erstelleBombenListe() {
 		listeBombenOrte = new int[gewuenschteBomben][2];
-		// TEST TODO löschen
 		
-		System.out.println(listeBombenOrte[0][0]);
 		int zaehlerlisteBombenorte = 0;
 		for (int i = 0; i < zellenArray.length; i++) {
 			for (int j = 0; j < zellenArray[i].length; j++) {

@@ -1,7 +1,7 @@
 package mod226_10.mineswepfinal;
 
 public class KuenstlicheIntelligenz {
-//	Zugriff auf ZellenArray ändern auf static
+	//	Zugriff auf ZellenArray ändern auf static
 	int letzteSpalte = Spielfeld.zellenArray[0].length-1;
 	int letzteZeile = Spielfeld.zellenArray.length-1;
 
@@ -46,8 +46,51 @@ public class KuenstlicheIntelligenz {
 		//1. Gehe nur von den Feldern aus welche Bomben besitzen
 		//2. Gehe für jedes Feld welche Eine Bombe hat eine Routine durch
 		//3. Routine erhöht Bombenzähler auf Zellen
-		//4. Es gibt neuen Verschiedene Methode je nach Bombenort
+		//4. Es gibt neun Verschiedene Methoden je nach Bombenort
+		for (int i = 0; i < spielfeld.listeBombenOrte.length; i++) {
+			int zeile = spielfeld.listeBombenOrte[i][0];
+			int spalte = spielfeld.listeBombenOrte[i][1];
 
+			int[][] bombe;
+			bombe = new int[1][2];
+			bombe[0][0] = zeile;
+			bombe[0][1] = spalte;
+			//			System.out.println("Bombe "+i+", Zeile, Spalte: "+zeile+", "+spalte);
+
+			;
+			switch (waehleVariante(bombe)) {
+			case 1:
+				bombeObenLinks(spielfeld);
+				break;
+			case 2:
+				bombeObenMitte(spielfeld, zeile, spalte);
+				break;
+			case 3:
+				bombeObenRechts(spielfeld);
+				break;
+			case 4:
+				bombeMitteLinks(spielfeld, zeile);
+				break;
+			case 5:
+				bombeMitteMitte(spielfeld, zeile, spalte);
+				break;
+			case 6:
+				bombeMitteRechts(spielfeld, zeile);
+				break;
+			case 7:
+				bombeUntenLinks(spielfeld);
+				break;
+			case 8:
+				bombeUntenMitte(spielfeld, zeile, spalte);
+				break;
+			case 9:
+				bombeUntenRechts(spielfeld);
+				break;
+
+			default:
+				break;
+			}
+		}
 	}
 
 	public void bombeObenLinks(Spielfeld spielfeld) {
@@ -136,6 +179,50 @@ public class KuenstlicheIntelligenz {
 		Spielfeld.zellenArray[zeile+1][letzteSpalte].bombenInNachbarschaft += 1;
 		Spielfeld.zellenArray[zeile-1][letzteSpalte-1].bombenInNachbarschaft += 1;
 		Spielfeld.zellenArray[zeile+1][letzteSpalte-1].bombenInNachbarschaft += 1;
+	}
+
+	public int waehleVariante(int[][] ersteBombe) {
+		// TODO Auto-generated method stub
+		int zeile = ersteBombe[0][0];
+		int spalte = ersteBombe[0][1];
+
+		if (zeile == 0) {
+			if (spalte == 0) {
+				return 1;
+			} 
+			if (spalte == Spielfeld.spalten-1) {
+				return 3;
+			}
+			else {
+				return 2;
+			}
+		}
+
+		if (zeile == Spielfeld.zeilen-1) {
+			if (spalte == 0) {
+				return 7;
+			} 
+			if (spalte == Spielfeld.spalten-1) {
+				return 9;
+			}
+			else {
+				return 8;
+			}
+		}
+
+		if (zeile < Spielfeld.zeilen-1 && zeile > 0) {
+			if (spalte == 0) {
+				return 4;
+			} 
+			if (spalte == Spielfeld.spalten-1) {
+				return 6;
+			}
+			else {
+				return 5;
+			}
+		}
+
+		return 0;
 	}
 
 }
