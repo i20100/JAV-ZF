@@ -12,7 +12,9 @@ public class L03_Aufg2_Scanner2 {
 		
 		System.out.println("Geben Sie Ihren Namen ein: ");
 
+		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
+		@SuppressWarnings("unused")
 		String name = scanner.nextLine();
 
 		System.out.println("Geben Sie den Zahlenbereich für die Codeerstellung an: ");

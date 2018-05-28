@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
+import mod226_09.Spielfeld;
+
 @objid ("b0363b5d-32a8-415e-a52c-015c741a85e8")
 public class MinesweeperBadExample {
   private final Scanner scanner = new Scanner(System.in);
@@ -60,5 +62,6 @@ public class MinesweeperBadExample {
   private void zeigeEingabeaufforderung() {}
   private void zeigeFehlermeldung() {}
   private void zeigeSchlussmeldung() {}
-  private boolean spielLaeuft() {}
+  private boolean spielLaeuft() {
+	return false;}
 }

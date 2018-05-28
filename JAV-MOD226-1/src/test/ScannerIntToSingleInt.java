@@ -25,6 +25,7 @@ public class ScannerIntToSingleInt {
 	public static void main(String[] args) {
 		System.out.println("Give me a Number larger than 9:");
 
+		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		int number = scanner.nextInt();
 		System.out.println(number);

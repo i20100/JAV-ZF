@@ -15,7 +15,9 @@ public class KlasseStaticTest2 {
 	}
 
 	public static void main(String[] args) {
+		@SuppressWarnings("unused")
 		KlasseStaticTest2 c1 = new KlasseStaticTest2(); // Output will be 1
+		@SuppressWarnings("unused")
 		KlasseStaticTest2 c2 = new KlasseStaticTest2(); // Output will be 1
 	}
 

@@ -6,12 +6,14 @@ package publish;
  *
  */
 public class GenerateCode {
+	@SuppressWarnings("unused")
 	private int[] codeArray = new int[4];
 
 	/** Generates the "Code" (Geheimcode) which the User has to guess.
 	 * @param codeArray2
 	 */
 
+	@SuppressWarnings("unused")
 	private static void generateCode(int[] codeArray2) {
 		// generate 4 numbers and write them to codeArray
 //		for (int i = 0; i < codeArray.length; i++) {

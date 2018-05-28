@@ -46,21 +46,21 @@ class BenutzerschnittstelleTest {
 		@Test
 		@DisplayName("Test zellenArray enthält Zellen Objekte, d.h. Befehl erstelleSpielfeld() erstellt Array mit Objekten, nicht 'leeres' Array")
 		void testzeigeZellenArray() {
-			assertNotNull(spielfeld.zellenArray[0]);
+			assertNotNull(Spielfeld.zellenArray[0]);
 		}
 		
 		@Test
 		@DisplayName("Test initialisiereZellenInArray")
 		void testinitialisiereZellenInArray() {
-			assertNotNull(spielfeld.zellenArray[0][0]);
-			assertEquals(spielfeld.zeilen, spielfeld.zellenArray.length);
-			assertEquals(spielfeld.spalten, spielfeld.zellenArray[0].length);
+			assertNotNull(Spielfeld.zellenArray[0][0]);
+			assertEquals(Spielfeld.zeilen, Spielfeld.zellenArray.length);
+			assertEquals(Spielfeld.spalten, Spielfeld.zellenArray[0].length);
 		}
 		
 		@Test
 		@DisplayName("Test erstelleBombenListe")
 		void testerstelleBombenListe() {
-			spielfeld.zellenArray[0][3].setzeBombe();
+			Spielfeld.zellenArray[0][3].setzeBombe();
 			spielfeld.erstelleBombenListe();
 			assertEquals(0, spielfeld.listeBombenOrte[0][0]);
 			assertEquals(3, spielfeld.listeBombenOrte[0][1]);
@@ -126,7 +126,7 @@ class BenutzerschnittstelleTest {
 		void testMarkiereZelle00() {
 			Kommando kommando = new Kommando("M", 0, 0);
 			kommando.ausfuehren(spielfeld);
-			assertEquals("!", spielfeld.zellenArray[0][0].zeichen);
+			assertEquals("!", Spielfeld.zellenArray[0][0].zeichen);
 		}
 
 		@Test
@@ -134,26 +134,26 @@ class BenutzerschnittstelleTest {
 		void testMarkiereZelle21() {
 			Kommando kommando = new Kommando("M", 2, 1);
 			kommando.ausfuehren(spielfeld);
-			assertEquals("!", spielfeld.zellenArray[2][1].zeichen);
+			assertEquals("!", Spielfeld.zellenArray[2][1].zeichen);
 		}
 
 		@Test
 		@DisplayName("Test aufdecken Bombe Zelle[0][0], Spiel endet")
 		void testBombeAufdeckenZelle00() {
-			spielfeld.zellenArray[0][0].setzeBombe();
+			Spielfeld.zellenArray[0][0].setzeBombe();
 			Kommando kommando = new Kommando("T", 0, 0);
 			//TODO switch to spielEnde() implementieren bei aufdecken
 			kommando.ausfuehren(spielfeld);
-			assertEquals("*", spielfeld.zellenArray[0][0].zeichen);
+			assertEquals("*", Spielfeld.zellenArray[0][0].zeichen);
 		}
 
 		@Test
 		@DisplayName("Test aufdecken Bombe Zelle[2][3], Spiel endet")
 		void testBombeAufdeckenZelle23() {
-			spielfeld.zellenArray[2][3].setzeBombe();
+			Spielfeld.zellenArray[2][3].setzeBombe();
 			Kommando kommando = new Kommando("T", 2, 3);
 			kommando.ausfuehren(spielfeld);
-			assertEquals("*", spielfeld.zellenArray[2][3].zeichen);
+			assertEquals("*", Spielfeld.zellenArray[2][3].zeichen);
 		}
 
 		@Test
@@ -161,7 +161,7 @@ class BenutzerschnittstelleTest {
 		@DisplayName("@Disabled bis Methode aufdecken mit  Variante läuft!"
 				+ "Test aufdecken Zelle[0][2] welche Nachbar zu Bombe[0][1] ist, Rückmeldung BombenAnzahl")
 		void testNachbarzelleZuBombeAufdecken() {
-			spielfeld.zellenArray[0][1].setzeBombe();
+			Spielfeld.zellenArray[0][1].setzeBombe();
 			KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
 			spielfeld.erstelleBombenListe();
 			kI.beschrifteNachbarzellenZuBomben(spielfeld);
@@ -169,7 +169,7 @@ class BenutzerschnittstelleTest {
 			kommando.ausfuehren(spielfeld);
 			System.out.println("Test aufdecken Zelle[0][2] zu Bombe[0][1]");
 			System.out.println(benutzerschnittstelle.zeigeSpielfeld(spielfeld));
-			assertEquals("1", spielfeld.zellenArray[0][2].zeichen);
+			assertEquals("1", Spielfeld.zellenArray[0][2].zeichen);
 		}
 	}
 
@@ -188,27 +188,27 @@ class BenutzerschnittstelleTest {
 		@Test
 		@DisplayName("Test bombeObenLinks, NOTE: Return is int not String!")
 		void testbombeObenLinks() {
-			spielfeld.zellenArray[0][0].setzeBombe();
+			Spielfeld.zellenArray[0][0].setzeBombe();
 			kI.bombeObenLinks(spielfeld);
 
-			assertEquals(true, spielfeld.zellenArray[0][0].bombe);
-			assertEquals(1, spielfeld.zellenArray[0][1].bombenInNachbarschaft);
-			assertEquals(1, spielfeld.zellenArray[1][0].bombenInNachbarschaft);
-			assertEquals(1, spielfeld.zellenArray[1][1].bombenInNachbarschaft);
+			assertEquals(true, Spielfeld.zellenArray[0][0].bombe);
+			assertEquals(1, Spielfeld.zellenArray[0][1].bombenInNachbarschaft);
+			assertEquals(1, Spielfeld.zellenArray[1][0].bombenInNachbarschaft);
+			assertEquals(1, Spielfeld.zellenArray[1][1].bombenInNachbarschaft);
 		}
 
 		@Test
 		@DisplayName("Test bombeObenMitte")
 		void testbombeObenMitte() {
-			spielfeld.zellenArray[0][1].setzeBombe();
+			Spielfeld.zellenArray[0][1].setzeBombe();
 			kI.bombeObenMitte(spielfeld, 0, 1);
 
-			assertEquals(true, spielfeld.zellenArray[0][1].bombe);
-			assertEquals(1, spielfeld.zellenArray[0][0].bombenInNachbarschaft);
-			assertEquals(1, spielfeld.zellenArray[0][2].bombenInNachbarschaft);
-			assertEquals(1, spielfeld.zellenArray[1][1].bombenInNachbarschaft);
-			assertEquals(1, spielfeld.zellenArray[1][0].bombenInNachbarschaft);
-			assertEquals(1, spielfeld.zellenArray[1][2].bombenInNachbarschaft);
+			assertEquals(true, Spielfeld.zellenArray[0][1].bombe);
+			assertEquals(1, Spielfeld.zellenArray[0][0].bombenInNachbarschaft);
+			assertEquals(1, Spielfeld.zellenArray[0][2].bombenInNachbarschaft);
+			assertEquals(1, Spielfeld.zellenArray[1][1].bombenInNachbarschaft);
+			assertEquals(1, Spielfeld.zellenArray[1][0].bombenInNachbarschaft);
+			assertEquals(1, Spielfeld.zellenArray[1][2].bombenInNachbarschaft);
 		}
 		
 		@Test
@@ -216,17 +216,17 @@ class BenutzerschnittstelleTest {
 		void testbombeObenRechts() {
 //			System.out.println("actual value of spielfeld.zellenArray[0].length: "+ spielfeld.zellenArray[0].length); // ausdruck = 8!
 
-			int endeArrayReferenz = spielfeld.zellenArray[0].length-1; // merke, array.length Zahl wenn als Referenz verwendet = outofbound!! 
+			int endeArrayReferenz = Spielfeld.zellenArray[0].length-1; // merke, array.length Zahl wenn als Referenz verwendet = outofbound!! 
 //			spielfeld.zellenArray[0][7].setzeBombe(); // Bombe am Ende setzen!
 //			spielfeld.zellenArray[0][spielfeld.zellenArray[0].length].setzeBombe(); //setzte Bombe out of array!!
-			spielfeld.zellenArray[0][endeArrayReferenz].setzeBombe();
+			Spielfeld.zellenArray[0][endeArrayReferenz].setzeBombe();
 			kI.bombeObenRechts(spielfeld);
 			
-			assertEquals(true, spielfeld.zellenArray[0][endeArrayReferenz].bombe);
-			assertEquals(true, spielfeld.zellenArray[0][7].bombe);
-			assertEquals(1, spielfeld.zellenArray[0][endeArrayReferenz-1].bombenInNachbarschaft);
-			assertEquals(1, spielfeld.zellenArray[1][endeArrayReferenz].bombenInNachbarschaft);
-			assertEquals(1, spielfeld.zellenArray[1][endeArrayReferenz].bombenInNachbarschaft);
+			assertEquals(true, Spielfeld.zellenArray[0][endeArrayReferenz].bombe);
+			assertEquals(true, Spielfeld.zellenArray[0][7].bombe);
+			assertEquals(1, Spielfeld.zellenArray[0][endeArrayReferenz-1].bombenInNachbarschaft);
+			assertEquals(1, Spielfeld.zellenArray[1][endeArrayReferenz].bombenInNachbarschaft);
+			assertEquals(1, Spielfeld.zellenArray[1][endeArrayReferenz].bombenInNachbarschaft);
 		}
 		
 	}
@@ -234,7 +234,7 @@ class BenutzerschnittstelleTest {
 	@Test
 	@DisplayName("Test zaehleZellen")
 	void testzaehleZellen() {
-		int erwartet = spielfeld.zeilen*spielfeld.spalten;
+		int erwartet = Spielfeld.zeilen*Spielfeld.spalten;
 		
 		KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
 		int zellen = kI.zaehleZellen(spielfeld);
@@ -266,7 +266,7 @@ class BenutzerschnittstelleTest {
 		int zeileBombenliste = spielfeld.listeBombenOrte[0][0];
 		int spalteBombenliste = spielfeld.listeBombenOrte[0][1];
 		spielfeld.aufdecken(zeileBombenliste, spalteBombenliste);
-		String zeichenReferenz =spielfeld.zellenArray[zeileBombenliste][spalteBombenliste].zeichen;
+		String zeichenReferenz =Spielfeld.zellenArray[zeileBombenliste][spalteBombenliste].zeichen;
 		assertEquals("*", zeichenReferenz);
 	}
 

@@ -6,7 +6,6 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("a02bf3ad-425d-4156-b0a5-6636d1664ccb")
 public class AufgabeUI {
-	@objid ("19fba093-2822-49f5-8c7f-1b7572e6000d")
 	//	public Aufgabe aufgabe;
 
 	@objid ("5afdf129-0ac1-4c04-b319-326962b55e22")
@@ -54,6 +53,7 @@ public class AufgabeUI {
 		System.out.println("Antwort eingeben: ");
 
 		// TODO Antwort lesen
+		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		int i = sc.nextInt();
 		System.out.println(i);

@@ -5,6 +5,7 @@ import java.util.Arrays;
 public class L04_Aufg1_Zufallszahlen_Array_Sortieren {
 
 	private static int anzahlZahlen = 30;
+	@SuppressWarnings("unused")
 	private static int[] arso;
 	private static int counterArraPosHigher = 0;
 

@@ -75,6 +75,7 @@ public class MenuMastermind {
 
 	private static void BackToMenu() {
 		System.out.println("\n Drücke Enter um fortzufahren..");
+		@SuppressWarnings("unused")
 		String next = sc.nextLine();
 		Menu();
 	}

@@ -26,6 +26,7 @@ public class Mastermind {
 	private static int userInput;
 	private static int numbCorrectWithoutPos;
 	private static int numbCorretPos;
+	@SuppressWarnings("unused")
 	private static boolean gameRestartLoop = true;
 
 	/**
@@ -215,6 +216,7 @@ public class Mastermind {
 
 	static void BackToMenu() {
 		System.out.println("press Enter to continue..");
+		@SuppressWarnings("unused")
 		String next = sc.nextLine();
 		Menu();
 	}
@@ -268,6 +270,7 @@ public class Mastermind {
 	public static void readUserInput() throws Exception{
 
 		userInput = -1;
+		@SuppressWarnings("resource")
 		Scanner reader = new Scanner(System.in);
 		userInput = reader.nextInt();
 		//		reader.close(); //TODO closing the scanner here is a problem? but why?

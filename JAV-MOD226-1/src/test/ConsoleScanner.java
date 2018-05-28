@@ -18,6 +18,7 @@ public class ConsoleScanner {
 
 	private static void askUserName() {
 		System.out.println("Tell me your name:");
+		@SuppressWarnings("unused")
 		String name = scanner.nextLine();
 	}
 

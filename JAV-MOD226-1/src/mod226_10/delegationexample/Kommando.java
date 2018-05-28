@@ -2,6 +2,8 @@ package mod226_10.delegationexample;
 
 import mod226_09.Spielfeld;
 
+//import mod226_10.mineswepfinal.Spielfeld;
+
 public class Kommando {
 
 	private String kommadoZeichen;

@@ -1,7 +1,5 @@
 package mod226_06_bank;
 
-import javax.sound.midi.Synthesizer;
-
 public class TestKonto {
 
 	public static void main(String[] args) {

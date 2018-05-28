@@ -17,7 +17,7 @@ public class IntToString {
 		System.out.println("a: " + a);
 		System.out.println("b: "+ b);
 		System.out.println("Vergleich von a == a");
-		System.out.println(a == a);
+		//		System.out.println(a == a); // auskommentiert, lässt sich nicht beheben
 		System.out.println("Vergleich von a == b");
 		System.out.println(a == b);
 	}

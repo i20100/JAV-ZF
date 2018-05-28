@@ -15,6 +15,7 @@ public class Testklasse {
 		
 
 		// TODO Antwort lesen
+		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		int i = sc.nextInt();
 		System.out.println(i);

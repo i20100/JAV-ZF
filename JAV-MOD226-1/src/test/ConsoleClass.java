@@ -39,8 +39,10 @@ private static String username;
 	username = console.readLine();
 	 
 	System.out.print("Enter your password: ");
+	@SuppressWarnings("unused")
 	char[] password = console.readPassword();
 	 
+	@SuppressWarnings("unused")
 	String passport = console.readLine("Enter your %d (th) passport number: ", 2);
 	}
 

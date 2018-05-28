@@ -1,7 +1,5 @@
 package mod226;
 
-import java.lang.reflect.Method;
-
 public class L05_Aufg1_Methode_Parameter_SwitchAnweisungRechner {
 
 	private static int result;

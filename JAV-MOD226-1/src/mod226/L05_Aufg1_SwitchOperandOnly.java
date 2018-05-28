@@ -4,7 +4,9 @@ public class L05_Aufg1_SwitchOperandOnly {
 
 	public static void main(String[] args) {
 		int operator = 2;
+		@SuppressWarnings("unused")
 		char operatorIs = 0;
+		@SuppressWarnings("unused")
 		char[] result;
 
 		//		int result = (2(operatorIs)1); THIS is impossible in JAVA!!!

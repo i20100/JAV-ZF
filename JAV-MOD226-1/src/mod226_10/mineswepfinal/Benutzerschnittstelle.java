@@ -25,8 +25,8 @@ public class Benutzerschnittstelle {
 
 	@objid ("be2af921-7d73-417e-bd72-37350101a56f")
 	public String zeigeSpielfeld(Spielfeld spielfeld) {
-		int spalten = spielfeld.spalten;
-		int zeilen = spielfeld.zeilen;
+		int spalten = Spielfeld.spalten;
+		int zeilen = Spielfeld.zeilen;
 
 		String zeichneSpielfeld = 
 				"     0  1  2  3  4  5  6  7\n" +
@@ -36,10 +36,10 @@ public class Benutzerschnittstelle {
 
 	private String zeichneZeilen(Spielfeld spielfeld, int zeilen, int spalten) {
 		String zeile = "";
-		for (int i = 0; i < spielfeld.zellenArray.length; i++) {
+		for (int i = 0; i < Spielfeld.zellenArray.length; i++) {
 			zeile = zeile+"  "+i+"  ";
-			for (int j = 0; j < spielfeld.zellenArray[i].length; j++) {
-				zeile += spielfeld.zellenArray[i][j].zeichen+"  ";
+			for (int j = 0; j < Spielfeld.zellenArray[i].length; j++) {
+				zeile += Spielfeld.zellenArray[i][j].zeichen+"  ";
 			}
 			zeile += "\n";
 		}

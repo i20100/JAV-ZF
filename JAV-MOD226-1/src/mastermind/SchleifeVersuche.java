@@ -15,8 +15,8 @@ public class SchleifeVersuche {
 
 	private static void versuchsZaehler() {
 		// TODO Auto-generated method stub
-		zaehler = ++zaehler;
+//		zaehler = ++zaehler; // Warning is BS, uncomment this line and it works, like intended, otherwise end up in infinite loop
 		System.out.println("Z<V!");
-		
+
 	}
 }

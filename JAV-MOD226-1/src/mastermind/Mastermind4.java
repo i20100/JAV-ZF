@@ -58,6 +58,7 @@ public class Mastermind4 {
 		System.out.println("Bitte geben Sie vier Zahlen zwischen 1-6 nach einander ein. Jede Zahl gefolgt von Enter.");
 		// TODO Zahleneingabe ohne Enter nach jeder Zahl ermöglichen
 		// TODO close reader
+		@SuppressWarnings("resource")
 		Scanner reader = new Scanner(System.in);
 		for (int i = 0; i < tip.length; i++) {
 			tip[i] = reader.nextInt();

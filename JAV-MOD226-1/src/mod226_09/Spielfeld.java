@@ -22,4 +22,14 @@ public class Spielfeld {
     public void erstelleSpielfeld() {
     }
 
+	public void markieren(int spalte, int zeile) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void aufdecken(int spalte, int zeile) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

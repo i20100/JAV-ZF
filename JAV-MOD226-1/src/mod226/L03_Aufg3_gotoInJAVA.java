@@ -16,7 +16,8 @@ public class L03_Aufg3_gotoInJAVA {
 		    
 	
 			
-		    Scanner reader = new Scanner(System.in);
+		    @SuppressWarnings("resource")
+			Scanner reader = new Scanner(System.in);
 		    char c = reader.next().charAt(0);
 			
 		    if (c=='Y') {

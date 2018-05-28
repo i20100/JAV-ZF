@@ -8,6 +8,7 @@ public class L03_Aufg3_gotoMarkeEigenbau {
 		/* Mittels Schelifen soll eine Navigation ermöglicht werden an den 
 		 * Ausgangspunkt */
 
+		@SuppressWarnings("resource")
 		Scanner reader = new Scanner(System.in);
 		while (true) {
 

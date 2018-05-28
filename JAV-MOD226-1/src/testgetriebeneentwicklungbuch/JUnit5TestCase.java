@@ -10,7 +10,8 @@ class JUnit5TestCase {
 	@Test
 	@DisplayName (value = "JUnit5TestCase Method 1")
 	void test() {
-		assertTrue(2 == 1+1);
+//		assertTrue(2 == 1+1);
+		assertTrue(true);
 	}
 	
 }

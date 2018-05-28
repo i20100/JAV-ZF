@@ -1,6 +1,7 @@
 package mod226_10.delegationexample;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
 import mod226_09.Spielfeld;
 
 @objid ("a91c080d-7e95-4de4-8070-cb426dda6061")

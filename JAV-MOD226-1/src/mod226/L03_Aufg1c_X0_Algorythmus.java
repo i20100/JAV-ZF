@@ -58,6 +58,7 @@ public class L03_Aufg1c_X0_Algorythmus {
 		
 		
 		for (int i = 0; i < 10; i++) {
+			@SuppressWarnings("unused")
 			String z=generateRow(1);
 		}
 		

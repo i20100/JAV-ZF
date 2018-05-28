@@ -1,7 +1,5 @@
 package mod226;
 
-import java.util.Arrays;
-
 public class L04_Aufg2_TrippleArray_Minimal_Temp {
 
 	private static int days = 6;

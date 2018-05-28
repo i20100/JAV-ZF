@@ -14,20 +14,20 @@ public class NewPriceTest {
 		System.out.println(price);
 		System.out.println(price.getCharge(1));
 		System.out.println(price.getCharge(4));
-		System.out.println(price.NEWRELEASE);
-		System.out.println(price.REGULAR);
-		System.out.println(price.NEWRELEASE);
+		System.out.println(Price.NEWRELEASE);
+		System.out.println(Price.REGULAR);
+		System.out.println(Price.NEWRELEASE);
 		System.out.println();
 
 		System.out.println("Print price.NEWRELEASE.getCharge(1).getAmount()");
-		System.out.println(price.NEWRELEASE.getCharge(1).getAmount());
-		System.out.println(price.NEWRELEASE.getCharge(1));
-		System.out.println(price.NEWRELEASE.getCharge(1));
+		System.out.println(Price.NEWRELEASE.getCharge(1).getAmount());
+		System.out.println(Price.NEWRELEASE.getCharge(1));
+		System.out.println(Price.NEWRELEASE.getCharge(1));
 		System.out.println();
 
 		System.out.println("Print price.REGULAR.getCharge(1).getAmount()");
-		System.out.println(price.REGULAR.getCharge(1).getAmount());
-		System.out.println(price.REGULAR.getCharge(1));
+		System.out.println(Price.REGULAR.getCharge(1).getAmount());
+		System.out.println(Price.REGULAR.getCharge(1));
 		System.out.println();
 
 		System.out.println("Print price.getCharge(x).getAmount() variants");
@@ -35,13 +35,13 @@ public class NewPriceTest {
 		System.out.println(price.getCharge(4).getAmount());
 		System.out.println();
 
-		price = price.NEWRELEASE;
+		price = Price.NEWRELEASE;
 		System.out.println("Print price.getCharge(x).getAmount() as price.NEWRELEASE");
 		System.out.println(price.getCharge(1).getAmount());
 		System.out.println(price.getCharge(4).getAmount());
 		System.out.println();
 
-		price = price.REGULAR;
+		price = Price.REGULAR;
 		System.out.println("Print price.getCharge(x).getAmount() as price.REGULAR");
 		System.out.println(price.getCharge(1).getAmount());
 		System.out.println(price.getCharge(4).getAmount());
@@ -56,9 +56,9 @@ public class NewPriceTest {
 		price = new Price();
 		System.out.println("price = new Price()");
 		System.out.println("price.NEWRELEASE.getBasePrice())");
-		System.out.println(price.NEWRELEASE.getBasePrice());
+		System.out.println(Price.NEWRELEASE.getBasePrice());
 		System.out.println("price.REGULAR.getBasePrice()");
-		System.out.println(price.REGULAR.getBasePrice());
+		System.out.println(Price.REGULAR.getBasePrice());
 
 		Price priceNR, priceR;
 		priceNR = new Price(new Euro(2.00), new Euro(1.50), 3);

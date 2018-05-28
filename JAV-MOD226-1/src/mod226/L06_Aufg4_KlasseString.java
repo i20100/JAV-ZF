@@ -1,6 +1,5 @@
 package mod226;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class L06_Aufg4_KlasseString {

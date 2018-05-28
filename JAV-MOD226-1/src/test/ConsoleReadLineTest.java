@@ -28,6 +28,7 @@ class ConsoleReadLineTest {
 
 /* TODO test if it is possible to work with System.console to test the Console input via JUnit,
 	since Console input this way can't be run in Eclipse IDE. */
+	@SuppressWarnings("static-access")
 	@Test
 	@DisplayName("testUseSystemConsole: although not possible to use Console class in IDE with JUnit testable?")
 	void testUseSystemConsole() {

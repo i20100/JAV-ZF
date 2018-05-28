@@ -2,6 +2,7 @@ package mod226_10.delegationexample;
 
 import java.util.Scanner;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
 import mod226_09.Spielfeld;
 
 /** 

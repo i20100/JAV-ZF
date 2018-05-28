@@ -1,6 +1,7 @@
 package mod226_07_aufg1_code_to_uml;
 
 public class Konto {
+	@SuppressWarnings("unused")
 	private Kunde inhaber;
 	private double saldo;
 	private double zinssatz;

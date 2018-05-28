@@ -32,6 +32,7 @@ public class ConsoleReadLine {
 		return userInput;
 	}
 
+	@SuppressWarnings("static-access")
 	public void setUserInput(String string) {
 		this.userInput = string;
 	}

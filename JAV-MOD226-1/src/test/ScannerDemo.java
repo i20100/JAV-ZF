@@ -8,6 +8,7 @@ class ScannerDemo {
 		float b;
 		String s;
 
+		@SuppressWarnings("resource")
 		Scanner in = new Scanner(System.in);
 		System.out.println("Enter a string");
 		s = in.nextLine();
