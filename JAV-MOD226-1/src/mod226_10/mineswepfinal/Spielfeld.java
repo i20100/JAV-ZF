@@ -5,16 +5,16 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 @objid ("6f95d20d-8cb0-4295-b3ee-87d1508129d8")
 public class Spielfeld {
 	@objid ("e19ea3e3-81a1-4e70-970a-1212868f2036")
-	public int spalten = 8;
+	public static int spalten = 8;
 
 	@objid ("8e694de4-f0a9-40a7-9f5d-dedd78104eac")
-	public int zeilen = 8;
+	public static int zeilen = 8;
 
 	@objid ("080a90b4-179f-468a-b69c-c1700b831e79")
 	public int gewuenschteBomben = 10;
 
 	@objid ("66f7561a-c9d2-4609-890f-2c1ccbbfa7a2")
-	public Zelle[][] zellenArray = new Zelle[zeilen][spalten];
+	public static Zelle[][] zellenArray = new Zelle[zeilen][spalten];
 
 	public int[][] listeBombenOrte;
 	//	public List<Integer> listeBombenOrte;
