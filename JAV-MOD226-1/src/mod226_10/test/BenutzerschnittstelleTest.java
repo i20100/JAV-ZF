@@ -1,5 +1,6 @@
 package mod226_10.test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -34,9 +35,74 @@ class BenutzerschnittstelleTest {
 		@Test
 		@DisplayName("Test Standard Zellenrepraesentation auf dem Spielfeld")
 		void testzeigeZelle() {
-			Zelle zelle = new Zelle();
+			Zelle zelle = new Zelle(0, 1);
 			assertEquals(" ", zelle.zeichen);
+			assertEquals(0, zelle.yKoordinate);
+			assertEquals(1, zelle.xKoordinate);
 		}
+
+		@Test
+		@DisplayName("Test zelleRechts")
+		void testzelleRechts() {
+			assertNotNull(Spielfeld.zellenArray[0][0]);
+			
+			assertEquals(Spielfeld.zellenArray[0][1], Spielfeld.zellenArray[0][0].zelleRechts());
+		
+			Zelle ursprung = Spielfeld.zellenArray[0][0];
+			ursprung.zeichen = "%";
+			Spielfeld.zellenArray[0][0].zelleRechts().zeichen = ursprung.zeichen;
+			assertEquals("%", Spielfeld.zellenArray[0][1].zeichen);
+		}
+
+		@Test
+		@DisplayName("Test zelleLinks")
+		void testzelleLinks() {
+			assertNotNull(Spielfeld.zellenArray[0][7]);
+			assertEquals(Spielfeld.zellenArray[0][6], Spielfeld.zellenArray[0][7].zelleLinks());
+		}
+
+		@Test
+		@DisplayName("Test zelleObenLinks")
+		void testzelleObenLinks() {
+			assertNotNull(Spielfeld.zellenArray[4][4]);
+			assertEquals(Spielfeld.zellenArray[3][3], Spielfeld.zellenArray[4][4].zelleObenLinks());
+		}
+		
+		@Test
+		@DisplayName("Test zelleUntenLinks")
+		void testzelleUntenLinks() {
+			assertNotNull(Spielfeld.zellenArray[4][4]);
+			assertEquals(Spielfeld.zellenArray[5][3], Spielfeld.zellenArray[4][4].zelleUntenLinks());
+		}
+		
+		@Test
+		@DisplayName("Test zelleObenRechts")
+		void testzelleObenRechts() {
+			assertNotNull(Spielfeld.zellenArray[4][4]);
+			assertEquals(Spielfeld.zellenArray[3][5], Spielfeld.zellenArray[4][4].zelleObenRechts());
+		}
+
+		@Test
+		@DisplayName("Test zelleUntenRechts")
+		void testzelleUntenRechts() {
+			assertNotNull(Spielfeld.zellenArray[4][4]);
+			assertEquals(Spielfeld.zellenArray[5][5], Spielfeld.zellenArray[4][4].zelleUntenRechts());
+		}
+		
+		@Test
+		@DisplayName("Test Oben")
+		void testOben() {
+			assertNotNull(Spielfeld.zellenArray[4][4]);
+			assertEquals(Spielfeld.zellenArray[3][4], Spielfeld.zellenArray[4][4].zelleOben());
+		}
+
+		@Test
+		@DisplayName("Test Unten")
+		void testUnten() {
+			assertNotNull(Spielfeld.zellenArray[4][4]);
+			assertEquals(Spielfeld.zellenArray[5][4], Spielfeld.zellenArray[4][4].zelleUnten());
+		}
+		
 	}
 
 	@Nested
@@ -56,14 +122,26 @@ class BenutzerschnittstelleTest {
 			assertEquals(Spielfeld.zeilen, Spielfeld.zellenArray.length);
 			assertEquals(Spielfeld.spalten, Spielfeld.zellenArray[0].length);
 		}
-
+		
 		@Test
 		@DisplayName("Test erstelleBombenListe")
 		void testerstelleBombenListe() {
 			Spielfeld.zellenArray[0][3].setzeBombe();
 			spielfeld.erstelleBombenListe();
-			assertEquals(0, spielfeld.listeBombenOrte[0][0]);
-			assertEquals(3, spielfeld.listeBombenOrte[0][1]);
+			assertEquals(0, spielfeld.listeBombenOrte.get(0).yKoordinate);
+			assertEquals(3, spielfeld.listeBombenOrte.get(0).xKoordinate);
+		}
+
+		@Test
+		@DisplayName("Test erstelleBombenListe mehrere Einträge")
+		void testerstelleBombenListeMulti() {
+			Spielfeld.zellenArray[0][3].setzeBombe();
+			Spielfeld.zellenArray[1][3].setzeBombe();
+			spielfeld.erstelleBombenListe();
+			assertEquals(0, spielfeld.listeBombenOrte.get(0).yKoordinate);
+			assertEquals(3, spielfeld.listeBombenOrte.get(0).xKoordinate);
+			assertEquals(1, spielfeld.listeBombenOrte.get(1).yKoordinate);
+			assertEquals(3, spielfeld.listeBombenOrte.get(1).xKoordinate);
 		}
 
 		@Test
@@ -74,47 +152,52 @@ class BenutzerschnittstelleTest {
 
 	}
 
-	@Test
-	@DisplayName("Test Spielfeld anzeigen")
-	void testZeigeSpielfeld() {
-		String erwartet = 
-				"     0  1  2  3  4  5  6  7\n" +
-						"  0  "+"!  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
-						"  1  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
-						"  2  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
-						"  3  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
-						"  4  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
-						"  5  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
-						"  6  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
-						"  7  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n";
-		Kommando kommando = new Kommando("M", 0, 0);
-		kommando.ausfuehren(spielfeld);
-		assertEquals(erwartet, benutzerschnittstelle.zeigeSpielfeld(spielfeld));
-	}
+	@Nested
+	@DisplayName("EingabeAusgabe")
+	class EingabeAusgabe {
 
-	@Test
-	@DisplayName("Test zeigeEingabeaufforderung")
-	void testZeigeEingabeaufforderung() {
-		String erwartet =
-				"Geben Sie ein Kommando ein:\n" + 
-						"T x y (z.B. T 2 3 testet Feld Zeile 2, Spalte 3 auf Mine)\n" +
-						"M x y (z.B. M 6 1 kehrt Markierung Feld Zeile 6, Spalte 1)\n";
-		assertEquals(erwartet, benutzerschnittstelle.zeigeEingabeaufforderung());
-	}
+		@Test
+		@DisplayName("Test Spielfeld anzeigen")
+		void testZeigeSpielfeld() {
+			String erwartet = 
+					"     0  1  2  3  4  5  6  7\n" +
+							"  0  "+"!  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+							"  1  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+							"  2  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+							"  3  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+							"  4  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+							"  5  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+							"  6  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+							"  7  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n";
+			Kommando kommando = new Kommando("M", 0, 0);
+			kommando.ausfuehren(spielfeld);
+			assertEquals(erwartet, benutzerschnittstelle.zeigeSpielfeld(spielfeld));
+		}
 
-	@Test
-	@Disabled
-	@DisplayName("Test liesEingabe() bis Umwandlung in Kommando bei gültiger Eingabe")
-	void testLiesEingabe() {
-		//XXX Fake methode liesEingabe(String testString) erstellt. Dies verstoesst gegen keine Codeteile 2x vorhanden!!
-		//FIXME Fake methode und dieser Test nicht zum laufen gebracht, ein Problem ist dieser Test deck bereits zuviele vorgänge ab und scheint eher ein 
-		//Integrationstest zu sein. konsequenz Fake methode erst mal wieder gelöscht!
+		@Test
+		@DisplayName("Test zeigeEingabeaufforderung")
+		void testZeigeEingabeaufforderung() {
+			String erwartet =
+					"Geben Sie ein Kommando ein:\n" + 
+							"T x y (z.B. T 2 3 testet Feld Zeile 2, Spalte 3 auf Mine)\n" +
+							"M x y (z.B. M 6 1 kehrt Markierung Feld Zeile 6, Spalte 1)\n";
+			assertEquals(erwartet, benutzerschnittstelle.zeigeEingabeaufforderung());
+		}
 
-		/*String testString = "M 0 0";
+		@Test
+		@Disabled
+		@DisplayName("Test liesEingabe() bis Umwandlung in Kommando bei gültiger Eingabe")
+		void testLiesEingabe() {
+			//XXX Fake methode liesEingabe(String testString) erstellt. Dies verstoesst gegen keine Codeteile 2x vorhanden!!
+			//FIXME Fake methode und dieser Test nicht zum laufen gebracht, ein Problem ist dieser Test deck bereits zuviele vorgänge ab und scheint eher ein 
+			//Integrationstest zu sein. konsequenz Fake methode erst mal wieder gelöscht!
+
+			/*String testString = "M 0 0";
 		Kommando testKommando = benutzerschnittstelle.liesEingabe(testString);
 		Kommando testObj = new Kommando("M",0,0);
 		assertEquals(testObj., testKommando);
-		 */
+			 */
+		}
 	}
 
 	@Nested
@@ -167,15 +250,53 @@ class BenutzerschnittstelleTest {
 			kI.beschrifteNachbarzellenZuBomben(spielfeld);
 			Kommando kommando = new Kommando("T", 0, 2);
 			kommando.ausfuehren(spielfeld);
-//			System.out.println("Test aufdecken Zelle[0][2] zu Bombe[0][1]");
-//			System.out.println(benutzerschnittstelle.zeigeSpielfeld(spielfeld));
 			assertEquals("1", Spielfeld.zellenArray[0][2].zeichen);
 		}
+
+		@Test
+		@Disabled // TODO wieder enablen wenn Funktion Nullen fertig soweit läuft
+		@DisplayName("Test aufdecken leeres Feld")
+		void testaufdecken0() {
+			//TODO bevor hier weitergemacht wird, test erstellen alle NachbarNullZellen in Listen speichern! Siehe KI.
+			System.out.println(Spielfeld.zellenArray.length);
+			Kommando kommando = new Kommando("T", 2, 3);
+			kommando.ausfuehren(spielfeld);
+			assertEquals("0", Spielfeld.zellenArray[2][3].zeichen);
+		}
+
+		@Test
+		@Disabled // TODO wieder enablen wenn Funktion Nullen fertig soweit läuft
+		@DisplayName("Test aufdecken leeres Feld inkl. direkte Nachbarn mit Null")
+		void testaufdecken8() {
+			System.out.println(Spielfeld.zellenArray.length);
+
+			assertNotNull(Spielfeld.zellenArray[2][3]);
+			assertNotNull(Spielfeld.zellenArray[1][3]);
+			assertNotNull(Spielfeld.zellenArray[3][2]);
+			assertNotNull(Spielfeld.zellenArray[3][4]);
+
+			System.out.println("notnull passed");
+
+			Kommando kommando = new Kommando("T", 2, 3);
+			kommando.ausfuehren(spielfeld);
+
+
+			assertEquals("0", Spielfeld.zellenArray[2][3].zeichen);
+			assertEquals("0", Spielfeld.zellenArray[2][2].zeichen);
+			assertEquals("0", Spielfeld.zellenArray[2][4].zeichen);
+			assertEquals("0", Spielfeld.zellenArray[1][3].zeichen);
+			assertEquals("0", Spielfeld.zellenArray[3][3].zeichen);
+			assertEquals("0", Spielfeld.zellenArray[1][2].zeichen);
+			assertEquals("0", Spielfeld.zellenArray[1][4].zeichen);
+			assertEquals("0", Spielfeld.zellenArray[3][2].zeichen);
+			assertEquals("0", Spielfeld.zellenArray[3][4].zeichen);
+		}
+
 	}
 
 	@Nested
-	@DisplayName("Variante Nachbarzellenbeschriften beschrifteNachbarzellenZuBomben")
-	class TestbeschrifteNachbarzellenZuBomben {
+	@DisplayName("Test KI")
+	class KI {
 
 		private int endeSpalte;
 		private int endeZeile;
@@ -188,258 +309,586 @@ class BenutzerschnittstelleTest {
 			kI = new KuenstlicheIntelligenz();
 			endeSpalte = Spielfeld.zellenArray[0].length-1; // merke, array.length Zahl wenn als Referenz verwendet = outofbound!! 
 			endeZeile = Spielfeld.zellenArray.length-1;
-
 		}
 
-		@Test
-		@DisplayName("Test bombeObenLinks, NOTE: Return is int not String!")
-		void testbombeObenLinks() {
-			Spielfeld.zellenArray[0][0].setzeBombe();
-			assertEquals(true, Spielfeld.zellenArray[0][0].bombe);
+		@Nested
+		@DisplayName("TestbeschrifteNachbarzellen")
+		class TestbeschrifteNachbarzellen {
 
-			kI.bombeObenLinks(spielfeld);
-			assertEquals(1, Spielfeld.zellenArray[0][1].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[1][0].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[1][1].bombenInNachbarschaft);
+			@BeforeEach
+			void setUp() throws Exception {
+
+			}
+
+			@Test
+			@DisplayName("Test bombeObenLinks, NOTE: Return is int not String!")
+			void testbombeObenLinks() {
+				Spielfeld.zellenArray[0][0].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[0][0].bombe);
+
+				kI.bombeObenLinks(spielfeld);
+				assertEquals(1, Spielfeld.zellenArray[0][1].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[1][0].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[1][1].bombenInNachbarschaft);
+			}
+
+			@Test
+			@DisplayName("Test bombeObenMitte")
+			void testbombeObenMitte() {
+				Spielfeld.zellenArray[0][1].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[0][1].bombe);
+
+				kI.bombeObenMitte(spielfeld, 0, 1);
+				assertEquals(1, Spielfeld.zellenArray[0][0].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[0][2].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[1][1].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[1][0].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[1][2].bombenInNachbarschaft);
+			}
+
+			@Test
+			@DisplayName("Test bombeObenRechts")
+			void testbombeObenRechts() {
+				Spielfeld.zellenArray[0][endeSpalte].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[0][endeSpalte].bombe);
+
+				kI.bombeObenRechts(spielfeld);
+				assertEquals(1, Spielfeld.zellenArray[0][endeSpalte-1].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[1][endeSpalte].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[1][endeSpalte-1].bombenInNachbarschaft);
+			}
+
+			@Test
+			@DisplayName("Test bombeUntenLinks")
+			void testbombeUntenLinks() {
+				Spielfeld.zellenArray[endeZeile][0].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[endeZeile][0].bombe);
+
+				kI.bombeUntenLinks(spielfeld);
+				assertEquals(1, Spielfeld.zellenArray[endeZeile][1].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[endeZeile-1][0].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[endeZeile-1][1].bombenInNachbarschaft);
+			}
+
+			@Test
+			@DisplayName("Test bombeUntenMitte")
+			void testbombeUntenMitte() {
+				Spielfeld.zellenArray[endeZeile][2].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[endeZeile][2].bombe);
+
+				kI.bombeUntenMitte(spielfeld, 0, 2);
+				assertEquals(1, Spielfeld.zellenArray[endeZeile][1].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[endeZeile][3].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[endeZeile-1][2].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[endeZeile-1][1].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[endeZeile-1][3].bombenInNachbarschaft);
+			}
+
+			@Test
+			@DisplayName("Test bombeUntenRechts")
+			void testbombeUntenRechts() {
+				Spielfeld.zellenArray[endeZeile][endeSpalte].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[endeZeile][endeSpalte].bombe);
+
+				kI.bombeUntenRechts(spielfeld);
+				assertEquals(1, Spielfeld.zellenArray[endeZeile][endeSpalte-1].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[endeZeile-1][endeSpalte].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[endeZeile-1][endeSpalte-1].bombenInNachbarschaft);
+			}
+
+			@Test
+			@DisplayName("Test bombeMitteLinks")
+			void testbombeMitteLinks() {
+				Spielfeld.zellenArray[2][0].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[2][0].bombe);
+
+				kI.bombeMitteLinks(spielfeld, 2);
+				assertEquals(1, Spielfeld.zellenArray[2][1].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[1][0].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[3][0].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[1][1].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[3][1].bombenInNachbarschaft);
+			}
+
+			@Test
+			@DisplayName("Test bombeMitteMitte")
+			void testbombeMitteMitte() {
+				Spielfeld.zellenArray[2][2].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[2][2].bombe);
+
+				kI.bombeMitteMitte(spielfeld, 2, 2);
+				assertEquals(1, Spielfeld.zellenArray[2][1].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[2][3].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[1][2].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[3][2].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[1][1].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[1][3].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[3][1].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[3][3].bombenInNachbarschaft);
+			}
+
+			@Test
+			@DisplayName("Test bombeMitteRechts")
+			void testbombeMitteRechts() {
+				Spielfeld.zellenArray[4][endeSpalte].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[4][endeSpalte].bombe);
+
+				kI.bombeMitteRechts(spielfeld, 4);
+				assertEquals(1, Spielfeld.zellenArray[4][endeSpalte-1].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[3][endeSpalte].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[5][endeSpalte].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[3][endeSpalte-1].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[5][endeSpalte-1].bombenInNachbarschaft);
+			}
+			
+			@Test
+			@DisplayName("testNullMitteLinks")
+			void testNullMitteLinks() {
+				Spielfeld.zellenArray[3][0].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[3][0].bombe);
+
+				kI.bombeMitteLinks(spielfeld, 3);
+				Zelle zelle = Spielfeld.zellenArray[1][0];
+				
+				kI.NullMitteLinks(zelle);
+				assertEquals("1", Spielfeld.zellenArray[2][0].zeichen);
+				assertEquals("1", Spielfeld.zellenArray[2][1].zeichen);
+				
+				assertNotEquals("1", Spielfeld.zellenArray[3][1].zeichen);
+				
+			}
+			
+			@Test
+			@DisplayName("test to be written see testNullMitteLinks")
+			void testnochschreiben() {
+				assertEquals(true, false);
+				
+				Spielfeld.zellenArray[3][0].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[3][0].bombe);
+				
+				kI.bombeMitteLinks(spielfeld, 3);
+				Zelle zelle = Spielfeld.zellenArray[1][0];
+				
+				kI.NullMitteLinks(zelle);
+				assertEquals("1", Spielfeld.zellenArray[2][0].zeichen);
+				assertEquals("1", Spielfeld.zellenArray[2][1].zeichen);
+				
+				assertNotEquals("1", Spielfeld.zellenArray[3][1].zeichen);
+				
+			}
 		}
 
-		@Test
-		@DisplayName("Test bombeObenMitte")
-		void testbombeObenMitte() {
-			Spielfeld.zellenArray[0][1].setzeBombe();
-			assertEquals(true, Spielfeld.zellenArray[0][1].bombe);
-
-			kI.bombeObenMitte(spielfeld, 0, 1);
-			assertEquals(1, Spielfeld.zellenArray[0][0].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[0][2].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[1][1].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[1][0].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[1][2].bombenInNachbarschaft);
-		}
-
-		@Test
-		@DisplayName("Test bombeObenRechts")
-		void testbombeObenRechts() {
-			Spielfeld.zellenArray[0][endeSpalte].setzeBombe();
-			assertEquals(true, Spielfeld.zellenArray[0][endeSpalte].bombe);
-
-			kI.bombeObenRechts(spielfeld);
-			assertEquals(1, Spielfeld.zellenArray[0][endeSpalte-1].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[1][endeSpalte].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[1][endeSpalte].bombenInNachbarschaft);
-		}
-
-		@Test
-		@DisplayName("Test bombeUntenLinks")
-		void testbombeUntenLinks() {
-			Spielfeld.zellenArray[endeZeile][0].setzeBombe();
-			assertEquals(true, Spielfeld.zellenArray[endeZeile][0].bombe);
-
-			kI.bombeUntenLinks(spielfeld);
-			assertEquals(1, Spielfeld.zellenArray[endeZeile][1].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[endeZeile-1][0].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[endeZeile-1][1].bombenInNachbarschaft);
-		}
-
-		@Test
-		@DisplayName("Test bombeUntenMitte")
-		void testbombeUntenMitte() {
-			Spielfeld.zellenArray[endeZeile][2].setzeBombe();
-			assertEquals(true, Spielfeld.zellenArray[endeZeile][2].bombe);
-
-			kI.bombeUntenMitte(spielfeld, 0, 2);
-			assertEquals(1, Spielfeld.zellenArray[endeZeile][1].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[endeZeile][3].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[endeZeile-1][2].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[endeZeile-1][1].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[endeZeile-1][3].bombenInNachbarschaft);
-		}
-
-		@Test
-		@DisplayName("Test bombeUntenRechts")
-		void testbombeUntenRechts() {
-			Spielfeld.zellenArray[endeZeile][endeSpalte].setzeBombe();
-			assertEquals(true, Spielfeld.zellenArray[endeZeile][endeSpalte].bombe);
-
-			kI.bombeUntenRechts(spielfeld);
-			assertEquals(1, Spielfeld.zellenArray[endeZeile][endeSpalte-1].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[endeZeile-1][endeSpalte].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[endeZeile-1][endeSpalte-1].bombenInNachbarschaft);
-		}
-
-		@Test
-		@DisplayName("Test bombeMitteLinks")
-		void testbombeMitteLinks() {
-			Spielfeld.zellenArray[2][0].setzeBombe();
-			assertEquals(true, Spielfeld.zellenArray[2][0].bombe);
-
-			kI.bombeMitteLinks(spielfeld, 2);
-			assertEquals(1, Spielfeld.zellenArray[2][1].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[1][0].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[3][0].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[1][1].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[3][1].bombenInNachbarschaft);
-		}
-
-		@Test
-		@DisplayName("Test bombeMitteMitte")
-		void testbombeMitteMitte() {
-			Spielfeld.zellenArray[2][2].setzeBombe();
-			assertEquals(true, Spielfeld.zellenArray[2][2].bombe);
-
-			kI.bombeMitteMitte(spielfeld, 2, 2);
-			assertEquals(1, Spielfeld.zellenArray[2][1].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[2][3].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[1][2].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[3][2].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[1][1].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[1][3].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[3][1].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[3][3].bombenInNachbarschaft);
-		}
-
-		@Test
-		@DisplayName("Test bombeMitteRechts")
-		void testbombeMitteRechts() {
-			Spielfeld.zellenArray[4][endeSpalte].setzeBombe();
-			assertEquals(true, Spielfeld.zellenArray[4][endeSpalte].bombe);
-
-			kI.bombeMitteRechts(spielfeld, 4);
-			assertEquals(1, Spielfeld.zellenArray[4][endeSpalte-1].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[3][endeSpalte].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[5][endeSpalte].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[3][endeSpalte-1].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[5][endeSpalte-1].bombenInNachbarschaft);
-		}
-
-		
 		// TODO Tests in eigene Klasse verpacken
-		@Test
-		@DisplayName("Test waehleVariante Bombe oben links")
-		void testwaehleVarianteBOL() {
-			Spielfeld.zellenArray[0][0].setzeBombe();
-			assertEquals(true, Spielfeld.zellenArray[0][0].bombe);
+		@Nested
+		@DisplayName("TestWaehleVariante")
+		class TestWaehleVariante {
 
-			spielfeld.erstelleBombenListe();
-			int[][] ersteBombe = spielfeld.listeBombenOrte;
-			assertEquals(1, kI.waehleVariante(ersteBombe));
+			@Test
+			@DisplayName("Test waehleVariante Bombe oben links")
+			void testwaehleVarianteBOL() {
+				Spielfeld.zellenArray[0][0].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[0][0].bombe);
+
+				spielfeld.erstelleBombenListe();
+
+				Zelle ersteBombe = spielfeld.listeBombenOrte.get(0);
+
+				assertEquals(1, kI.waehleVariante(ersteBombe));
+			}
+
+			@Test
+			@DisplayName("Test waehleVariante Bombe oben rechts")
+			void testwaehleVarianteBOR() {
+				Spielfeld.zellenArray[0][endeSpalte].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[0][endeSpalte].bombe);
+
+				spielfeld.erstelleBombenListe();
+
+				Zelle ersteBombe = spielfeld.listeBombenOrte.get(0);
+
+				assertEquals(3, kI.waehleVariante(ersteBombe));
+			}
+
+			@Test
+			@DisplayName("Test waehleVariante Bombe oben mitte")
+			void testwaehleVarianteBOM() {
+				Spielfeld.zellenArray[0][5].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[0][5].bombe);
+
+				spielfeld.erstelleBombenListe();
+
+				Zelle ersteBombe = spielfeld.listeBombenOrte.get(0);
+
+				assertEquals(2, kI.waehleVariante(ersteBombe));
+			}
+
+			@Test
+			@DisplayName("Test waehleVariante Bombe unten links")
+			void testwaehleVarianteBUL() {
+				Spielfeld.zellenArray[endeZeile][0].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[endeZeile][0].bombe);
+
+				spielfeld.erstelleBombenListe();
+
+				Zelle ersteBombe = spielfeld.listeBombenOrte.get(0);
+
+				assertEquals(7, kI.waehleVariante(ersteBombe));
+			}
+
+			@Test
+			@DisplayName("Test waehleVariante Bombe unten rechts")
+			void testwaehleVarianteBUR() {
+				Spielfeld.zellenArray[endeZeile][endeSpalte].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[endeZeile][endeSpalte].bombe);
+
+				spielfeld.erstelleBombenListe();
+
+				Zelle ersteBombe = spielfeld.listeBombenOrte.get(0);
+
+				assertEquals(9, kI.waehleVariante(ersteBombe));
+			}
+
+			@Test
+			@DisplayName("Test waehleVariante Bombe unten mitte")
+			void testwaehleVarianteBUM() {
+				Spielfeld.zellenArray[endeZeile][6].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[endeZeile][6].bombe);
+
+				spielfeld.erstelleBombenListe();
+
+				Zelle ersteBombe = spielfeld.listeBombenOrte.get(0);
+
+				assertEquals(8, kI.waehleVariante(ersteBombe));
+			}
+
+			@Test
+			@DisplayName("Test waehleVariante Bombe mitte links")
+			void testwaehleVarianteBML() {
+				Spielfeld.zellenArray[3][0].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[3][0].bombe);
+
+				spielfeld.erstelleBombenListe();
+
+				Zelle ersteBombe = spielfeld.listeBombenOrte.get(0);
+
+				assertEquals(4, kI.waehleVariante(ersteBombe));
+			}
+
+			@Test
+			@DisplayName("Test waehleVariante Bombe mitte rechts")
+			void testwaehleVarianteBMR() {
+				Spielfeld.zellenArray[4][endeSpalte].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[4][endeSpalte].bombe);
+
+				spielfeld.erstelleBombenListe();
+
+				Zelle ersteBombe = spielfeld.listeBombenOrte.get(0);
+
+				assertEquals(6, kI.waehleVariante(ersteBombe));
+			}
+
+			@Test
+			@DisplayName("Test waehleVariante Bombe mitte mitte")
+			void testwaehleVarianteBMM() {
+				Spielfeld.zellenArray[5][6].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[5][6].bombe);
+
+				spielfeld.erstelleBombenListe();
+
+				Zelle ersteBombe = spielfeld.listeBombenOrte.get(0);
+
+				assertEquals(5, kI.waehleVariante(ersteBombe));
+			}
+
+			@Test
+			@DisplayName("Test waehleVariante mehrere Bomben aka beschrifteNachbarzellenZuBomben")
+			void testbeschrifteNachbarzellenZuBomben() {
+				Spielfeld.zellenArray[0][0].setzeBombe();
+				Spielfeld.zellenArray[5][3].setzeBombe();
+				Spielfeld.zellenArray[5][4].setzeBombe();
+				Spielfeld.zellenArray[5][5].setzeBombe();
+				Spielfeld.zellenArray[5][6].setzeBombe();
+				Spielfeld.zellenArray[6][3].setzeBombe();
+				Spielfeld.zellenArray[6][4].setzeBombe();
+				Spielfeld.zellenArray[6][5].setzeBombe();
+				Spielfeld.zellenArray[6][6].setzeBombe();
+				Spielfeld.zellenArray[endeZeile][0].setzeBombe();
+
+				// TODO muss genau soviele Bomben setzen wie spielfeld.gewueschteBomben sonst kann es zu Fehlern kommen
+				assertEquals(spielfeld.gewuenschteBomben, kI.zaehleVerteilteBomben(spielfeld));
+
+				spielfeld.erstelleBombenListe();
+
+				kI.beschrifteNachbarzellenZuBomben(spielfeld);
+
+				assertEquals(1, Spielfeld.zellenArray[0][1].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[1][1].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[endeZeile][1].bombenInNachbarschaft);
+				assertEquals(1, Spielfeld.zellenArray[endeZeile-1][0].bombenInNachbarschaft);
+			}
+
 		}
 
-		@Test
-		@DisplayName("Test waehleVariante Bombe oben rechts")
-		void testwaehleVarianteBOR() {
-			Spielfeld.zellenArray[0][endeSpalte].setzeBombe();
-			assertEquals(true, Spielfeld.zellenArray[0][endeSpalte].bombe);
+		@Nested
+		@DisplayName("Test NachbarzellenNullenZuListen")
+		class TestNachbarzellenNullenZuListen {
 
-			spielfeld.erstelleBombenListe();
-			int[][] ersteBombe = spielfeld.listeBombenOrte;
-			assertEquals(3, kI.waehleVariante(ersteBombe));
+			@BeforeEach
+			void setUp() throws Exception {
+				//Spielfeld wie GIMP Beispiel erstellen
+				// Bombe auf 3,0 und 7,1 + 7,3
+
+				spielfeld.gewuenschteBomben = 4;
+
+				Spielfeld.zellenArray[3][0].setzeBombe(); // Voraussetzung für beschrifteNachbarzellenZuBomben
+				Spielfeld.zellenArray[7][1].setzeBombe(); // Voraussetzung für beschrifteNachbarzellenZuBomben
+				Spielfeld.zellenArray[7][3].setzeBombe(); // Voraussetzung für beschrifteNachbarzellenZuBomben
+				Spielfeld.zellenArray[0][5].setzeBombe(); // Voraussetzung für beschrifteNachbarzellenZuBomben
+
+				spielfeld.erstelleBombenListe();
+				kI.beschrifteNachbarzellenZuBomben(spielfeld); // besser für findeNullen
+			}
+
+			@Test
+			@DisplayName("Test Nullen finden erste Spalte, solve5")
+			void testfindeNullenReiheEins() {
+
+				kI.findeNullen(3, 4); // 3,4 ist Aufdeckort gemäss Beispiel, siehe GIMP Datei wenn unklar
+
+				//Test0 finde nur die Nullen
+				assertEquals("0", Spielfeld.zellenArray[0][0].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[1][0].zeichen);
+				//			assertEquals("1", Spielfeld.zellenArray[2][0].zeichen);
+				assertEquals(" ", Spielfeld.zellenArray[3][0].zeichen); // Bombe! Erwartet?
+				//			assertEquals("1", Spielfeld.zellenArray[4][0].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[5][0].zeichen);
+				//			assertEquals("1", Spielfeld.zellenArray[6][0].zeichen);
+				assertEquals(" ", Spielfeld.zellenArray[7][0].zeichen);
+			}
+
+			@Test
+			@DisplayName("Test Nullen finde alle Nullen auf dem Spielfeld, solve5")
+			void testfindeNullenAlleNULLEN() {
+
+				kI.findeNullen(3, 4); // 3,4 ist Aufdeckort gemäss Beispiel, siehe GIMP Datei wenn unklar
+
+				//Test alle Nullen
+				assertEquals("0", Spielfeld.zellenArray[0][0].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[1][0].zeichen);
+				//			assertEquals("1", Spielfeld.zellenArray[2][0].zeichen);
+				assertEquals(" ", Spielfeld.zellenArray[3][0].zeichen); // Bombe! Erwartet?
+				//			assertEquals("1", Spielfeld.zellenArray[4][0].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[5][0].zeichen);
+				//			assertEquals("1", Spielfeld.zellenArray[6][0].zeichen);
+				assertEquals(" ", Spielfeld.zellenArray[7][0].zeichen);
+
+				assertEquals("0", Spielfeld.zellenArray[0][1].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[1][1].zeichen);
+				assertEquals(" ", Spielfeld.zellenArray[3][1].zeichen); // Bombe! Erwartet?
+				assertEquals("0", Spielfeld.zellenArray[5][1].zeichen);
+				assertEquals(" ", Spielfeld.zellenArray[7][1].zeichen);
+
+				assertEquals("0", Spielfeld.zellenArray[0][2].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[1][2].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[2][2].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[3][2].zeichen); // Bombe! Erwartet?
+				assertEquals("0", Spielfeld.zellenArray[4][2].zeichen); // Bombe! Erwartet?
+				assertEquals("0", Spielfeld.zellenArray[5][2].zeichen);
+				//			assertEquals("0", Spielfeld.zellenArray[6][2].zeichen);
+				//			assertEquals("0", Spielfeld.zellenArray[7][2].zeichen);
+
+				assertEquals("0", Spielfeld.zellenArray[0][3].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[1][3].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[2][3].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[3][3].zeichen); // Bombe! Erwartet?
+				assertEquals("0", Spielfeld.zellenArray[4][3].zeichen); // Bombe! Erwartet?
+				assertEquals("0", Spielfeld.zellenArray[5][3].zeichen);
+				//			assertEquals("0", Spielfeld.zellenArray[6][3].zeichen);
+				//			assertEquals("0", Spielfeld.zellenArray[7][3].zeichen);
+
+				assertEquals("0", Spielfeld.zellenArray[2][4].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[3][4].zeichen); // Bombe! Erwartet?
+				assertEquals("0", Spielfeld.zellenArray[4][4].zeichen); // Bombe! Erwartet?
+				assertEquals("0", Spielfeld.zellenArray[5][4].zeichen);
+
+				assertEquals("0", Spielfeld.zellenArray[2][5].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[3][5].zeichen); // Bombe! Erwartet?
+				assertEquals("0", Spielfeld.zellenArray[4][5].zeichen); // Bombe! Erwartet?
+
+				assertEquals("0", Spielfeld.zellenArray[2][6].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[3][6].zeichen); // Bombe! Erwartet?
+				assertEquals("0", Spielfeld.zellenArray[4][6].zeichen); // Bombe! Erwartet?
+
+				assertEquals("0", Spielfeld.zellenArray[0][7].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[1][7].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[2][7].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[3][7].zeichen); // Bombe! Erwartet?
+				assertEquals("0", Spielfeld.zellenArray[4][7].zeichen); // Bombe! Erwartet?
+			}
+
+			@Test
+			@DisplayName("Test Nullen testfindeNullenInklNachbarzellen")
+			void testfindeNullenInklNachbarzellen() {
+
+				kI.findeNullen(3, 4); // 3,4 ist Aufdeckort gemäss Beispiel, siehe GIMP Datei wenn unklar
+
+				//Test1 finde auch NachbarmitBombe angrenzend an die Nullen
+				//TODO nächster Test zu erfüllen
+				assertEquals("0", Spielfeld.zellenArray[0][0].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[1][0].zeichen);
+				assertEquals("1", Spielfeld.zellenArray[2][0].zeichen);
+				assertEquals(" ", Spielfeld.zellenArray[3][0].zeichen); // Bombe! Erwartet?
+				assertEquals("1", Spielfeld.zellenArray[4][0].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[5][0].zeichen);
+				assertEquals("1", Spielfeld.zellenArray[6][0].zeichen);
+				assertEquals(" ", Spielfeld.zellenArray[7][0].zeichen);
+
+				assertEquals("1", Spielfeld.zellenArray[2][1].zeichen);
+				assertEquals("1", Spielfeld.zellenArray[3][1].zeichen); // Bombe! Erwartet?
+				assertEquals("1", Spielfeld.zellenArray[4][1].zeichen);
+			}
+
 		}
 
-		@Test
-		@DisplayName("Test waehleVariante Bombe oben mitte")
-		void testwaehleVarianteBOM() {
-			Spielfeld.zellenArray[0][5].setzeBombe();
-			assertEquals(true, Spielfeld.zellenArray[0][5].bombe);
+		@Nested
+		@Disabled
+		@DisplayName("Test TestNachbarzellenNullenZuListenOLD")
+		class TestNachbarzellenNullenZuListenOLD {
 
-			spielfeld.erstelleBombenListe();
-			int[][] ersteBombe = spielfeld.listeBombenOrte;
-			assertEquals(2, kI.waehleVariante(ersteBombe));
-		}
+			private int endeSpalte;
+			private int endeZeile;
 
-		@Test
-		@DisplayName("Test waehleVariante Bombe unten links")
-		void testwaehleVarianteBUL() {
-			Spielfeld.zellenArray[endeZeile][0].setzeBombe();
-			assertEquals(true, Spielfeld.zellenArray[endeZeile][0].bombe);
-			
-			spielfeld.erstelleBombenListe();
-			int[][] ersteBombe = spielfeld.listeBombenOrte;
-			assertEquals(7, kI.waehleVariante(ersteBombe));
-		}
-		
-		@Test
-		@DisplayName("Test waehleVariante Bombe unten rechts")
-		void testwaehleVarianteBUR() {
-			Spielfeld.zellenArray[endeZeile][endeSpalte].setzeBombe();
-			assertEquals(true, Spielfeld.zellenArray[endeZeile][endeSpalte].bombe);
-			
-			spielfeld.erstelleBombenListe();
-			int[][] ersteBombe = spielfeld.listeBombenOrte;
-			assertEquals(9, kI.waehleVariante(ersteBombe));
-		}
+			@BeforeEach
+			void setUp() throws Exception {
+				System.out.println("\n"
+						+ "Test Class TestNachbarzellenNullenZuListenOLD");
+				spielfeld = new Spielfeld();
+				spielfeld.initialisiereZellenInArray();
+				benutzerschnittstelle = new Benutzerschnittstelle();
+				kI = new KuenstlicheIntelligenz();
+				endeSpalte = Spielfeld.zellenArray[0].length-1; // merke, array.length Zahl wenn als Referenz verwendet = outofbound!! 
+				endeZeile = Spielfeld.zellenArray.length-1;
+				assertNotNull(Spielfeld.zellenArray[0][0]);
+				assertNotNull(Spielfeld.zellenArray[endeZeile][0]);
 
-		@Test
-		@DisplayName("Test waehleVariante Bombe unten mitte")
-		void testwaehleVarianteBUM() {
-			Spielfeld.zellenArray[endeZeile][6].setzeBombe();
-			assertEquals(true, Spielfeld.zellenArray[endeZeile][6].bombe);
-			
-			spielfeld.erstelleBombenListe();
-			int[][] ersteBombe = spielfeld.listeBombenOrte;
-			assertEquals(8, kI.waehleVariante(ersteBombe));
-		}
+				for (int i = 0; i < Spielfeld.zellenArray.length; i++) {
+					Spielfeld.zellenArray[i][endeSpalte].setzeBombe(); // Voraussetzung für beschrifteNachbarzellenZuBomben
+				}
+				Spielfeld.zellenArray[7][3].setzeBombe(); // Voraussetzung für beschrifteNachbarzellenZuBomben
+				Spielfeld.zellenArray[7][4].setzeBombe(); // Voraussetzung für beschrifteNachbarzellenZuBomben
+				System.out.println("zaehleVerteilteBomben: "+kI.zaehleVerteilteBomben(spielfeld));
 
-		@Test
-		@DisplayName("Test waehleVariante Bombe mitte links")
-		void testwaehleVarianteBML() {
-			Spielfeld.zellenArray[3][0].setzeBombe();
-			assertEquals(true, Spielfeld.zellenArray[3][0].bombe);
-			
-			spielfeld.erstelleBombenListe();
-			int[][] ersteBombe = spielfeld.listeBombenOrte;
-			assertEquals(4, kI.waehleVariante(ersteBombe));
-		}
-		
-		@Test
-		@DisplayName("Test waehleVariante Bombe mitte rechts")
-		void testwaehleVarianteBMR() {
-			Spielfeld.zellenArray[4][endeSpalte].setzeBombe();
-			assertEquals(true, Spielfeld.zellenArray[4][endeSpalte].bombe);
-			
-			spielfeld.erstelleBombenListe();
-			int[][] ersteBombe = spielfeld.listeBombenOrte;
-			assertEquals(6, kI.waehleVariante(ersteBombe));
-		}
-		
-		@Test
-		@DisplayName("Test waehleVariante Bombe mitte mitte")
-		void testwaehleVarianteBMM() {
-			Spielfeld.zellenArray[5][6].setzeBombe();
-			assertEquals(true, Spielfeld.zellenArray[5][6].bombe);
-			
-			spielfeld.erstelleBombenListe();
-			int[][] ersteBombe = spielfeld.listeBombenOrte;
-			assertEquals(5, kI.waehleVariante(ersteBombe));
-		}
-		
-		@Test
-		@DisplayName("Test waehleVariante mehrere Bomben aka beschrifteNachbarzellenZuBomben")
-		void testbeschrifteNachbarzellenZuBomben() {
-			Spielfeld.zellenArray[0][0].setzeBombe();
-			Spielfeld.zellenArray[5][3].setzeBombe();
-			Spielfeld.zellenArray[5][4].setzeBombe();
-			Spielfeld.zellenArray[5][5].setzeBombe();
-			Spielfeld.zellenArray[5][6].setzeBombe();
-			Spielfeld.zellenArray[6][3].setzeBombe();
-			Spielfeld.zellenArray[6][4].setzeBombe();
-			Spielfeld.zellenArray[6][5].setzeBombe();
-			Spielfeld.zellenArray[6][6].setzeBombe();
-			Spielfeld.zellenArray[endeZeile][0].setzeBombe();
-			
-			// TODO muss genau soviele Bomben setzen wie spielfeld.gewueschteBomben sonst kann es zu Fehlern kommen
-			assertEquals(spielfeld.gewuenschteBomben, kI.zaehleVerteilteBomben(spielfeld));
-			
-			spielfeld.erstelleBombenListe();
-			
-			kI.beschrifteNachbarzellenZuBomben(spielfeld);
-			
-			assertEquals(1, Spielfeld.zellenArray[0][1].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[1][1].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[endeZeile][1].bombenInNachbarschaft);
-			assertEquals(1, Spielfeld.zellenArray[endeZeile-1][0].bombenInNachbarschaft);
-		}
+				spielfeld.erstelleBombenListe();
+				kI.beschrifteNachbarzellenZuBomben(spielfeld); // besser für findeNullen
+			}
 
+			@Test
+			@DisplayName("Test Nullen finden erste Spalte, Teil 1 solve5")
+			void testfindeNullen() {
+
+				//Spielfeld wie GIMP Beispiel erstellen
+				// Bombe auf 3,0 und 7,1 + 7,3
+
+				spielfeld.gewuenschteBomben = 3;
+
+				kI.beschrifteNachbarzellenZuBomben(spielfeld); // besser für findeNullen
+				kI.findeNullen(3, 4);
+
+				assertEquals("0", Spielfeld.zellenArray[0][0].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[1][0].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[2][0].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[3][0].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[4][0].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[5][0].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[6][0].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[7][0].zeichen);
+			}
+
+			@Test
+			@DisplayName("Test Nullen finden erste Spalte, alter Ansatz solve5")
+			void testfindeNullenOLD() {
+
+				kI.beschrifteNachbarzellenZuBomben(spielfeld); // besser für findeNullen
+				kI.findeNullen(3, 4);
+
+				assertEquals("0", Spielfeld.zellenArray[0][0].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[1][0].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[2][0].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[3][0].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[4][0].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[5][0].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[6][0].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[7][0].zeichen);
+			}
+
+			@Test
+			@DisplayName("Test Nullen #solve8 testsolve8linksbisRand")
+			void testsolve8linksbisRand() {
+
+				kI.findeNullenSolve8(1, 5);
+
+				assertNotNull(Spielfeld.listeNullenSolve8);
+				assertFalse(Spielfeld.listeNullenSolve8.isEmpty());
+
+				assertEquals("0", Spielfeld.zellenArray[1][5].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[1][4].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[1][3].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[1][2].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[1][1].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[1][0].zeichen);
+			}
+
+			@Test
+			@Disabled // Soweit scheint dieser Ansatz, solve8, viel zu viele Instruktionen zu benötigen
+			@DisplayName("Test Nullen #solve8 testsolve8linksmitBombe")
+			void testsolve8linksmitBombe() {
+
+				Spielfeld.zellenArray[1][2].setzeBombe(); 
+				/// XXX schlecht musste die bomben manuell auf 11 setzten sonst läuft die funktion erstelleBombenliste nicht mehr
+				spielfeld.gewuenschteBomben = 11;
+				spielfeld.erstelleBombenListe();
+				kI.beschrifteNachbarzellenZuBomben(spielfeld); // besser für findeNullen
+
+				kI.findeNullenSolve8(1, 5);
+
+				assertNotNull(Spielfeld.listeNullenSolve8);
+				assertFalse(Spielfeld.listeNullenSolve8.isEmpty());
+
+				assertEquals("0", Spielfeld.zellenArray[1][5].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[1][4].zeichen);
+				assertEquals("1", Spielfeld.zellenArray[1][3].zeichen);
+				assertEquals("", Spielfeld.zellenArray[1][2].zeichen);
+				assertEquals("", Spielfeld.zellenArray[1][1].zeichen);
+				assertEquals("", Spielfeld.zellenArray[1][0].zeichen);
+			}
+
+			@Test
+			@DisplayName("Test Nullen #solve8")
+			void testsolve8() {
+				System.out.println("@DisplayName(testsolve8)");
+				//			List<Zelle> listeNullenSolve8 = Spielfeld.listeNullenSolve8;
+
+				kI.findeNullenSolve8(1, 5);
+
+				assertNotNull(Spielfeld.listeNullenSolve8);
+				assertFalse(Spielfeld.listeNullenSolve8.isEmpty());
+				//			assertEquals(2, Spielfeld.listeNullenSolve8.size());
+				System.out.println("print listeNullenSolve8 manual: ");
+				int counter = 0;
+				for (Zelle thisZelle : Spielfeld.listeNullenSolve8) {
+					System.out.println("x,y of listeNullenSovle position :"+thisZelle.xKoordinate+", "+thisZelle.yKoordinate+", "+ counter);
+					System.out.println("this zeichen + bombeninnachbars.: "+ thisZelle.zeichen +", "+ thisZelle.bombenInNachbarschaft);
+					counter += 1;
+				}
+
+				assertEquals("0", Spielfeld.zellenArray[1][5].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[1][4].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[1][3].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[1][2].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[1][1].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[1][0].zeichen);
+			}
+		}
 	}
 
 	@Test
@@ -471,14 +920,13 @@ class BenutzerschnittstelleTest {
 		KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
 		kI.verteileBomben(spielfeld, gewuenschteBomben);
 		spielfeld.erstelleBombenListe();
-		assertEquals(gewuenschteBomben, spielfeld.listeBombenOrte.length);
-		assertEquals(2, spielfeld.listeBombenOrte[0].length);
+		assertEquals(gewuenschteBomben, spielfeld.listeBombenOrte.size());
 
-		int zeileBombenliste = spielfeld.listeBombenOrte[0][0];
-		int spalteBombenliste = spielfeld.listeBombenOrte[0][1];
+		int zeileBombenliste = spielfeld.listeBombenOrte.get(0).yKoordinate;
+		int spalteBombenliste = spielfeld.listeBombenOrte.get(0).xKoordinate;
 		spielfeld.aufdecken(zeileBombenliste, spalteBombenliste);
-		String zeichenReferenz =Spielfeld.zellenArray[zeileBombenliste][spalteBombenliste].zeichen;
+		String zeichenReferenz = Spielfeld.zellenArray[zeileBombenliste][spalteBombenliste].zeichen;
 		assertEquals("*", zeichenReferenz);
 	}
-
+	
 }

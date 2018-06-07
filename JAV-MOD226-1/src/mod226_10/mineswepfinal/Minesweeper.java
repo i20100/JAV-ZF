@@ -9,19 +9,33 @@ public class Minesweeper {
 
 	@objid ("4e6181a3-9e3f-4f9f-a9b5-ee4f816f12b8")
 	private final Spielfeld spielfeld = new Spielfeld();
-
+	
 	@objid ("fa036034-0213-4a88-9f98-c8e41c70f934")
 	public static void main(String[] args) {
 		Minesweeper minesweeper = new Minesweeper();
+		minesweeper.ki();
 		minesweeper.spielen();
 	}
 
+	private void ki() {
+//		if (spielfeld.listeBombenOrte.length > 0) {
+//			System.out.println("listeBombenOrte.lenght = "+spielfeld.listeBombenOrte.length);
+//		}
+		
+//		ki.verteileBomben(spielfeld.gewuenschteBomben);
+//		ki.beschrifteNachbarzellenZuBomben(spielfeld);
+		System.out.println("passed1");
+	}
+	
 	private void spielen() {
 		do {
+			System.out.println("passed2");
+			
 			benutzerschnittstelle.zeigeSpielfeld(spielfeld);
 			benutzerschnittstelle.zeigeEingabeaufforderung();
 			Kommando kommando = benutzerschnittstelle.liesEingabe();
 			kommando.ausfuehren(spielfeld);
+			System.out.println("passed3");
 		} while (spielLaeuft());
 		benutzerschnittstelle.zeigeSpielfeld(spielfeld);
 		benutzerschnittstelle.zeigeSchlussmeldung();

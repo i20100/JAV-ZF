@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import mod226_10.mineswepfinal.Spielfeld;
+import mod226_10.mineswepfinal.Zelle;
+
 public class ListExamples {
 
 	public static void main(String[] args) {
@@ -67,6 +70,32 @@ public class ListExamples {
 		//print whole ArrayList:
 		System.out.println("Whole ArrayList as syso: " + myListStr.toString());
 		System.out.println(position1);
+
+		// ListArray bound to Class or object
+		Spielfeld sf = new Spielfeld();
+		sf.initialisiereZellenInArray();
+
+		// Try to store object through attribute of object, this does not work!
+		List<String> zellen = new ArrayList<String>();
+		zellen.add(Spielfeld.zellenArray[0][0].zeichen);
+		System.out.println("zellenArray: "+zellen.toString());
+		for (
+				@SuppressWarnings("unused")
+				String string : zellen) {
+			string = "%";
+		}
+		System.out.println("zellenArray: "+zellen.toString());
+
+		// store object in list, then modify static attribute
+		List<Zelle> listCellObjects = new ArrayList<Zelle>();
+		listCellObjects.add(Spielfeld.zellenArray[0][1]);
+		System.out.println("listCellObjects: "+listCellObjects.toString());
+		for (Zelle zelle : listCellObjects) {
+			zelle.zeichen = "&";
+		}
+		System.out.println("listCellObjects: "+listCellObjects.toString());
+		System.out.println(listCellObjects.get(0).zeichen);
+		System.out.println(Spielfeld.zellenArray[0][1].zeichen);
 
 
 		//sort List
