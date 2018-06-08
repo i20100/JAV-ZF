@@ -338,7 +338,7 @@ class BenutzerschnittstelleTest {
 				Spielfeld.zellenArray[0][1].setzeBombe();
 				assertEquals(true, Spielfeld.zellenArray[0][1].bombe);
 
-				kI.bombeObenMitte(spielfeld, 0, 1);
+				kI.bombeObenMitte(spielfeld, 1);
 				assertEquals(1, Spielfeld.zellenArray[0][0].bombenInNachbarschaft);
 				assertEquals(1, Spielfeld.zellenArray[0][2].bombenInNachbarschaft);
 				assertEquals(1, Spielfeld.zellenArray[1][1].bombenInNachbarschaft);
@@ -459,23 +459,140 @@ class BenutzerschnittstelleTest {
 			}
 			
 			@Test
-			@DisplayName("test to be written see testNullMitteLinks")
-			void testnochschreiben() {
-				assertEquals(true, false);
-				
+			@DisplayName("testNullMitteMitte")
+			void testNullMitteMitte() {
 				Spielfeld.zellenArray[3][0].setzeBombe();
 				assertEquals(true, Spielfeld.zellenArray[3][0].bombe);
 				
 				kI.bombeMitteLinks(spielfeld, 3);
-				Zelle zelle = Spielfeld.zellenArray[1][0];
+				Zelle zelle = Spielfeld.zellenArray[1][1];
 				
-				kI.NullMitteLinks(zelle);
+				kI.NullMitteMitte(zelle);
 				assertEquals("1", Spielfeld.zellenArray[2][0].zeichen);
 				assertEquals("1", Spielfeld.zellenArray[2][1].zeichen);
 				
 				assertNotEquals("1", Spielfeld.zellenArray[3][1].zeichen);
-				
+				assertNotEquals("1", Spielfeld.zellenArray[2][2].zeichen);
 			}
+			
+			@Test
+			@DisplayName("testNullObenMitte")
+			void testNullObenMitte() {
+				Spielfeld.zellenArray[0][5].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[0][5].bombe);
+				
+				kI.bombeObenMitte(spielfeld, 5);
+				Zelle zelle = Spielfeld.zellenArray[0][3];
+				
+				kI.NullObenMitte(zelle);
+				assertEquals("1", Spielfeld.zellenArray[0][4].zeichen);
+				assertEquals("1", Spielfeld.zellenArray[1][4].zeichen);
+				
+				assertEquals("0", Spielfeld.zellenArray[0][2].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[1][2].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[1][3].zeichen);
+			}
+
+			@Test
+			@DisplayName("testNullObenRechts")
+			void testNullObenRechts() {
+				Spielfeld.zellenArray[0][5].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[0][5].bombe);
+				
+				kI.bombeObenMitte(spielfeld, 5);
+				Zelle zelle = Spielfeld.zellenArray[0][7];
+				
+				kI.NullObenRechts(zelle);
+				assertEquals("1", Spielfeld.zellenArray[0][6].zeichen);
+				assertEquals("1", Spielfeld.zellenArray[1][6].zeichen);
+				
+				assertEquals("0", Spielfeld.zellenArray[1][7].zeichen);
+			}
+			
+			@Test
+			@DisplayName("testNullMitteRechts")
+			void testNullMitteRechts() {
+				Spielfeld.zellenArray[0][5].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[0][5].bombe);
+				
+				kI.bombeObenMitte(spielfeld, 5);
+				Zelle zelle = Spielfeld.zellenArray[1][7];
+				
+				kI.NullMitteRechts(zelle);
+				assertEquals("1", Spielfeld.zellenArray[0][6].zeichen);
+				assertEquals("1", Spielfeld.zellenArray[1][6].zeichen);
+				
+				assertEquals("0", Spielfeld.zellenArray[0][7].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[2][7].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[2][6].zeichen);
+			}
+			
+			@Test
+			@DisplayName("testNullUntenRechts")
+			void testNullUntenRechts() {
+				Spielfeld.zellenArray[6][5].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[6][5].bombe);
+				
+				kI.bombeMitteMitte(spielfeld, 6, 5);
+				Zelle zelle = Spielfeld.zellenArray[7][7];
+				
+				kI.NullUntenRechts(zelle);
+				assertEquals("1", Spielfeld.zellenArray[6][6].zeichen);
+				assertEquals("1", Spielfeld.zellenArray[7][6].zeichen);
+				
+				assertEquals("0", Spielfeld.zellenArray[6][7].zeichen);
+			}
+			
+			@Test
+			@DisplayName("testNullUntenMitte")
+			void testNullUntenMitte() {
+				Spielfeld.zellenArray[5][2].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[5][2].bombe);
+				
+				kI.bombeMitteMitte(spielfeld, 5, 2);
+				Zelle zelle = Spielfeld.zellenArray[7][3];
+				
+				kI.NullUntenMitte(zelle);
+				assertEquals("1", Spielfeld.zellenArray[6][2].zeichen);
+				assertEquals("1", Spielfeld.zellenArray[6][3].zeichen);
+
+				assertEquals("0", Spielfeld.zellenArray[6][4].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[7][2].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[7][4].zeichen);
+			}
+			
+			@Test
+			@DisplayName("testNullUntenLinks")
+			void testNullUntenLinks() {
+				Spielfeld.zellenArray[5][2].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[5][2].bombe);
+				
+				kI.bombeMitteMitte(spielfeld, 5, 2);
+				Zelle zelle = Spielfeld.zellenArray[7][0];
+				
+				kI.NullUntenLinks(zelle);
+				assertEquals("1", Spielfeld.zellenArray[6][1].zeichen);
+				
+				assertEquals("0", Spielfeld.zellenArray[6][0].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[7][1].zeichen);
+			}
+			
+			@Test
+			@DisplayName("testNullObenLinks")
+			void testNullObenLinks() {
+				Spielfeld.zellenArray[2][1].setzeBombe();
+				assertEquals(true, Spielfeld.zellenArray[2][1].bombe);
+				
+				kI.bombeMitteMitte(spielfeld, 2, 1);
+				Zelle zelle = Spielfeld.zellenArray[0][0];
+				
+				kI.NullObenLinks(zelle);
+				assertEquals("1", Spielfeld.zellenArray[1][0].zeichen);
+				assertEquals("1", Spielfeld.zellenArray[1][1].zeichen);
+				
+				assertEquals("0", Spielfeld.zellenArray[0][1].zeichen);
+			}
+			
 		}
 
 		// TODO Tests in eigene Klasse verpacken

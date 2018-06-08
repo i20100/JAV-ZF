@@ -65,7 +65,7 @@ public class KuenstlicheIntelligenz {
 				bombeObenLinks(spielfeld);
 				break;
 			case 2:
-				bombeObenMitte(spielfeld, zeile, spalte);
+				bombeObenMitte(spielfeld, spalte);
 				break;
 			case 3:
 				bombeObenRechts(spielfeld);
@@ -103,7 +103,7 @@ public class KuenstlicheIntelligenz {
 		Spielfeld.zellenArray[1][1].bombenInNachbarschaft += 1;
 	}
 
-	public void bombeObenMitte(Spielfeld spielfeld, int zeile, int spalte) {
+	public void bombeObenMitte(Spielfeld spielfeld, int spalte) {
 		// gilt nur für Zelle[0][1]-[0][Spielfeld.zellenArray.[0].length-1]!
 		// Erhöhe bombenInNachbarschaft für links, rechts, unten, unten li. u. re.
 		// in Bezug auf aktuelle position!
@@ -368,62 +368,70 @@ public class KuenstlicheIntelligenz {
 	}
 
 	public void NullUntenRechts(Zelle zelle) {
-		// TODO prüfe alle Nachbarzellen auf Bomben in Nachbarschaft
-		// TODO wenn true, setze Wert auf zeichen
-
-
+		zelle.zelleLinks().zeichen = Integer.toString(zelle.zelleLinks().bombenInNachbarschaft);
+		zelle.zelleOben().zeichen = Integer.toString(zelle.zelleOben().bombenInNachbarschaft);
+		zelle.zelleObenLinks().zeichen = Integer.toString(zelle.zelleObenLinks().bombenInNachbarschaft);
 	}
 
 	public void NullUntenMitte(Zelle zelle) {
-		// TODO Auto-generated method stub
-
+		zelle.zelleLinks().zeichen = Integer.toString(zelle.zelleLinks().bombenInNachbarschaft);
+		zelle.zelleRechts().zeichen = Integer.toString(zelle.zelleRechts().bombenInNachbarschaft);
+		zelle.zelleOben().zeichen = Integer.toString(zelle.zelleOben().bombenInNachbarschaft);
+		zelle.zelleObenLinks().zeichen = Integer.toString(zelle.zelleObenLinks().bombenInNachbarschaft);
+		zelle.zelleObenRechts().zeichen = Integer.toString(zelle.zelleObenRechts().bombenInNachbarschaft);
 	}
 
 	public void NullUntenLinks(Zelle zelle) {
-		// TODO Auto-generated method stub
-
+		zelle.zelleRechts().zeichen = Integer.toString(zelle.zelleRechts().bombenInNachbarschaft);
+		zelle.zelleOben().zeichen = Integer.toString(zelle.zelleOben().bombenInNachbarschaft);
+		zelle.zelleObenRechts().zeichen = Integer.toString(zelle.zelleObenRechts().bombenInNachbarschaft);
 	}
 
 	public void NullMitteRechts(Zelle zelle) {
-		// TODO Auto-generated method stub
-
+		zelle.zelleLinks().zeichen = Integer.toString(zelle.zelleLinks().bombenInNachbarschaft);
+		zelle.zelleOben().zeichen = Integer.toString(zelle.zelleOben().bombenInNachbarschaft);
+		zelle.zelleUnten().zeichen = Integer.toString(zelle.zelleUnten().bombenInNachbarschaft);
+		zelle.zelleObenLinks().zeichen = Integer.toString(zelle.zelleObenLinks().bombenInNachbarschaft);
+		zelle.zelleUntenLinks().zeichen = Integer.toString(zelle.zelleUntenLinks().bombenInNachbarschaft);	
 	}
 
 	public void NullMitteMitte(Zelle zelle) {
-		// TODO Auto-generated method stub
-		
-		
-		
+		zelle.zelleLinks().zeichen = Integer.toString(zelle.zelleLinks().bombenInNachbarschaft);
+		zelle.zelleRechts().zeichen = Integer.toString(zelle.zelleRechts().bombenInNachbarschaft);
+		zelle.zelleOben().zeichen = Integer.toString(zelle.zelleOben().bombenInNachbarschaft);
+		zelle.zelleUnten().zeichen = Integer.toString(zelle.zelleUnten().bombenInNachbarschaft);
+		zelle.zelleObenLinks().zeichen = Integer.toString(zelle.zelleObenLinks().bombenInNachbarschaft);
+		zelle.zelleUntenLinks().zeichen = Integer.toString(zelle.zelleUntenLinks().bombenInNachbarschaft);	
+		zelle.zelleObenRechts().zeichen = Integer.toString(zelle.zelleObenRechts().bombenInNachbarschaft);
+		zelle.zelleUntenRechts().zeichen = Integer.toString(zelle.zelleUntenRechts().bombenInNachbarschaft);	
 	}
 
 	public void NullMitteLinks(Zelle zelle) {
-		//TODO finde Nachbarzellen
-		// TODO erstelle Methoden dazu! rechts, oben, unten, or, ur
-//		zelle.zeichen = Integer.toString(Spielfeld.zelleRechts(zelle.bombenInNachbarschaft));
-		
-//		zelle.zeichen = Integer.toString(Spielfeld.zelleRechts(zelle.bombenInNachbarschaft));
-		
 		zelle.zelleRechts().zeichen = Integer.toString(zelle.zelleRechts().bombenInNachbarschaft);
 		zelle.zelleOben().zeichen = Integer.toString(zelle.zelleOben().bombenInNachbarschaft);
 		zelle.zelleUnten().zeichen = Integer.toString(zelle.zelleUnten().bombenInNachbarschaft);
 		zelle.zelleObenRechts().zeichen = Integer.toString(zelle.zelleObenRechts().bombenInNachbarschaft);
 		zelle.zelleUntenRechts().zeichen = Integer.toString(zelle.zelleUntenRechts().bombenInNachbarschaft);
-
 	}
 
 	public void NullObenRechts(Zelle zelle) {
-		// TODO Auto-generated method stub
-
+		zelle.zelleLinks().zeichen = Integer.toString(zelle.zelleLinks().bombenInNachbarschaft);
+		zelle.zelleUnten().zeichen = Integer.toString(zelle.zelleUnten().bombenInNachbarschaft);
+		zelle.zelleUntenLinks().zeichen = Integer.toString(zelle.zelleUntenLinks().bombenInNachbarschaft);	
 	}
 
 	public void NullObenMitte(Zelle zelle) {
-		// TODO Auto-generated method stub
-
+		zelle.zelleLinks().zeichen = Integer.toString(zelle.zelleLinks().bombenInNachbarschaft);
+		zelle.zelleRechts().zeichen = Integer.toString(zelle.zelleRechts().bombenInNachbarschaft);
+		zelle.zelleUnten().zeichen = Integer.toString(zelle.zelleUnten().bombenInNachbarschaft);
+		zelle.zelleUntenLinks().zeichen = Integer.toString(zelle.zelleUntenLinks().bombenInNachbarschaft);	
+		zelle.zelleUntenRechts().zeichen = Integer.toString(zelle.zelleUntenRechts().bombenInNachbarschaft);	
 	}
 
 	public void NullObenLinks(Zelle zelle) {
-		// TODO Auto-generated method stub
-
+		zelle.zelleRechts().zeichen = Integer.toString(zelle.zelleRechts().bombenInNachbarschaft);
+		zelle.zelleUnten().zeichen = Integer.toString(zelle.zelleUnten().bombenInNachbarschaft);
+		zelle.zelleUntenRechts().zeichen = Integer.toString(zelle.zelleUntenRechts().bombenInNachbarschaft);	
 	}
 
 	public void findeNullenSolve8(int zeile, int spalte) {
