@@ -20,11 +20,6 @@ public class Zelle {
 
 	public int bombenInNachbarschaft = 0;
 
-	public boolean geprueftLinks = false;
-	public boolean geprueftOben = false;
-	public boolean geprueftRechts = false;
-	public boolean geprueftUnten = false;
-
 	public Zelle(int i, int j) {
 		xKoordinate = j;
 		yKoordinate = i;
@@ -41,7 +36,7 @@ public class Zelle {
 	public void setzeBombe() {
 		this.bombe = true;
 	}
-
+	
 	public Zelle zelleLinks() {
 		Zelle zelle = Spielfeld.zellenArray[this.yKoordinate][this.xKoordinate-1];
 		return zelle;
@@ -81,7 +76,5 @@ public class Zelle {
 		Zelle zelle = Spielfeld.zellenArray[this.yKoordinate+1][this.xKoordinate];
 		return zelle;
 	}
-	
-	
 	
 }

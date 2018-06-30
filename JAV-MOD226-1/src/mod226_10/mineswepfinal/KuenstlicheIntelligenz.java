@@ -271,26 +271,13 @@ public class KuenstlicheIntelligenz {
 		//		Spielfeld.zellenArray[5][0].zeichen = "0";
 		//		Spielfeld.zellenArray[6][0].zeichen = "1";
 
-		//DONE liste erstellen? sobald zelle keine bombe ist, und keine nachbarbomben hat, zellen zur liste hinzufügen
+		//DONE liste erstellen? sobald zelle keine bombe ist, und keine nachbarbomben hat, zellen zur liste nullen hinzufügen
 		//TODO bis wieder eine bombe kommt, danach neue liste ertellen
+		
 		List<Zelle> nullen = new ArrayList<Zelle>();
 
-		for (int j = 0; j < Spielfeld.zellenArray[0].length; j++) {
-
-			for (int i = 0; i < Spielfeld.zellenArray.length; i++) {
-				if (Spielfeld.zellenArray[i][j].bombe == false) {
-					if (Spielfeld.zellenArray[i][j].bombenInNachbarschaft == 0) {
-						nullen.add(Spielfeld.zellenArray[i][j]);
-					}
-				}
-			}
-		}
-
-		// Ersetzte Zeichen Zelle mit "0"
-		for (Zelle zelle : nullen) {
-			zelle.zeichen = Integer.toString(zelle.bombenInNachbarschaft);
-		}
-
+		findeNachbarNullZellen(nullen);
+		beschrifteNachbarNullMitNull(nullen);
 		beschrifteZellenZwischenNullUndBombe(nullen);
 
 		//1. check feld auf bombe, wenn ja skip, da nichts mit dem Feld geschehen soll da default wert für Zelle ja " " sein sollte.s
@@ -299,10 +286,31 @@ public class KuenstlicheIntelligenz {
 		//3. wenn nein, mach das richtige
 
 
-		// TODO erstelle Listenbzugsattribut pro Zelle
+		// TODO erstelle Listenbezugsattribut pro Zelle
 		// TODO erstelle Liste pro neues nicht verbundenes Null in Spalte
 		//		List<Zelle> 
 
+	}
+
+	public void findeNachbarNullZellen(List<Zelle> nullen) {
+		// FIXME unterscheide verbunden mit Aufdeckort und nicht verbunden: nicht verbundene Zellen dürfen nicht in die Liste aufgenommen werden!
+		
+		// findet ALLE Nullen auf dem Spielfeld! ALLE! siehe FIXME
+		for (int j = 0; j < Spielfeld.zellenArray[0].length; j++) {
+			for (int i = 0; i < Spielfeld.zellenArray.length; i++) {
+				if (Spielfeld.zellenArray[i][j].bombe == false) {
+					if (Spielfeld.zellenArray[i][j].bombenInNachbarschaft == 0) {
+						nullen.add(Spielfeld.zellenArray[i][j]);
+					}
+				}
+			}
+		}
+	}
+
+	public void beschrifteNachbarNullMitNull(List<Zelle> nullen) {
+		for (Zelle zelle : nullen) {
+			zelle.zeichen = Integer.toString(zelle.bombenInNachbarschaft);
+		}
 	}
 
 	public void beschrifteZellenZwischenNullUndBombe(List<Zelle> nullen) {
@@ -313,7 +321,7 @@ public class KuenstlicheIntelligenz {
 		// TODO da dieses vorgehen bereits einmal angwendet wird bei beschrifteNachbarzellenZuBomben, 
 		// dessen methode so anpassen, dass diese für beide Fälle geht!
 
-		// Notiz Ablauf der Auswahl, welche Kriterien sind bei beiden Methoden gleich, wo unterscheiden Sie sich?
+		// Notiz: Ablauf der Auswahl, welche Kriterien sind bei beiden Methoden gleich, wo unterscheiden Sie sich?
 		// Beide haben eine Liste von Zellen welche abgearbeitet werden müssen.
 		// bei beiden muss dann entsprechend der aktuellen Zelle, alle Benachbarten Zellen gefunden werden und diese manipuliert werden.
 		// Die Manipulation ist aber nicht mehr dieselbe bei beiden.
@@ -432,60 +440,6 @@ public class KuenstlicheIntelligenz {
 		zelle.zelleRechts().zeichen = Integer.toString(zelle.zelleRechts().bombenInNachbarschaft);
 		zelle.zelleUnten().zeichen = Integer.toString(zelle.zelleUnten().bombenInNachbarschaft);
 		zelle.zelleUntenRechts().zeichen = Integer.toString(zelle.zelleUntenRechts().bombenInNachbarschaft);	
-	}
-
-	public void findeNullenSolve8(int zeile, int spalte) {
-		// INFORMATION, WIRD DIESE METHODE AUFGERUFEN IST BEREITS KLAR DAS DIESE
-		// ZELLE KEINE BOMBE ENTHÄLT UND AUCH KEINE IN DER NACHBARZELLE IST!
-
-		// TODO Randproblem lösen alle Randzellen alle gepruefteXY auf true setzen
-		// TODO methode zu Zellenarray erstellen auslagern
-
-
-		//Liste reseten
-		//TODO Liste am Ende löschen! Da Static! gelöst mit Zeile oberhalb?
-		//		Spielfeld.listeNullenSolve8 = new ArrayList<Zelle>(); // wird neu bereits in Spielfeld initialisiert
-		// aber clear ist jetzt nötig! Liste von allen Einträgen befreien, wenn noch alte drin!
-		Spielfeld.listeNullenSolve8.clear();
-
-		// eigene position in liste speichern?
-		Spielfeld.listeNullenSolve8.add(Spielfeld.zellenArray[zeile][spalte]);
-
-		// Sezte zeichen für aufgedecktes feld auf Bombe keine aka '0'
-		Spielfeld.listeNullenSolve8.get(0).zeichen = Integer.toString(Spielfeld.listeNullenSolve8.get(0).bombenInNachbarschaft);
-
-		//prüfe in Richtung: links
-		//		TODO prüfe flag links noch nicht gesetzt
-		//		TODO Flag ersetzt auch das Randproblem, kein outofbound wenn flag an jedem rand gesetzt wurde!
-		//		DONE prüfe alle zellen links auf ist hatkeineBombe wenn ja zu liste, wenn nein abbruch
-		//		DONE nun nimm liste und setze alle zeichen auf "0" und setzte flag links geprüft
-		// TODO funktion schreiben für links, oben, rechts, unten welche sich auf jede Zelle anwenden lässt?
-
-		naechsteLinks(Spielfeld.listeNullenSolve8.get(0));
-		//		Spielfeld.listeNullenSolve8.add(e)
-		Spielfeld.listeNullenSolve8.get(0).geprueftLinks = true;
-
-		// TODO I think not it gives me a concurrentModificationExeption! Read up on this online!
-		//		for (Zelle zelle : Spielfeld.listeNullenSolve8) {
-		//			naechsteLinks(zelle);
-		//		}
-	}
-
-	public void naechsteLinks(Zelle zelle) {
-		int zeile = zelle.xKoordinate;
-		int spalte = zelle.yKoordinate;
-		//TODO FIXME Wrap in Exception Handler wenn out of bound! bzw. am Rand!!!
-		for (int i = 0; i < spalte; i++) {
-
-			Zelle naechsteZelle = Spielfeld.zellenArray[zeile][spalte-1-i];
-			if (naechsteZelle.bombenInNachbarschaft == 0) {
-				Spielfeld.listeNullenSolve8.add(naechsteZelle);
-				naechsteZelle.zeichen = Integer.toString(naechsteZelle.bombenInNachbarschaft);
-				naechsteZelle.geprueftLinks = true;
-			} else {
-				i = spalte;
-			}
-		}
 	}
 
 }
