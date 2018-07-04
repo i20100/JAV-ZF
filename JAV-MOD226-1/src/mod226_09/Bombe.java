@@ -2,9 +2,9 @@ package mod226_09;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
-@objid ("d37b37ef-229d-4b6f-b6f9-7d5b6285dd8f")
+@objid ("a8f8c982-6918-4eda-9be3-412bb9d7a1c7")
 public class Bombe {
-    @objid ("ece56fbf-5261-4681-a3a1-bd32fc64567a")
+    @objid ("a5765ce5-eec7-4ca2-bebe-351a39ed6e18")
     public void gameEnds() {
     }
 

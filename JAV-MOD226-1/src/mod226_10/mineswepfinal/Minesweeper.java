@@ -4,47 +4,49 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("a91c080d-7e95-4de4-8070-cb426dda6061")
 public class Minesweeper {
-	@objid ("ea35c8a8-6f06-47ec-970a-1afac2291c5f")
-	private final Benutzerschnittstelle benutzerschnittstelle = new Benutzerschnittstelle();
+    @objid ("ea35c8a8-6f06-47ec-970a-1afac2291c5f")
+    private final Benutzerschnittstelle benutzerschnittstelle = new Benutzerschnittstelle();
 
-	@objid ("4e6181a3-9e3f-4f9f-a9b5-ee4f816f12b8")
-	private final Spielfeld spielfeld = new Spielfeld();
-	
-	@objid ("fa036034-0213-4a88-9f98-c8e41c70f934")
-	public static void main(String[] args) {
-		Minesweeper minesweeper = new Minesweeper();
-		minesweeper.ki();
-		minesweeper.spielen();
-	}
+    @objid ("4e6181a3-9e3f-4f9f-a9b5-ee4f816f12b8")
+    private final Spielfeld spielfeld = new Spielfeld();
 
-	private void ki() {
-//		if (spielfeld.listeBombenOrte.length > 0) {
-//			System.out.println("listeBombenOrte.lenght = "+spielfeld.listeBombenOrte.length);
-//		}
-		
-//		ki.verteileBomben(spielfeld.gewuenschteBomben);
-//		ki.beschrifteNachbarzellenZuBomben(spielfeld);
-		System.out.println("passed1");
-	}
-	
-	private void spielen() {
-		do {
-			System.out.println("passed2");
-			
-			benutzerschnittstelle.zeigeSpielfeld(spielfeld);
-			benutzerschnittstelle.zeigeEingabeaufforderung();
-			Kommando kommando = benutzerschnittstelle.liesEingabe();
-			kommando.ausfuehren(spielfeld);
-			System.out.println("passed3");
-		} while (spielLaeuft());
-		benutzerschnittstelle.zeigeSpielfeld(spielfeld);
-		benutzerschnittstelle.zeigeSchlussmeldung();
-	}
+    @objid ("fa036034-0213-4a88-9f98-c8e41c70f934")
+    public static void main(String[] args) {
+        Minesweeper minesweeper = new Minesweeper();
+        minesweeper.ki();
+        minesweeper.spielen();
+    }
 
-	@objid ("890def89-27b6-41a7-b38c-f02ea594a6ad")
-	private boolean spielLaeuft() {
-		//TODO Was soll hier rein, was war die Idee des Lehrers für diese Methode?
-		return true;
-	}
+    @objid ("ad3a7df8-f221-4ab9-b1db-66dc0dcede7c")
+    private void spielen() {
+        do {
+            System.out.println("passed2");
+            
+            benutzerschnittstelle.zeigeSpielfeld(spielfeld);
+            benutzerschnittstelle.zeigeEingabeaufforderung();
+            Kommando kommando = benutzerschnittstelle.liesEingabe();
+            kommando.ausfuehren(spielfeld);
+            System.out.println("passed3");
+        } while (spielLaeuft());
+        benutzerschnittstelle.zeigeSpielfeld(spielfeld);
+        benutzerschnittstelle.zeigeSchlussmeldung();
+    }
+
+    @objid ("890def89-27b6-41a7-b38c-f02ea594a6ad")
+    private boolean spielLaeuft() {
+        //TODO Was soll hier rein, was war die Idee des Lehrers fï¿½r diese Methode?
+        return true;
+    }
+
+    @objid ("4811778f-9629-4242-a4c5-a2a81c116e4c")
+    private void ki() {
+        //        if (spielfeld.listeBombenOrte.length > 0) {
+        //            System.out.println("listeBombenOrte.lenght = "+spielfeld.listeBombenOrte.length);
+        //        }
+                
+        //        ki.verteileBomben(spielfeld.gewuenschteBomben);
+        //        ki.beschrifteNachbarzellenZuBomben(spielfeld);
+                System.out.println("passed1");
+    }
 
 }

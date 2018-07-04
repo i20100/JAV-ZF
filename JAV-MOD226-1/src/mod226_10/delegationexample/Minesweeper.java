@@ -2,38 +2,39 @@ package mod226_10.delegationexample;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
-import mod226_09.Spielfeld;
+import mod226_10.mineswepfinal.Spielfeld;
 
-@objid ("a91c080d-7e95-4de4-8070-cb426dda6061")
+@objid ("ac4e195e-9c6e-4767-9f83-8c9e86e6ec21")
 public class Minesweeper {
-	@objid ("ea35c8a8-6f06-47ec-970a-1afac2291c5f")
-	private final Benutzerschnittstelle benutzerschnittstelle = new Benutzerschnittstelle();
+    @objid ("88762306-9398-437b-9791-65c675afbf0a")
+    private final Benutzerschnittstelle benutzerschnittstelle = new Benutzerschnittstelle();
 
-	@objid ("4e6181a3-9e3f-4f9f-a9b5-ee4f816f12b8")
-	private final Spielfeld spielfeld = new Spielfeld();
+    @objid ("3322e8fc-3d15-4d77-a95a-2c194c558362")
+    private final Spielfeld spielfeld = new Spielfeld();
 
-	@objid ("fa036034-0213-4a88-9f98-c8e41c70f934")
-	public static void main(String[] args) {
-		Minesweeper minesweeper = new Minesweeper();
-		minesweeper.spielen();
-	}
+    @objid ("6292d80b-5e24-48d1-8b67-e4f764fdee29")
+    public static void main(String[] args) {
+        Minesweeper minesweeper = new Minesweeper();
+        minesweeper.spielen();
+    }
 
-	private void spielen() {
-		do {
-			benutzerschnittstelle.zeigeSpielfeld(spielfeld);
-			benutzerschnittstelle.zeigeEingabeaufforderung();
-			Kommando kommando = benutzerschnittstelle.liesEingabe();
-			kommando.ausfuehren(spielfeld);
-			//FIXME klasse Spielfeld erstellen
-		} while (spielLaeuft());
-		benutzerschnittstelle.zeigeSpielfeld(spielfeld);
-		benutzerschnittstelle.zeigeSchlussmeldung();
-	}
+    @objid ("f454e8d8-e8db-464b-9481-fd5b7ae65866")
+    private void spielen() {
+        do {
+            benutzerschnittstelle.zeigeSpielfeld(spielfeld);
+            benutzerschnittstelle.zeigeEingabeaufforderung();
+            Kommando kommando = benutzerschnittstelle.liesEingabe();
+            kommando.ausfuehren(spielfeld);
+            //FIXME klasse Spielfeld erstellen
+        } while (spielLaeuft());
+        benutzerschnittstelle.zeigeSpielfeld(spielfeld);
+        benutzerschnittstelle.zeigeSchlussmeldung();
+    }
 
-	@objid ("890def89-27b6-41a7-b38c-f02ea594a6ad")
-	private boolean spielLaeuft() {
-		//TODO Was soll hier rein, was war die Idee des Lehrers für diese Methode?
-		return true;
-	}
+    @objid ("c3ea221c-046b-480a-9731-898e0c7d8c0f")
+    private boolean spielLaeuft() {
+        //TODO Was soll hier rein, was war die Idee des Lehrers fï¿½r diese Methode?
+        return true;
+    }
 
 }

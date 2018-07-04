@@ -2,25 +2,25 @@ package mod226_09;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
-@objid ("33727d3b-06ba-42bd-9787-1c071adb7350")
+@objid ("3e02444f-624a-4a78-a47f-93256005a46b")
 public class Zelle {
-    @objid ("9d1fba41-d4bd-42ae-85fe-bd2e9a19eb5e")
+    @objid ("3e72935a-cd74-46b2-b3e6-102c8d27dafb")
     public int xKoordinate;
 
-    @objid ("6760e3fc-cb3f-412e-80d1-d39bb75a85b2")
+    @objid ("6fa6aa85-55b7-4576-b91d-93f3ece933c6")
     public int yKoordinate;
 
-    @objid ("051c7e36-a810-4c17-959c-1b7ac18b54d8")
+    @objid ("6cf3b53a-c39d-4794-b8e2-4dab448a17fb")
     public String zustand = "verdeckt";
 
-    @objid ("878845f6-60ca-4f59-9686-adb8435a75db")
+    @objid ("641b8576-955f-4f38-93b7-0ac6d171872d")
     public Bombe bombe;
 
-    @objid ("41c8f7f1-e7be-4051-8495-a2b52bd9d0c3")
+    @objid ("3c855929-0a3c-4008-9118-0637a05f1e49")
     public void aufdecken() {
     }
 
-    @objid ("7399c172-ea5c-431c-a912-76609ebaedd3")
+    @objid ("b8705dd0-4e31-44e4-908c-c6e783fdf1d1")
     public void markieren() {
     }
 

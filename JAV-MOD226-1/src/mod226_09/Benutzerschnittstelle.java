@@ -13,7 +13,6 @@ public class Benutzerschnittstelle {
 
     @objid ("4161fb9e-24a9-48f0-a7f4-86de32c0272e")
     public void verarbeiteAktionSpieler() {
-    	
     }
 
 }
