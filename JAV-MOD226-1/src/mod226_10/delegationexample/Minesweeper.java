@@ -25,7 +25,7 @@ public class Minesweeper {
             benutzerschnittstelle.zeigeEingabeaufforderung();
             Kommando kommando = benutzerschnittstelle.liesEingabe();
             kommando.ausfuehren(spielfeld);
-            //FIXME klasse Spielfeld erstellen
+            //FIXME klasse Spielfeld erstellen? Unklar was hier gemeint ist???
         } while (spielLaeuft());
         benutzerschnittstelle.zeigeSpielfeld(spielfeld);
         benutzerschnittstelle.zeigeSchlussmeldung();
@@ -33,7 +33,7 @@ public class Minesweeper {
 
     @objid ("c3ea221c-046b-480a-9731-898e0c7d8c0f")
     private boolean spielLaeuft() {
-        //TODO Was soll hier rein, was war die Idee des Lehrers f�r diese Methode?
+        //TODO Was soll hier rein, was war die Idee des Lehrers fuer diese Methode?
         return true;
     }
 

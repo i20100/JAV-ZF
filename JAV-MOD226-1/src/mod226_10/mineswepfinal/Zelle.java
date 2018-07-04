@@ -23,7 +23,7 @@ public class Zelle {
     public int bombenInNachbarschaft = 0;
 
     @objid ("d3be3fb2-1ff0-4316-9664-523fddc6107c")
-    public String positionsKategorieENUM = "undefiniert";
+    public PositionImSpielfeld positionImSpielfeld = PositionImSpielfeld.UNDEFINIERT;
 
     @objid ("e408dd48-296e-4bed-9065-3535afb7986f")
     public boolean nullenBehandeltFlag = false;
@@ -93,18 +93,6 @@ public class Zelle {
     public Zelle zelleUnten() {
         Zelle zelle = Spielfeld.zellenArray[this.yKoordinate+1][this.xKoordinate];
         return zelle;
-    }
-
-    @objid ("ac6cfb86-6862-4a9d-a197-5b6cddf1b8a1")
-    String getPositionsKategorieENUM() {
-        // Automatically generated method. Please delete this comment before entering specific code.
-        return this.positionsKategorieENUM;
-    }
-
-    @objid ("593b3fab-2d51-4c80-b7c1-0b3174af1eb2")
-    void setPositionsKategorieENUM(String value) {
-        // Automatically generated method. Please delete this comment before entering specific code.
-        this.positionsKategorieENUM = value;
     }
 
 }

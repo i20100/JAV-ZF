@@ -34,7 +34,7 @@ public class Minesweeper {
 
     @objid ("890def89-27b6-41a7-b38c-f02ea594a6ad")
     private boolean spielLaeuft() {
-        //TODO Was soll hier rein, was war die Idee des Lehrers f�r diese Methode?
+        //TODO Was soll hier rein, was war die Idee des Lehrers fuer diese Methode?
         return true;
     }
 

@@ -3,6 +3,7 @@ package mod226_10.test;
 import mod226_10.mineswepfinal.Benutzerschnittstelle;
 import mod226_10.mineswepfinal.Kommando;
 import mod226_10.mineswepfinal.KuenstlicheIntelligenz;
+import mod226_10.mineswepfinal.PositionImSpielfeld;
 import mod226_10.mineswepfinal.Spielfeld;
 import mod226_10.mineswepfinal.Zelle;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,7 +47,7 @@ class BenutzerschnittstelleTest {
 
 
 	@Test
-	@DisplayName("Test verteileBomben zuf�llig verteilen")
+	@DisplayName("Test verteileBomben zufaellig verteilen")
 	void testverteileBomben() {
 		int gewuenschteBomben = spielfeld.gewuenschteBomben;
 		KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
@@ -57,7 +58,7 @@ class BenutzerschnittstelleTest {
 
 
 	@Test
-	@DisplayName("?? Teste gew�nschte = verteilte Bomben")
+	@DisplayName("?? Teste gewuenschte = verteilte Bomben")
 	void testverteilteBomben() {
 		int gewuenschteBomben = spielfeld.gewuenschteBomben;
 		KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
@@ -169,20 +170,23 @@ class BenutzerschnittstelleTest {
 	class TestSpielfeld {
 
 		@Test
-		@DisplayName("Test zellenArray enth�lt Zellen Objekte, d.h. Befehl erstelleSpielfeld() erstellt Array mit Objekten, nicht 'leeres' Array")
+		@DisplayName("Test zellenArray enthaelt Zellen Objekte, d.h. Befehl erstelleSpielfeld() erstellt Array mit Objekten, nicht 'leeres' Array")
 		void testzeigeZellenArray() {
 			assertNotNull(Spielfeld.zellenArray[0]);
 		}
 
 
 		@Test
-		@DisplayName("Test initialisiereZellenInArray")
-		void testinitialisiereZellenInArray() {
+		void testInitialisiereZellenInArray() {
 			assertNotNull(Spielfeld.zellenArray[0][0]);
 			assertEquals(Spielfeld.zeilen, Spielfeld.zellenArray.length);
 			assertEquals(Spielfeld.spalten, Spielfeld.zellenArray[0].length);
 		}
-
+		
+		@Test
+		void testPositionImSpielfeldGesetztNachInitialisiereZellenInArray() {
+			assertEquals(PositionImSpielfeld.OBENLINKS, Spielfeld.zellenArray[0][0].positionImSpielfeld);
+		}
 
 		@Test
 		@DisplayName("Test erstelleBombenListe")
@@ -195,7 +199,7 @@ class BenutzerschnittstelleTest {
 
 
 		@Test
-		@DisplayName("Test erstelleBombenListe mehrere Eintr�ge")
+		@DisplayName("Test erstelleBombenListe mehrere Eintraege")
 		void testerstelleBombenListeMulti() {
 			Spielfeld.zellenArray[0][3].setzeBombe();
 			Spielfeld.zellenArray[1][3].setzeBombe();
@@ -250,11 +254,11 @@ class BenutzerschnittstelleTest {
 
 		@Test
 		@Disabled
-		@DisplayName("Test liesEingabe() bis Umwandlung in Kommando bei g�ltiger Eingabe")
+		@DisplayName("Test liesEingabe() bis Umwandlung in Kommando bei gueltiger Eingabe")
 		void testLiesEingabe() {
 			//XXX Fake methode liesEingabe(String testString) erstellt. Dies verstoesst gegen keine Codeteile 2x vorhanden!!
-			//FIXME Fake methode und dieser Test nicht zum laufen gebracht, ein Problem ist dieser Test deck bereits zuviele vorg�nge ab und scheint eher ein 
-			//Integrationstest zu sein. konsequenz Fake methode erst mal wieder gel�scht!
+			//FIXME Fake methode und dieser Test nicht zum laufen gebracht, ein Problem ist dieser Test deck bereits zuviele vorgaenge ab und scheint eher ein 
+			//Integrationstest zu sein. konsequenz Fake methode erst mal wieder geloescht!
 
 			/*String testString = "M 0 0";
                     Kommando testKommando = benutzerschnittstelle.liesEingabe(testString);
@@ -293,7 +297,7 @@ class BenutzerschnittstelleTest {
 		void testBombeAufdeckenZelle00() {
 			Spielfeld.zellenArray[0][0].setzeBombe();
 			Kommando kommando = new Kommando("T", 0, 0);
-			//TODO switch to spielEnde() implementieren bei aufdecken
+			//FIXME switch to spielEnde() implementieren bei aufdecken
 			kommando.ausfuehren(spielfeld);
 			assertEquals("*", Spielfeld.zellenArray[0][0].zeichen);
 		}
@@ -310,7 +314,7 @@ class BenutzerschnittstelleTest {
 
 
 		@Test
-		@DisplayName("Test aufdecken Zelle[0][2] welche Nachbar zu Bombe[0][1] ist, R�ckmeldung BombenAnzahl")
+		@DisplayName("Test aufdecken Zelle[0][2] welche Nachbar zu Bombe[0][1] ist, Rueckmeldung BombenAnzahl")
 		void testNachbarzelleZuBombeAufdecken() {
 			Spielfeld.zellenArray[0][1].setzeBombe();
 			KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
@@ -325,7 +329,7 @@ class BenutzerschnittstelleTest {
 
 		@Test
 		void testAufdeckenLeeresFeld() {
-			//TODO bevor hier weitergemacht wird, test erstellen alle NachbarNullZellen in Listen speichern! Siehe KI.
+			//FIXME bevor hier weitergemacht wird, test erstellen alle NachbarNullZellen in Listen speichern! Siehe KI.
 			Kommando kommando = new Kommando("T", 2, 3);
 			kommando.ausfuehren(spielfeld);
 
@@ -366,6 +370,7 @@ class BenutzerschnittstelleTest {
 		void setUp() throws Exception {
 			spielfeld = new Spielfeld();
 			spielfeld.initialisiereZellenInArray();
+			spielfeld.initialisiereZellenPositionImSpielfeld();
 			benutzerschnittstelle = new Benutzerschnittstelle();
 			kI = new KuenstlicheIntelligenz();
 			endeSpalte = Spielfeld.zellenArray[0].length-1; // merke, array.length Zahl wenn als Referenz verwendet = outofbound!! 
@@ -500,8 +505,34 @@ class BenutzerschnittstelleTest {
 					assertEquals(1, Spielfeld.zellenArray[5][endeSpalte-1].bombenInNachbarschaft);
 				}
 
-			}
 
+				@Test
+				void testbeschrifteNachbarzellenZuBomben() {
+					// XXX muss genau soviele Bomben setzen wie spielfeld.gewueschteBomben sonst kann es zu Fehlern kommen
+					Spielfeld.zellenArray[0][0].setzeBombe();
+					Spielfeld.zellenArray[5][3].setzeBombe();
+					Spielfeld.zellenArray[5][4].setzeBombe();
+					Spielfeld.zellenArray[5][5].setzeBombe();
+					Spielfeld.zellenArray[5][6].setzeBombe();
+					Spielfeld.zellenArray[6][3].setzeBombe();
+					Spielfeld.zellenArray[6][4].setzeBombe();
+					Spielfeld.zellenArray[6][5].setzeBombe();
+					Spielfeld.zellenArray[6][6].setzeBombe();
+					Spielfeld.zellenArray[endeZeile][0].setzeBombe();
+				
+					assertEquals(spielfeld.gewuenschteBomben, kI.zaehleVerteilteBomben(spielfeld));
+				
+					spielfeld.erstelleBombenListe();
+				
+					kI.beschrifteNachbarzellenZuBomben(spielfeld);
+				
+					assertEquals(1, Spielfeld.zellenArray[0][1].bombenInNachbarschaft);
+					assertEquals(1, Spielfeld.zellenArray[1][1].bombenInNachbarschaft);
+					assertEquals(1, Spielfeld.zellenArray[endeZeile][1].bombenInNachbarschaft);
+					assertEquals(1, Spielfeld.zellenArray[endeZeile-1][0].bombenInNachbarschaft);
+				}
+
+			}
 
 			@Nested
 			class TestBeschrifteZellenZwischenNullUndBombe {
@@ -521,7 +552,6 @@ class BenutzerschnittstelleTest {
 					assertNotEquals("1", Spielfeld.zellenArray[3][1].zeichen);
 				}
 
-
 				@Test
 				void testNullMitteMitte() {
 					Spielfeld.zellenArray[3][0].setzeBombe();
@@ -537,7 +567,6 @@ class BenutzerschnittstelleTest {
 					assertNotEquals("1", Spielfeld.zellenArray[3][1].zeichen);
 					assertNotEquals("1", Spielfeld.zellenArray[2][2].zeichen);
 				}
-
 
 				@Test
 				void testNullObenMitte() {
@@ -556,7 +585,6 @@ class BenutzerschnittstelleTest {
 					assertEquals("0", Spielfeld.zellenArray[1][3].zeichen);
 				}
 
-
 				@Test
 				void testNullObenRechts() {
 					Spielfeld.zellenArray[0][5].setzeBombe();
@@ -571,7 +599,6 @@ class BenutzerschnittstelleTest {
 
 					assertEquals("0", Spielfeld.zellenArray[1][7].zeichen);
 				}
-
 
 				@Test
 				void testNullMitteRechts() {
@@ -590,7 +617,6 @@ class BenutzerschnittstelleTest {
 					assertEquals("0", Spielfeld.zellenArray[2][6].zeichen);
 				}
 
-
 				@Test
 				void testNullUntenRechts() {
 					Spielfeld.zellenArray[6][5].setzeBombe();
@@ -605,7 +631,6 @@ class BenutzerschnittstelleTest {
 
 					assertEquals("0", Spielfeld.zellenArray[6][7].zeichen);
 				}
-
 
 				@Test
 				void testNullUntenMitte() {
@@ -623,7 +648,6 @@ class BenutzerschnittstelleTest {
 					assertEquals("0", Spielfeld.zellenArray[7][2].zeichen);
 					assertEquals("0", Spielfeld.zellenArray[7][4].zeichen);
 				}
-
 
 				@Test
 				void testNullUntenLinks() {
@@ -660,163 +684,87 @@ class BenutzerschnittstelleTest {
 
 		}
 
-		// TODO Tests in eigene Klasse verpacken
 
 		@Nested
-		@DisplayName("TestWaehleVariante, testet die kI.waehleVariante()")
-		class TestWaehleVariante {
+		class TestPositionImSpielfeld  {
 
-			@Test
-			@DisplayName("Test waehleVariante Bombe oben links")
-			void testwaehleVarianteBOL() {
-				Spielfeld.zellenArray[0][0].setzeBombe();
-				assertEquals(true, Spielfeld.zellenArray[0][0].bombe);
+			@Nested
+			class TestBestimmePositionImSpielfeld {
 
-				spielfeld.erstelleBombenListe();
+				// Tests umbenennen in bestimmePositionImSpielfeld bzw. neuer Test hinzu, alter Test bleibt erhalten!
+				@Test
+				void testbestimmePositionImSpielfeldOBENLINKS() {
+					Zelle zelleOBENLINKS = Spielfeld.zellenArray[0][0];
 
-				Zelle ersteBombe = spielfeld.listeBombenOrte.get(0);
+					kI.bestimmePositionImSpielfeld(zelleOBENLINKS);
 
-				assertEquals(1, kI.waehleVariante(ersteBombe));
-			}
+					assertEquals(PositionImSpielfeld.OBENLINKS, zelleOBENLINKS.positionImSpielfeld);
+				}
+				@Test
+				void testbestimmePositionImSpielfeldOBEN() {
+					Zelle zelleOBEN = Spielfeld.zellenArray[0][3];
 
+					kI.bestimmePositionImSpielfeld(zelleOBEN);
 
-			@Test
-			@DisplayName("Test waehleVariante Bombe oben rechts")
-			void testwaehleVarianteBOR() {
-				Spielfeld.zellenArray[0][endeSpalte].setzeBombe();
-				assertEquals(true, Spielfeld.zellenArray[0][endeSpalte].bombe);
+					assertEquals(PositionImSpielfeld.OBEN, zelleOBEN.positionImSpielfeld);
+				}
+				@Test
+				void testbestimmePositionImSpielfeldOBENRECHTS() {
+					Zelle zelleOBENRECHTS = Spielfeld.zellenArray[0][endeSpalte];
 
-				spielfeld.erstelleBombenListe();
+					kI.bestimmePositionImSpielfeld(zelleOBENRECHTS);
 
-				Zelle ersteBombe = spielfeld.listeBombenOrte.get(0);
+					assertEquals(PositionImSpielfeld.OBENRECHTS, zelleOBENRECHTS.positionImSpielfeld);
+				}
+				@Test
+				void testbestimmePositionImSpielfeldLINKS() {
+					Zelle zelleLINKS = Spielfeld.zellenArray[3][0];
 
-				assertEquals(3, kI.waehleVariante(ersteBombe));
-			}
+					kI.bestimmePositionImSpielfeld(zelleLINKS);
 
+					assertEquals(PositionImSpielfeld.LINKS, zelleLINKS.positionImSpielfeld);
+				}
+				@Test
+				void testbestimmePositionImSpielfeldMITTE() {
+					Zelle zelleMITTE = Spielfeld.zellenArray[3][4];
 
-			@Test
-			@DisplayName("Test waehleVariante Bombe oben mitte")
-			void testwaehleVarianteBOM() {
-				Spielfeld.zellenArray[0][5].setzeBombe();
-				assertEquals(true, Spielfeld.zellenArray[0][5].bombe);
+					kI.bestimmePositionImSpielfeld(zelleMITTE);
 
-				spielfeld.erstelleBombenListe();
+					assertEquals(PositionImSpielfeld.MITTE, zelleMITTE.positionImSpielfeld);
+				}
+				@Test
+				void testbestimmePositionImSpielfeldRECHTS() {
+					Zelle zelleRECHTS = Spielfeld.zellenArray[3][endeSpalte];
 
-				Zelle ersteBombe = spielfeld.listeBombenOrte.get(0);
+					kI.bestimmePositionImSpielfeld(zelleRECHTS);
 
-				assertEquals(2, kI.waehleVariante(ersteBombe));
-			}
+					assertEquals(PositionImSpielfeld.RECHTS, zelleRECHTS.positionImSpielfeld);
+				}
+				@Test
+				void testbestimmePositionImSpielfeldUNTENLINKS() {
+					Zelle zelleUNTENLINKS = Spielfeld.zellenArray[endeZeile][0];
 
+					kI.bestimmePositionImSpielfeld(zelleUNTENLINKS);
 
-			@Test
-			@DisplayName("Test waehleVariante Bombe unten links")
-			void testwaehleVarianteBUL() {
-				Spielfeld.zellenArray[endeZeile][0].setzeBombe();
-				assertEquals(true, Spielfeld.zellenArray[endeZeile][0].bombe);
+					assertEquals(PositionImSpielfeld.UNTENLINKS, zelleUNTENLINKS.positionImSpielfeld);
+				}
+				@Test
+				void testbestimmePositionImSpielfeldUNTEN() {
+					Zelle zelleUNTEN = Spielfeld.zellenArray[endeZeile][4];
 
-				spielfeld.erstelleBombenListe();
+					kI.bestimmePositionImSpielfeld(zelleUNTEN);
 
-				Zelle ersteBombe = spielfeld.listeBombenOrte.get(0);
+					assertEquals(PositionImSpielfeld.UNTEN, zelleUNTEN.positionImSpielfeld);
+				}
+				@Test
+				void testbestimmePositionImSpielfeldUNTENRECHTS() {
+					Zelle zelleUNTENRECHTS = Spielfeld.zellenArray[endeZeile][endeSpalte];
 
-				assertEquals(7, kI.waehleVariante(ersteBombe));
-			}
+					kI.bestimmePositionImSpielfeld(zelleUNTENRECHTS);
 
+					assertEquals(PositionImSpielfeld.UNTENRECHTS, zelleUNTENRECHTS.positionImSpielfeld);
+				}
 
-			@Test
-			@DisplayName("Test waehleVariante Bombe unten rechts")
-			void testwaehleVarianteBUR() {
-				Spielfeld.zellenArray[endeZeile][endeSpalte].setzeBombe();
-				assertEquals(true, Spielfeld.zellenArray[endeZeile][endeSpalte].bombe);
-
-				spielfeld.erstelleBombenListe();
-
-				Zelle ersteBombe = spielfeld.listeBombenOrte.get(0);
-
-				assertEquals(9, kI.waehleVariante(ersteBombe));
-			}
-
-
-			@Test
-			@DisplayName("Test waehleVariante Bombe unten mitte")
-			void testwaehleVarianteBUM() {
-				Spielfeld.zellenArray[endeZeile][6].setzeBombe();
-				assertEquals(true, Spielfeld.zellenArray[endeZeile][6].bombe);
-
-				spielfeld.erstelleBombenListe();
-
-				Zelle ersteBombe = spielfeld.listeBombenOrte.get(0);
-
-				assertEquals(8, kI.waehleVariante(ersteBombe));
-			}
-
-
-			@Test
-			@DisplayName("Test waehleVariante Bombe mitte links")
-			void testwaehleVarianteBML() {
-				Spielfeld.zellenArray[3][0].setzeBombe();
-				assertEquals(true, Spielfeld.zellenArray[3][0].bombe);
-
-				spielfeld.erstelleBombenListe();
-
-				Zelle ersteBombe = spielfeld.listeBombenOrte.get(0);
-
-				assertEquals(4, kI.waehleVariante(ersteBombe));
-			}
-
-
-			@Test
-			@DisplayName("Test waehleVariante Bombe mitte rechts")
-			void testwaehleVarianteBMR() {
-				Spielfeld.zellenArray[4][endeSpalte].setzeBombe();
-				assertEquals(true, Spielfeld.zellenArray[4][endeSpalte].bombe);
-
-				spielfeld.erstelleBombenListe();
-
-				Zelle ersteBombe = spielfeld.listeBombenOrte.get(0);
-
-				assertEquals(6, kI.waehleVariante(ersteBombe));
-			}
-
-
-			@Test
-			@DisplayName("Test waehleVariante Bombe mitte mitte")
-			void testwaehleVarianteBMM() {
-				Spielfeld.zellenArray[5][6].setzeBombe();
-				assertEquals(true, Spielfeld.zellenArray[5][6].bombe);
-
-				spielfeld.erstelleBombenListe();
-
-				Zelle ersteBombe = spielfeld.listeBombenOrte.get(0);
-
-				assertEquals(5, kI.waehleVariante(ersteBombe));
-			}
-
-
-			@Test
-			@DisplayName("Test waehleVariante mehrere Bomben aka beschrifteNachbarzellenZuBomben")
-			void testbeschrifteNachbarzellenZuBomben() {
-				Spielfeld.zellenArray[0][0].setzeBombe();
-				Spielfeld.zellenArray[5][3].setzeBombe();
-				Spielfeld.zellenArray[5][4].setzeBombe();
-				Spielfeld.zellenArray[5][5].setzeBombe();
-				Spielfeld.zellenArray[5][6].setzeBombe();
-				Spielfeld.zellenArray[6][3].setzeBombe();
-				Spielfeld.zellenArray[6][4].setzeBombe();
-				Spielfeld.zellenArray[6][5].setzeBombe();
-				Spielfeld.zellenArray[6][6].setzeBombe();
-				Spielfeld.zellenArray[endeZeile][0].setzeBombe();
-
-				// TODO muss genau soviele Bomben setzen wie spielfeld.gewueschteBomben sonst kann es zu Fehlern kommen
-				assertEquals(spielfeld.gewuenschteBomben, kI.zaehleVerteilteBomben(spielfeld));
-
-				spielfeld.erstelleBombenListe();
-
-				kI.beschrifteNachbarzellenZuBomben(spielfeld);
-
-				assertEquals(1, Spielfeld.zellenArray[0][1].bombenInNachbarschaft);
-				assertEquals(1, Spielfeld.zellenArray[1][1].bombenInNachbarschaft);
-				assertEquals(1, Spielfeld.zellenArray[endeZeile][1].bombenInNachbarschaft);
-				assertEquals(1, Spielfeld.zellenArray[endeZeile-1][0].bombenInNachbarschaft);
 			}
 
 		}
@@ -827,24 +775,29 @@ class BenutzerschnittstelleTest {
 
 			@BeforeEach
 			void setUp() throws Exception {
+				
+				
+				
 				//Spielfeld wie GIMP Beispiel erstellen, bzw. Bsp. aus den Unterlagen
 
 				spielfeld.gewuenschteBomben = 4;
 
-				Spielfeld.zellenArray[3][0].setzeBombe(); // Voraussetzung f�r beschrifteNachbarzellenZuBomben
-				Spielfeld.zellenArray[7][1].setzeBombe(); // Voraussetzung f�r beschrifteNachbarzellenZuBomben
-				Spielfeld.zellenArray[7][3].setzeBombe(); // Voraussetzung f�r beschrifteNachbarzellenZuBomben
-				Spielfeld.zellenArray[0][5].setzeBombe(); // Voraussetzung f�r beschrifteNachbarzellenZuBomben
+				Spielfeld.zellenArray[3][0].setzeBombe(); // Voraussetzung faer beschrifteNachbarzellenZuBomben
+				Spielfeld.zellenArray[7][1].setzeBombe(); // Voraussetzung faer beschrifteNachbarzellenZuBomben
+				Spielfeld.zellenArray[7][3].setzeBombe(); // Voraussetzung faer beschrifteNachbarzellenZuBomben
+				Spielfeld.zellenArray[0][5].setzeBombe(); // Voraussetzung faer beschrifteNachbarzellenZuBomben
 
 				spielfeld.erstelleBombenListe();
-				kI.beschrifteNachbarzellenZuBomben(spielfeld); // Voraussetzung f�r findeNullen
+				kI.beschrifteNachbarzellenZuBomben(spielfeld); // Voraussetzung faer findeNullen
+				
+			
 			}
 
 
 			@Test
 			@DisplayName("testfindeNullenReiheEins, solve5")
 			void testfindeNullenReiheEins() {
-				kI.findeNullen(3, 4); // 3,4 ist Aufdeckort gem�ss Beispiel, siehe GIMP Datei wenn unklar
+				kI.findeNullen(3, 4); // 3,4 ist Aufdeckort gemaess Beispiel, siehe GIMP Datei wenn unklar
 
 				//Test0 finde nur die Nullen
 				assertEquals("0", Spielfeld.zellenArray[0][0].zeichen);
@@ -858,7 +811,7 @@ class BenutzerschnittstelleTest {
 			@Test
 			@DisplayName("testfindeNullenAlleNULLEN, finde alle Nullen auf dem Spielfeld, solve5")
 			void testfindeNullenAlleNULLEN() {
-				kI.findeNullen(3, 4); // 3,4 ist Aufdeckort gem�ss Beispiel, siehe GIMP Datei wenn unklar
+				kI.findeNullen(3, 4); // 3,4 ist Aufdeckort gemaess Beispiel, siehe GIMP Datei wenn unklar
 
 				//Test alle Nullen
 				// anzahl sichtbare Zellen mit Nullen 33, jeder Block enstpricht einer Spalte.
@@ -908,7 +861,7 @@ class BenutzerschnittstelleTest {
 			@Test
 			@DisplayName("testfindeNullenReiheEinsInklNachbarzellen")
 			void testfindeNullenReiheEinsInklNachbarzellen() {
-				kI.findeNullen(3, 4); // 3,4 ist Aufdeckort gem�ss Beispiel, siehe GIMP Datei wenn unklar
+				kI.findeNullen(3, 4); // 3,4 ist Aufdeckort gemaess Beispiel, siehe GIMP Datei wenn unklar
 
 				//Test1 finde auch NachbarmitBombe angrenzend an die Nullen
 				assertEquals("0", Spielfeld.zellenArray[0][0].zeichen);
