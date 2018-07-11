@@ -59,7 +59,7 @@ public class KuenstlicheIntelligenz {
 		//2. Gehe fuer jedes Feld welche Eine Bombe hat eine Routine durch
 		//3. Routine erhoeht Bombenzaehler auf Zellen
 		//4. Es gibt neun Verschiedene Methoden je nach Bombenort
-		
+
 		for (Zelle zelle : spielfeld.listeBombenOrte) {
 
 			int zeile = zelle.yKoordinate;
@@ -421,7 +421,57 @@ public class KuenstlicheIntelligenz {
 	}
 
 	@objid ("9e4456f0-edbd-43e2-a013-f27dff0631ce")
-	public void kreuzSuche() {
+	public void kreuzSuche(Zelle zelle) {
+		while (zelle.nullenBehandeltFlag == false) {
+			
+		}
+		
+		if (zelle.nullenBehandeltFlag == false) {
+			if (zelle.bombenInNachbarschaft == 0) {
+				zelle.zeichen = Integer.toString(zelle.bombenInNachbarschaft);
+//				List liste = new List();
+				List<Zelle> liste = new ArrayList<Zelle>();
+
+				bestimmeRelevanteNachbarnFuerKreuzsuche(zelle, liste); // returnwert liste abgefüllt
+//				beschriteRelevanteNachbarnNeu(liste);
+				beschrifteRelevanteNachbarnNeu(zelle, liste);
+			} 
+			zelle.nullenBehandeltFlag = true;
+		}
+	}
+
+	private void bestimmeRelevanteNachbarnFuerKreuzsuche(Zelle zelle, List<Zelle> liste) {
+		// TODO erweitern damit Suche von eigener Position abhängt
+		// d.h. switch einfügen, welcher Aktion von zelle.positionImSpielfeld abhängig macht
+
+		switch (zelle.positionImSpielfeld) {
+		case MITTE:
+			System.out.println("zelle.positionImSpielfeld == PositionImSpielfeld.MITTE");
+			liste.add(zelle.zelleLinks());
+			liste.add(zelle.zelleOben());
+			liste.add(zelle.zelleRechts());
+			liste.add(zelle.zelleUnten());
+			break;
+
+		default:
+			break;
+		}
+		
+	}
+
+	private void beschrifteRelevanteNachbarnNeu(Zelle zelle, List<Zelle> liste) {
+		// TODO fake ersetzen mit liste abarbeiten, wobei dann idealerweise jeder Eintrag
+		// in der Liste gleich behandelt werden könnte...
+
+		for (Zelle zelleAusListe : liste) {
+			zelleAusListe.zeichen = Integer.toString(zelle.bombenInNachbarschaft);
+		}
+		
+		//fake Loesung
+//		zelle.zelleLinks().zeichen = Integer.toString(zelle.zelleLinks().bombenInNachbarschaft);
+//		zelle.zelleOben().zeichen = Integer.toString(zelle.zelleOben().bombenInNachbarschaft);
+//		zelle.zelleRechts().zeichen = Integer.toString(zelle.zelleRechts().bombenInNachbarschaft);
+//		zelle.zelleUnten().zeichen = Integer.toString(zelle.zelleUnten().bombenInNachbarschaft);
 	}
 
 }

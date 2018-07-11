@@ -182,7 +182,7 @@ class BenutzerschnittstelleTest {
 			assertEquals(Spielfeld.zeilen, Spielfeld.zellenArray.length);
 			assertEquals(Spielfeld.spalten, Spielfeld.zellenArray[0].length);
 		}
-		
+
 		@Test
 		void testPositionImSpielfeldGesetztNachInitialisiereZellenInArray() {
 			assertEquals(PositionImSpielfeld.OBENLINKS, Spielfeld.zellenArray[0][0].positionImSpielfeld);
@@ -519,13 +519,13 @@ class BenutzerschnittstelleTest {
 					Spielfeld.zellenArray[6][5].setzeBombe();
 					Spielfeld.zellenArray[6][6].setzeBombe();
 					Spielfeld.zellenArray[endeZeile][0].setzeBombe();
-				
+
 					assertEquals(spielfeld.gewuenschteBomben, kI.zaehleVerteilteBomben(spielfeld));
-				
+
 					spielfeld.erstelleBombenListe();
-				
+
 					kI.beschrifteNachbarzellenZuBomben(spielfeld);
-				
+
 					assertEquals(1, Spielfeld.zellenArray[0][1].bombenInNachbarschaft);
 					assertEquals(1, Spielfeld.zellenArray[1][1].bombenInNachbarschaft);
 					assertEquals(1, Spielfeld.zellenArray[endeZeile][1].bombenInNachbarschaft);
@@ -771,26 +771,21 @@ class BenutzerschnittstelleTest {
 
 
 		@Nested
+		//Spielfeld wie GIMP Beispiel, bzw. Bsp. aus den Unterlagen
 		class TestNullAufdecken {
 
 			@BeforeEach
 			void setUp() throws Exception {
-				
-				
-				
-				//Spielfeld wie GIMP Beispiel erstellen, bzw. Bsp. aus den Unterlagen
 
 				spielfeld.gewuenschteBomben = 4;
 
-				Spielfeld.zellenArray[3][0].setzeBombe(); // Voraussetzung faer beschrifteNachbarzellenZuBomben
-				Spielfeld.zellenArray[7][1].setzeBombe(); // Voraussetzung faer beschrifteNachbarzellenZuBomben
-				Spielfeld.zellenArray[7][3].setzeBombe(); // Voraussetzung faer beschrifteNachbarzellenZuBomben
-				Spielfeld.zellenArray[0][5].setzeBombe(); // Voraussetzung faer beschrifteNachbarzellenZuBomben
+				Spielfeld.zellenArray[3][0].setzeBombe(); // Voraussetzung fuer beschrifteNachbarzellenZuBomben
+				Spielfeld.zellenArray[7][1].setzeBombe(); // Voraussetzung fuer beschrifteNachbarzellenZuBomben
+				Spielfeld.zellenArray[7][3].setzeBombe(); // Voraussetzung fuer beschrifteNachbarzellenZuBomben
+				Spielfeld.zellenArray[0][5].setzeBombe(); // Voraussetzung fuer beschrifteNachbarzellenZuBomben
 
 				spielfeld.erstelleBombenListe();
-				kI.beschrifteNachbarzellenZuBomben(spielfeld); // Voraussetzung faer findeNullen
-				
-			
+				kI.beschrifteNachbarzellenZuBomben(spielfeld); // Voraussetzung fuer findeNullen
 			}
 
 
@@ -880,6 +875,92 @@ class BenutzerschnittstelleTest {
 
 		}
 
+		@Nested
+		class TestKreuzSuche {
+			@BeforeEach
+			void setUp() throws Exception {
+				// Spielfeld mit Bomben so erstellt dass Nullen hinter Bomben versteckt sein muessen
+				// die ganze Spalte 4 mit Bomben besetzen, d.h. 0-2 sind drei leere Spalten,
+				// sowie die letzte Spalte ist auch leer.
+
+				spielfeld.gewuenschteBomben=8;
+				for (int i = 0; i < Spielfeld.zellenArray.length; i++) {
+					Spielfeld.zellenArray[i][4].setzeBombe(); 
+				}
+
+				spielfeld.erstelleBombenListe();
+				kI.beschrifteNachbarzellenZuBomben(spielfeld);
+			}
+
+			@Test
+			void testSetUp() {
+				assertEquals(2, Spielfeld.zellenArray[0][3].bombenInNachbarschaft);
+				assertEquals(3, Spielfeld.zellenArray[1][3].bombenInNachbarschaft);
+				assertEquals(3, Spielfeld.zellenArray[6][3].bombenInNachbarschaft);
+			}
+
+			@Test
+			void testKreuzSucheEinfach() {
+				// TODO pruefe ob die vier anliegenden Felder abgesucht werden
+				// und ob diese Korrekt bezeichnet werden
+				// TODO Zudem ob diese in der Liste korrekt aufgenommen wurden
+				// TODO schreibe einen weiteren Test welcher prüft ob kreuzSuche beginnend am Rand
+				// keinen Fehler verursacht
+
+				// TODO ersetze in findeNullen die erste Methode mit der Kreuzsuche,
+				//!! Achtung die erste Methode initialisiert auch die Liste Nullen, also muss die Kreuzsuche dies auch!
+
+
+				//Starte Kreuzsuche wie unten bei Zeile4, Spalte1
+				Zelle zelle = Spielfeld.zellenArray[4][1];
+				kI.kreuzSuche(zelle);
+
+				assertEquals("0", zelle.zeichen); // zeichen wird bei Methode aufdecken bereits einmal geschreiben
+				assertEquals("0", zelle.zelleLinks().zeichen);
+				assertEquals("0", zelle.zelleOben().zeichen);
+				assertEquals("0", zelle.zelleRechts().zeichen);
+				assertEquals("0", zelle.zelleUnten().zeichen);
+				assertEquals(true, zelle.nullenBehandeltFlag);
+			}
+
+			@Test
+			void testKreuzSucheOBENLINKS() {
+				//Starte Kreuzsuche wie unten bei Zeile4, Spalte1
+				Zelle zelle = Spielfeld.zellenArray[4][1];
+				kI.kreuzSuche(zelle);
+				
+				assertEquals(0, Spielfeld.zellenArray[3][0].bombenInNachbarschaft);
+				assertEquals("0", Spielfeld.zellenArray[3][0].zeichen);
+			}
+
+			@Disabled
+			@Test
+			void testKreuzSucheErweitert() {
+				//Starte Kreuzsuche wie unten bei Zeile4, Spalte1
+				Zelle zelle = Spielfeld.zellenArray[4][1];
+				kI.kreuzSuche(zelle);
+
+				assertEquals("2", Spielfeld.zellenArray[0][3].zeichen);
+				//				assertEquals("3", Spielfeld.zellenArray[1][3].zeichen);
+				//				assertEquals("2", Spielfeld.zellenArray[7][3].zeichen);
+
+				assertEquals(false, zelle.zelleLinks().nullenBehandeltFlag);
+			}
+
+			@Test
+			@Disabled // TODO disabled aufheben sobald findeNullen mit Kreuzsuche laueft.
+			void testFindeNullenOhneVersteckeNullen() {
+				// aufdeckort?
+				kI.findeNullen(4, 2); 
+
+				// Zeichen "0" da via Aufdeckort zugaenglich
+				assertEquals("0", Spielfeld.zellenArray[0][0].zeichen);
+				// Zeichen leer da hinter Bomben versteckt
+				assertEquals(" ", Spielfeld.zellenArray[0][7].zeichen);
+				// Zeichen = Anzahl Bomben in Nachbarschaft
+				//				assertEquals("3", Spielfeld.zellenArray[4][3].zeichen);
+			}
+		}
 	}
 
 }
