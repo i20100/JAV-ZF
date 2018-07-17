@@ -329,11 +329,19 @@ class BenutzerschnittstelleTest {
 
 		@Test
 		void testAufdeckenLeeresFeld() {
-			//FIXME bevor hier weitergemacht wird, test erstellen alle NachbarNullZellen in Listen speichern! Siehe KI.
+			Spielfeld.zellenArray[0][1].setzeBombe();
+			Spielfeld.zellenArray[1][1].setzeBombe();
+			KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
+			spielfeld.erstelleBombenListe();
+			kI.beschrifteNachbarzellenZuBomben(spielfeld);
+			
 			Kommando kommando = new Kommando("T", 2, 3);
 			kommando.ausfuehren(spielfeld);
 
 			assertEquals("0", Spielfeld.zellenArray[2][3].zeichen);
+			assertEquals("2", Spielfeld.zellenArray[1][2].zeichen);
+			assertEquals("1", Spielfeld.zellenArray[2][2].zeichen);
+			assertEquals(" ", Spielfeld.zellenArray[0][1].zeichen);
 		}
 
 
@@ -359,12 +367,8 @@ class BenutzerschnittstelleTest {
 	@Nested
 	@DisplayName("class KI")
 	class KI {
-
 		private int endeSpalte;
-
-
 		private int endeZeile;
-
 
 		@BeforeEach
 		void setUp() throws Exception {
@@ -901,16 +905,6 @@ class BenutzerschnittstelleTest {
 
 			@Test
 			void testKreuzSucheEinfach() {
-				// TODO pruefe ob die vier anliegenden Felder abgesucht werden
-				// und ob diese Korrekt bezeichnet werden
-				// TODO Zudem ob diese in der Liste korrekt aufgenommen wurden
-				// TODO schreibe einen weiteren Test welcher prüft ob kreuzSuche beginnend am Rand
-				// keinen Fehler verursacht
-
-				// TODO ersetze in findeNullen die erste Methode mit der Kreuzsuche,
-				//!! Achtung die erste Methode initialisiert auch die Liste Nullen, also muss die Kreuzsuche dies auch!
-
-
 				//Starte Kreuzsuche wie unten bei Zeile4, Spalte1
 				Zelle zelle = Spielfeld.zellenArray[4][1];
 				kI.kreuzSuche(zelle);
@@ -928,12 +922,11 @@ class BenutzerschnittstelleTest {
 				//Starte Kreuzsuche wie unten bei Zeile4, Spalte1
 				Zelle zelle = Spielfeld.zellenArray[4][1];
 				kI.kreuzSuche(zelle);
-				
+
 				assertEquals(0, Spielfeld.zellenArray[3][0].bombenInNachbarschaft);
 				assertEquals("0", Spielfeld.zellenArray[3][0].zeichen);
 			}
 
-			@Disabled
 			@Test
 			void testKreuzSucheErweitert() {
 				//Starte Kreuzsuche wie unten bei Zeile4, Spalte1
@@ -941,24 +934,20 @@ class BenutzerschnittstelleTest {
 				kI.kreuzSuche(zelle);
 
 				assertEquals("2", Spielfeld.zellenArray[0][3].zeichen);
-				//				assertEquals("3", Spielfeld.zellenArray[1][3].zeichen);
-				//				assertEquals("2", Spielfeld.zellenArray[7][3].zeichen);
+				assertEquals("3", Spielfeld.zellenArray[1][3].zeichen);
+				assertEquals("2", Spielfeld.zellenArray[7][3].zeichen);
 
-				assertEquals(false, zelle.zelleLinks().nullenBehandeltFlag);
+				//				assertEquals(false, zelle.zelleLinks().nullenBehandeltFlag);
 			}
 
 			@Test
-			@Disabled // TODO disabled aufheben sobald findeNullen mit Kreuzsuche laueft.
-			void testFindeNullenOhneVersteckeNullen() {
-				// aufdeckort?
-				kI.findeNullen(4, 2); 
+			void testFindeNurSichtbareNullen() {
+				Zelle zelle = Spielfeld.zellenArray[4][1];
+				kI.kreuzSuche(zelle);
 
-				// Zeichen "0" da via Aufdeckort zugaenglich
-				assertEquals("0", Spielfeld.zellenArray[0][0].zeichen);
-				// Zeichen leer da hinter Bomben versteckt
-				assertEquals(" ", Spielfeld.zellenArray[0][7].zeichen);
-				// Zeichen = Anzahl Bomben in Nachbarschaft
-				//				assertEquals("3", Spielfeld.zellenArray[4][3].zeichen);
+				assertEquals("0", Spielfeld.zellenArray[0][0].zeichen); // "sichtbare Null!"
+				assertEquals(" ", Spielfeld.zellenArray[0][7].zeichen); // "versteckte Null!"
+				assertEquals("3", Spielfeld.zellenArray[4][3].zeichen);
 			}
 		}
 	}

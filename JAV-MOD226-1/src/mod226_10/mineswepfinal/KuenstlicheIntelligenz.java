@@ -241,107 +241,15 @@ public class KuenstlicheIntelligenz {
 				zelle.positionImSpielfeld = PositionImSpielfeld.MITTE;
 			}
 		}
-		return zelle.positionImSpielfeld; // TODO löschen, wenn findeNullen dies nicht mehr braucht
+		return zelle.positionImSpielfeld; // XXX umschreiben, ohne return? Sinnvoll?
 	}
 
 	@objid ("9c549826-4bdb-49eb-b4e1-8292fa875515")
 	public void findeNullen(int zeile, int spalte) {
-
-		List<Zelle> nullen = new ArrayList<Zelle>();
-
-		findeNachbarNullZellen(nullen);
-		beschrifteNachbarNullMitNull(nullen);
-		beschrifteZellenZwischenNullUndBombe(nullen);
-
-		//1. check feld auf bombe, wenn ja skip, da nichts mit dem Feld geschehen soll da default wert fuer Zelle ja " " sein sollte.s
-		//2. check ob zelle.nachbarbomben groesser als null, wenn ja mach was, auch nichts,
-		// diese Zellen muessen dann von allen nullen aus aufgerufen werden und mit anzahl nachbarbomben beschrieben werden.
-		//3. wenn nein, mach das richtige
-
-		// TODO erstelle Listenbezugsattribut pro Zelle
-	}
-
-	@objid ("c2fbf017-7d23-42b9-a64f-504fa8451011")
-	public void findeNachbarNullZellen(List<Zelle> nullen) {
-		// FIXME unterscheide verbunden mit Aufdeckort und nicht verbunden: nicht verbundene Zellen duerfen nicht in die Liste aufgenommen werden!
-		// FIXME findet ALLE Nullen auf dem Spielfeld! ALLE! 
-		for (int j = 0; j < Spielfeld.zellenArray[0].length; j++) {
-			for (int i = 0; i < Spielfeld.zellenArray.length; i++) {
-				if (Spielfeld.zellenArray[i][j].bombe == false) {
-					if (Spielfeld.zellenArray[i][j].bombenInNachbarschaft == 0) {
-						nullen.add(Spielfeld.zellenArray[i][j]);
-					}
-				}
-			}
-		}
-	}
-
-	@objid ("847e7ea8-dacf-40b0-b15c-864238719a12")
-	public void beschrifteNachbarNullMitNull(List<Zelle> nullen) {
-		for (Zelle zelle : nullen) {
-			zelle.zeichen = Integer.toString(zelle.bombenInNachbarschaft);
-		}
-	}
-
-	@objid ("d576208c-655d-4a94-a1a6-1a5f29e1b72c")
-	public void beschrifteZellenZwischenNullUndBombe(List<Zelle> nullen) {
-		// beschrifte alle Nachbarzellen aus der Liste Nullen mit den Werten 
-		// aus zelle.bombeinnachbarschaft
-		// Das heisst fuer jede Zelle gilt ein anderer Schluessel welche Nachbarzellen
-		// zu pruefen sind, wie bei Methode beschrifteNachbarzellenZuBomben
-		// TODO da dieses vorgehen bereits einmal angwendet wird bei beschrifteNachbarzellenZuBomben, 
-		// dessen methode so anpassen, dass diese fuer beide Faelle geht!
-
-		// Notiz: Ablauf der Auswahl, welche Kriterien sind bei beiden Methoden gleich, wo unterscheiden Sie sich?
-		// Beide haben eine Liste von Zellen welche abgearbeitet werden muessen.
-		// bei beiden muss dann entsprechend der aktuellen Zelle, alle Benachbarten Zellen gefunden werden und diese manipuliert werden.
-		// Die Manipulation ist aber nicht mehr dieselbe bei beiden.
-		// Einmal muessen die Bomben in der Nachbarschaft gefunden werden bzw. die Anzahl der Bomben in Nachbarschaft aktualisiert werden
-		// Ein andermal muss die Information ob die Nachbarzellen an Bomben angrenzen nun in das Feld .zeichen uebertragen werden
-		// Anders ausgedrueckt, bei beiden muss Anhand einer Zelle alle Nachbarzellen gefunden werden und diese aber unterschiedlich manipuliert werden.
-		// Wie muesste nun das Codegeruest dazu aussehen?
-
-		// Listentyp muss gleich sein, Momentan ist es einmal ein int Array und einemal eine Liste vom Typ Zelle
-		// Die Liste kann aber schlecht in ein Array umgewandelt werden weil diese dynamisch ist, d.h. dessen Anzahl ist bei Erstellung unbekannt
-		// D.h. ist es moeglich und Sinnvoll den int Array in eine Liste zu wechseln?
-		// das wechseln zur Liste ist kein problem nur das anpassen der Funktionen welche sich auf das Array beziehen umzustellen auf eine Liste...
-		// wie kann nachgeschaut werden welche Methoden das int Array benutzen?
-
-		for (Zelle zelle : nullen) {
-
-			switch (zelle.positionImSpielfeld) {
-			case OBENLINKS:
-				NullObenLinks(zelle);
-				break;
-			case OBEN:
-				NullObenMitte(zelle);
-				break;
-			case OBENRECHTS:
-				NullObenRechts(zelle);
-				break;
-			case LINKS:
-				NullMitteLinks(zelle);
-				break;
-			case MITTE:
-				NullMitteMitte(zelle);
-				break;
-			case RECHTS:
-				NullMitteRechts(zelle);
-				break;
-			case UNTENLINKS:
-				NullUntenLinks(zelle);
-				break;
-			case UNTEN:
-				NullUntenMitte(zelle);
-				break;
-			case UNTENRECHTS:
-				NullUntenRechts(zelle);
-				break;
-
-			default:
-				break;
-			}
-		}
+		// DONE ersetze in findeNullen die erste Methode mit der Kreuzsuche,
+		Zelle startzelle = Spielfeld.zellenArray[zeile][spalte];
+		kreuzSuche(startzelle);
+		
 	}
 
 	@objid ("f47dc93e-72bf-4319-9718-ef7142ef1338")
@@ -421,57 +329,95 @@ public class KuenstlicheIntelligenz {
 	}
 
 	@objid ("9e4456f0-edbd-43e2-a013-f27dff0631ce")
-	public void kreuzSuche(Zelle zelle) {
-		while (zelle.nullenBehandeltFlag == false) {
-			
-		}
-		
-		if (zelle.nullenBehandeltFlag == false) {
-			if (zelle.bombenInNachbarschaft == 0) {
-				zelle.zeichen = Integer.toString(zelle.bombenInNachbarschaft);
-//				List liste = new List();
-				List<Zelle> liste = new ArrayList<Zelle>();
+	public void kreuzSuche(Zelle startZelle) {
 
-				bestimmeRelevanteNachbarnFuerKreuzsuche(zelle, liste); // returnwert liste abgefüllt
-//				beschriteRelevanteNachbarnNeu(liste);
-				beschrifteRelevanteNachbarnNeu(zelle, liste);
-			} 
-			zelle.nullenBehandeltFlag = true;
+		if (startZelle.nullenBehandeltFlag == false) {
+
+			List<Zelle> nachbarzellen = new ArrayList<Zelle>();
+			listeMitDirektenNachbarnAbfuellen(startZelle, nachbarzellen);
+
+			List<Zelle> listeKeineBombenAlsNachbar = new ArrayList<Zelle>();
+			for (Zelle nachbarzelle : nachbarzellen) {
+				if (nachbarzelle.bombenInNachbarschaft == 0) {
+					listeKeineBombenAlsNachbar.add(nachbarzelle);
+				}
+				else {
+					nachbarzelle.zeichen = Integer.toString(nachbarzelle.bombenInNachbarschaft);
+					nachbarzelle.nullenBehandeltFlag = true;
+				}
+			}
+
+			startZelle.zeichen = Integer.toString(startZelle.bombenInNachbarschaft);
+			startZelle.nullenBehandeltFlag = true;
+
+			for (Zelle keineBombenAlsNachbar : listeKeineBombenAlsNachbar) {
+				kreuzSuche(keineBombenAlsNachbar);
+			}
+
 		}
 	}
 
-	private void bestimmeRelevanteNachbarnFuerKreuzsuche(Zelle zelle, List<Zelle> liste) {
-		// TODO erweitern damit Suche von eigener Position abhängt
+	private void listeMitDirektenNachbarnAbfuellen(Zelle zelle, List<Zelle> nachbarzellen) {
+		// DONE erweitern damit Suche von eigener Position abhängt
 		// d.h. switch einfügen, welcher Aktion von zelle.positionImSpielfeld abhängig macht
+
+		//XXX schreibe einfacheren Weg -> bestimmeViaFormel(zelle.positionImSpielfeld);
+		// bestimmeViaFormel soll durch PositionsName, Bsp. OBENLINKS, add {zelleOben und zelleLinks} entfernen
+		bestimmeViaFormel(zelle.positionImSpielfeld);
 
 		switch (zelle.positionImSpielfeld) {
 		case MITTE:
-			System.out.println("zelle.positionImSpielfeld == PositionImSpielfeld.MITTE");
-			liste.add(zelle.zelleLinks());
-			liste.add(zelle.zelleOben());
-			liste.add(zelle.zelleRechts());
-			liste.add(zelle.zelleUnten());
+			nachbarzellen.add(zelle.zelleLinks());
+			nachbarzellen.add(zelle.zelleOben());
+			nachbarzellen.add(zelle.zelleRechts());
+			nachbarzellen.add(zelle.zelleUnten());
+			break;
+		case LINKS:
+			nachbarzellen.add(zelle.zelleOben());
+			nachbarzellen.add(zelle.zelleRechts());
+			nachbarzellen.add(zelle.zelleUnten());
+			break;
+		case RECHTS:
+			nachbarzellen.add(zelle.zelleLinks());
+			nachbarzellen.add(zelle.zelleOben());
+			nachbarzellen.add(zelle.zelleUnten());
+			break;
+		case OBENLINKS:
+			nachbarzellen.add(zelle.zelleRechts());
+			nachbarzellen.add(zelle.zelleUnten());
+			break;
+		case OBEN:
+			nachbarzellen.add(zelle.zelleLinks());
+			nachbarzellen.add(zelle.zelleRechts());
+			nachbarzellen.add(zelle.zelleUnten());
+			break;
+		case OBENRECHTS:
+			nachbarzellen.add(zelle.zelleLinks());
+			nachbarzellen.add(zelle.zelleUnten());
+			break;
+		case UNTENLINKS:
+			nachbarzellen.add(zelle.zelleOben());
+			nachbarzellen.add(zelle.zelleRechts());
+			break;
+		case UNTEN:
+			nachbarzellen.add(zelle.zelleLinks());
+			nachbarzellen.add(zelle.zelleOben());
+			nachbarzellen.add(zelle.zelleRechts());
+			break;
+		case UNTENRECHTS:
+			nachbarzellen.add(zelle.zelleLinks());
+			nachbarzellen.add(zelle.zelleOben());
 			break;
 
 		default:
 			break;
 		}
-		
+
 	}
 
-	private void beschrifteRelevanteNachbarnNeu(Zelle zelle, List<Zelle> liste) {
-		// TODO fake ersetzen mit liste abarbeiten, wobei dann idealerweise jeder Eintrag
-		// in der Liste gleich behandelt werden könnte...
-
-		for (Zelle zelleAusListe : liste) {
-			zelleAusListe.zeichen = Integer.toString(zelle.bombenInNachbarschaft);
-		}
-		
-		//fake Loesung
-//		zelle.zelleLinks().zeichen = Integer.toString(zelle.zelleLinks().bombenInNachbarschaft);
-//		zelle.zelleOben().zeichen = Integer.toString(zelle.zelleOben().bombenInNachbarschaft);
-//		zelle.zelleRechts().zeichen = Integer.toString(zelle.zelleRechts().bombenInNachbarschaft);
-//		zelle.zelleUnten().zeichen = Integer.toString(zelle.zelleUnten().bombenInNachbarschaft);
+	private void bestimmeViaFormel(PositionImSpielfeld positionImSpielfeld) {
+		// XXX umstellen auf Regular Expression welche Code anwendet aufgrund von zelle.position im Spielfeld, anstatt switch
+		// Frage steht im Raum ob dies ueberhaupt Sinnvoller, besser, einfacher ist als ein Switch?
 	}
 
 }
