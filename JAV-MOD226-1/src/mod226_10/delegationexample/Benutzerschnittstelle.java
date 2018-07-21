@@ -35,8 +35,8 @@ public class Benutzerschnittstelle {
     }
 
     @objid ("2bc13a81-07ad-4c48-bb52-e34a82e98a57")
-    public void zeigeSchlussmeldung() {
-        System.out.println("Schlussmeldung!");
+    public void zeigeSchlussmeldung(Spielfeld spielfeld) {
+    	System.out.println("zeigeSchlussmeldung");
     }
 
 }

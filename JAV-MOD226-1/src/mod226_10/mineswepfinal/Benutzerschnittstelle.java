@@ -22,12 +22,19 @@ public class Benutzerschnittstelle {
 
     @objid ("61c9a27c-1db8-41ba-864a-3f53242686d5")
     public String zeigeSpielfeld(Spielfeld spielfeld) {
-        int spalten = Spielfeld.spalten;
-        int zeilen = Spielfeld.zeilen;
+    	/// XXX anzahlSpaltenInArray anzahlZeilenInArray angepasst auf -1, da Fehler verursacht
+    	// dieses Problem beim zugriff auf zellenArray tritt auch andernort auf, evtl. dort direkt in loop
+    	// geloest. vereinheitliche wenn moeglich.
+        int anzahlSpaltenInArray = Spielfeld.spalten-1;
+        int anzahlZeilenInArray = Spielfeld.zeilen-1;
         
         String zeichneSpielfeld = 
                 "     0  1  2  3  4  5  6  7\n" +
-                        zeichneZeilen(spielfeld, zeilen, spalten);
+                        zeichneZeilen(spielfeld, anzahlZeilenInArray, anzahlSpaltenInArray);
+        
+        System.out.println(zeichneSpielfeld);
+        
+        // XXX return Wert ist nur fuer JUnit test vorhanden...
         return zeichneSpielfeld;
     }
 
@@ -50,6 +57,7 @@ public class Benutzerschnittstelle {
                 "Geben Sie ein Kommando ein:\n" + 
                         "T x y (z.B. T 2 3 testet Feld Zeile 2, Spalte 3 auf Mine)\n" +
                         "M x y (z.B. M 6 1 kehrt Markierung Feld Zeile 6, Spalte 1)\n";
+        System.out.println(eingabeaufforderung);
         return eingabeaufforderung;
     }
 
@@ -59,8 +67,18 @@ public class Benutzerschnittstelle {
     }
 
     @objid ("1a607e4f-1c08-44ab-a1d8-d49c69da0640")
-    public void zeigeSchlussmeldung() {
-        System.out.println("Schlussmeldung!");
+    public String zeigeSchlussmeldung() {
+    	// So wie die Vorlage der Programmstruktur ist muss hier nun Unterschieden werden ob das Spiel
+    	// gewonnen wurde oder die Bombe explodiert ist?
+    	String schlussmeldung = "";
+       	if (Spielfeld.schlussmeldungsNummer == 1) {
+       		schlussmeldung = "Gewinner Text fehlt noch!";
+    		}
+    	
+    	if (Spielfeld.schlussmeldungsNummer == 2) {
+    		schlussmeldung = "Mine explodiert, Spiel beendet.";
+		}
+    	return schlussmeldung;
     }
 
 }

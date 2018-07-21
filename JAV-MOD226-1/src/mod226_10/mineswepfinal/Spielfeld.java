@@ -18,11 +18,37 @@ public class Spielfeld {
 	@objid ("66f7561a-c9d2-4609-890f-2c1ccbbfa7a2")
 	public static Zelle[][] zellenArray = new Zelle[zeilen][spalten];
 
+	public List<Zelle> listeAllerZellen = new ArrayList<Zelle>();
+
+	public static boolean abbruchBedingung = false;
+
+	public static int schlussmeldungsNummer = 0;
+
 	@objid ("99a3ac8b-356e-443f-971a-4e45a293cdb4")
 	public List<Zelle> listeBombenOrte;
 
 	@objid ("8357d361-1727-40a7-9732-5b3c132d7471")
 	public KuenstlicheIntelligenz kI;
+
+	@objid ("42058280-1ed2-465b-8f92-4a092121ac35")
+	public Spielfeld() {
+		// FIXME dieser Konstruktor erstellt die listeAllerZellen nicht, obwohl dies via 
+		// initialisiereZellenInArray geschen sollte???
+		// XXX ziel direkt beim erstellen Spielfeld, alle arbeiten ausgefuehrt, bomben verteilt usw.
+		initialisiereZellenInArray();
+	
+		//		KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
+		//		kI.verteileBomben(spielfeld, spielfeld.gewuenschteBomben);
+		//		spielfeld.erstelleBombenListe();
+		//		kI.beschrifteNachbarzellenZuBomben(spielfeld);
+	
+	}
+
+	// TODO teste diesen Konstruktor. Geht das? Klasse als parameter uebergeben welche die gleiche Klasse ist welche erstellt werden soll?
+	@objid ("8b409b3a-b54b-43c4-b752-3ff91e0e07e8")
+	public Spielfeld(Spielfeld spielfeld) {
+		initialisiereZellenInArray();
+	}
 
 	@objid ("c34c7b64-7e01-4c60-8aaa-f7843ceaddba")
 	public void initialisiereZellenInArray() {
@@ -33,16 +59,17 @@ public class Spielfeld {
 				//	kI.bestimmePositionImSpielfeld(zellenArray[i][j]);
 			}
 		}
-		initialisiereZellenPositionImSpielfeld();  
+		initialisiereZellenPositionImSpielfeld();
+		initialisiereListeAllerZellen();
 	}
 
 	public void initialisiereZellenPositionImSpielfeld() {
 		// DONE schreibe Automatisierung damit jede Zelle direkt nach init die ZellenPosition erhält.
 		// DONE rufe diesen Code Teil bei initialisiereZellenInArray() bzw. erstelle Mutterfunktion welche beides aufruft.
 		// DONE Prüfe ob Tests dazu reichen, Teil der Tests dazu bestehen bereits: testbestimmePositionImSpielfeld bzw. kI.bestimmePositionImSpielfeld
-
+	
 		KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
-
+	
 		for (int i = 0; i < zeilen; i++) {
 			for (int j = 0; j < spalten; j++) {
 				kI.bestimmePositionImSpielfeld(zellenArray[i][j]);
@@ -50,28 +77,15 @@ public class Spielfeld {
 		}	
 	}
 
-	@objid ("42058280-1ed2-465b-8f92-4a092121ac35")
-	public Spielfeld() {
+	public void initialisiereListeAllerZellen() {
+		for (int i = 0; i < zeilen; i++) {
+			for (int j = 0; j < spalten; j++) {
+				listeAllerZellen.add(zellenArray[i][j]);
+			}
+		}
 	}
 
-	// TODO teste diesen Konstruktor. Geht das? Klasse als parameter uebergeben welche die gleiche Klasse ist welche erstellt werden soll?
-	@objid ("8b409b3a-b54b-43c4-b752-3ff91e0e07e8")
-	public Spielfeld(Spielfeld spielfeld) {
-		KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
-		initialisiereZellenInArray();
-
-		kI.verteileBomben(spielfeld, gewuenschteBomben);
-		kI.beschrifteNachbarzellenZuBomben(spielfeld);
-	}
-
-	@objid ("ab544d4e-773f-417c-b5ab-2ce47c573b9c")
-	public Spielfeld(int bomben) {
-		initialisiereZellenInArray();
-		//        KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
-		//        kI.verteileBomben(gewuenschteBomben);
-		//        kI.beschrifteNachbarzellenZuBomben(spielfeld); // Fehler spielfeld
-	}
-
+	
 	@objid ("0cb1bf88-4c70-4a89-9a52-b6c7860df5ae")
 	public void erstelleBombenListeOLD() {
 		erstelleBombenListe();
@@ -99,7 +113,7 @@ public class Spielfeld {
 	public void aufdecken(int zeile, int spalte) {
 		if (zellenArray[zeile][spalte].bombe == true) {
 			zellenArray[zeile][spalte].zeichen = "*";
-			//TODO switch to spielEnde();
+			spielEnde();
 		}
 		else if (0 < zellenArray[zeile][spalte].bombenInNachbarschaft) {
 			zellenArray[zeile][spalte].zeichen = String.valueOf(zellenArray[zeile][spalte].bombenInNachbarschaft);
@@ -109,6 +123,12 @@ public class Spielfeld {
 			KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
 			kI.findeNullen(zeile, spalte);
 		}
+	}
+
+	private void spielEnde() {
+		// Diese Bedinung wird im spiellauft loop bei der Klasse Minesweeper gepürft!
+		//		Spielfeld.abbruchBedingung = true;
+		Spielfeld.schlussmeldungsNummer  = 2;
 	}
 
 }

@@ -19,18 +19,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class BenutzerschnittstelleTest {
 
 	private Benutzerschnittstelle benutzerschnittstelle;
-
-
 	private Spielfeld spielfeld;
-
-
 	private KuenstlicheIntelligenz kI;
 
 
 	@BeforeEach
 	void setUp() throws Exception {
 		spielfeld = new Spielfeld();
-		spielfeld.initialisiereZellenInArray();
+		//		spielfeld.initialisiereZellenInArray();
 		benutzerschnittstelle = new Benutzerschnittstelle();
 	}
 
@@ -75,97 +71,6 @@ class BenutzerschnittstelleTest {
 
 
 	@Nested
-	@DisplayName("class TestZelle")
-	class TestZelle {
-
-		@Test
-		@DisplayName("Test Standard Zellenrepraesentation auf dem Spielfeld")
-		void testzeigeZelle() {
-			Zelle zelle = new Zelle(0, 1);
-			assertEquals(" ", zelle.zeichen);
-			assertEquals(0, zelle.yKoordinate);
-			assertEquals(1, zelle.xKoordinate);
-		}
-
-
-		@Nested
-		class TestZelleNurNachbarzellenAlsRueckgabe {
-
-			@Test
-			@DisplayName("Test zelleRechts")
-			void testzelleRechts() {
-				assertNotNull(Spielfeld.zellenArray[0][0]);
-
-				assertEquals(Spielfeld.zellenArray[0][1], Spielfeld.zellenArray[0][0].zelleRechts());
-
-				Zelle ursprung = Spielfeld.zellenArray[0][0];
-				ursprung.zeichen = "%";
-				Spielfeld.zellenArray[0][0].zelleRechts().zeichen = ursprung.zeichen;
-				assertEquals("%", Spielfeld.zellenArray[0][1].zeichen);
-			}
-
-
-			@Test
-			@DisplayName("Test zelleLinks")
-			void testzelleLinks() {
-				assertNotNull(Spielfeld.zellenArray[0][7]);
-				assertEquals(Spielfeld.zellenArray[0][6], Spielfeld.zellenArray[0][7].zelleLinks());
-			}
-
-
-			@Test
-			@DisplayName("Test zelleObenLinks")
-			void testzelleObenLinks() {
-				assertNotNull(Spielfeld.zellenArray[4][4]);
-				assertEquals(Spielfeld.zellenArray[3][3], Spielfeld.zellenArray[4][4].zelleObenLinks());
-			}
-
-
-			@Test
-			@DisplayName("Test zelleUntenLinks")
-			void testzelleUntenLinks() {
-				assertNotNull(Spielfeld.zellenArray[4][4]);
-				assertEquals(Spielfeld.zellenArray[5][3], Spielfeld.zellenArray[4][4].zelleUntenLinks());
-			}
-
-
-			@Test
-			@DisplayName("Test zelleObenRechts")
-			void testzelleObenRechts() {
-				assertNotNull(Spielfeld.zellenArray[4][4]);
-				assertEquals(Spielfeld.zellenArray[3][5], Spielfeld.zellenArray[4][4].zelleObenRechts());
-			}
-
-
-			@Test
-			@DisplayName("Test zelleUntenRechts")
-			void testzelleUntenRechts() {
-				assertNotNull(Spielfeld.zellenArray[4][4]);
-				assertEquals(Spielfeld.zellenArray[5][5], Spielfeld.zellenArray[4][4].zelleUntenRechts());
-			}
-
-
-			@Test
-			@DisplayName("Test Oben")
-			void testOben() {
-				assertNotNull(Spielfeld.zellenArray[4][4]);
-				assertEquals(Spielfeld.zellenArray[3][4], Spielfeld.zellenArray[4][4].zelleOben());
-			}
-
-
-			@Test
-			@DisplayName("Test Unten")
-			void testUnten() {
-				assertNotNull(Spielfeld.zellenArray[4][4]);
-				assertEquals(Spielfeld.zellenArray[5][4], Spielfeld.zellenArray[4][4].zelleUnten());
-			}
-
-		}
-
-	}
-
-
-	@Nested
 	@DisplayName("class TestSpielfeld")
 	class TestSpielfeld {
 
@@ -187,6 +92,13 @@ class BenutzerschnittstelleTest {
 		void testPositionImSpielfeldGesetztNachInitialisiereZellenInArray() {
 			assertEquals(PositionImSpielfeld.OBENLINKS, Spielfeld.zellenArray[0][0].positionImSpielfeld);
 		}
+
+		@Test
+		void testInitialisiereListeAllerZellen() {
+			assertNotNull(Spielfeld.zellenArray[0][0]);
+			assertEquals(64, spielfeld.listeAllerZellen.size());
+		}
+
 
 		@Test
 		@DisplayName("Test erstelleBombenListe")
@@ -212,23 +124,10 @@ class BenutzerschnittstelleTest {
 
 
 		@Test
-		@Disabled
-		@DisplayName("Test ErstelleSpielfeld?")
 		void testErstelleSpielfeld() {
-		}
-
-	}
-
-
-	@Nested
-	@DisplayName("class EingabeAusgabe")
-	class EingabeAusgabe {
-
-		@Test
-		void testZeigeSpielfeld() {
 			String erwartet = 
 					"     0  1  2  3  4  5  6  7\n" +
-							"  0  "+"!  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+							"  0  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
 							"  1  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
 							"  2  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
 							"  3  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
@@ -236,129 +135,97 @@ class BenutzerschnittstelleTest {
 							"  5  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
 							"  6  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
 							"  7  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n";
-			Kommando kommando = new Kommando("M", 0, 0);
-			kommando.ausfuehren(spielfeld);
 			assertEquals(erwartet, benutzerschnittstelle.zeigeSpielfeld(spielfeld));
 		}
 
-
 		@Test
-		void testZeigeEingabeaufforderung() {
-			String erwartet =
-					"Geben Sie ein Kommando ein:\n" + 
-							"T x y (z.B. T 2 3 testet Feld Zeile 2, Spalte 3 auf Mine)\n" +
-							"M x y (z.B. M 6 1 kehrt Markierung Feld Zeile 6, Spalte 1)\n";
-			assertEquals(erwartet, benutzerschnittstelle.zeigeEingabeaufforderung());
+		void testZeigeSpielfeld() {
+			// TODO schreibe test welcher sicherstellt das zeigeSpielfeld auch ein Spielfeld 
+			// ausgibt! nicht nur das Objekt als return wert!
+			String erwartet = 
+					"     0  1  2  3  4  5  6  7\n" +
+							"  0  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+							"  1  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+							"  2  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+							"  3  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+							"  4  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+							"  5  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+							"  6  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+							"  7  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n";
+			assertEquals(erwartet, benutzerschnittstelle.zeigeSpielfeld(spielfeld));
 		}
 
+		@Nested
+		@DisplayName("class EingabeAusgabe")
+		class EingabeAusgabe {
 
-		@Test
-		@Disabled
-		@DisplayName("Test liesEingabe() bis Umwandlung in Kommando bei gueltiger Eingabe")
-		void testLiesEingabe() {
-			//XXX Fake methode liesEingabe(String testString) erstellt. Dies verstoesst gegen keine Codeteile 2x vorhanden!!
-			//FIXME Fake methode und dieser Test nicht zum laufen gebracht, ein Problem ist dieser Test deck bereits zuviele vorgaenge ab und scheint eher ein 
-			//Integrationstest zu sein. konsequenz Fake methode erst mal wieder geloescht!
-
-			/*String testString = "M 0 0";
-                    Kommando testKommando = benutzerschnittstelle.liesEingabe(testString);
-                    Kommando testObj = new Kommando("M",0,0);
-                    assertEquals(testObj., testKommando);
-			 */
-		}
-
-	}
-
-
-	@Nested
-	@DisplayName("class TestKommando")
-	class TestKommando {
-
-		@Test
-		@DisplayName("Test markiere Zelle[0][0] via Kommando")
-		void testMarkiereZelle00() {
-			Kommando kommando = new Kommando("M", 0, 0);
-			kommando.ausfuehren(spielfeld);
-			assertEquals("!", Spielfeld.zellenArray[0][0].zeichen);
-		}
+			@Test
+			void testZeigeSpielfeld() {
+				String erwartet = 
+						"     0  1  2  3  4  5  6  7\n" +
+								"  0  "+"!  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+								"  1  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+								"  2  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+								"  3  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+								"  4  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+								"  5  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+								"  6  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+								"  7  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n";
+				Kommando kommando = new Kommando("M", 0, 0);
+				kommando.ausfuehren(spielfeld);
+				assertEquals(erwartet, benutzerschnittstelle.zeigeSpielfeld(spielfeld));
+			}
 
 
-		@Test
-		@DisplayName("Test markiere Zelle[2][1] via Kommando")
-		void testMarkiereZelle21() {
-			Kommando kommando = new Kommando("M", 2, 1);
-			kommando.ausfuehren(spielfeld);
-			assertEquals("!", Spielfeld.zellenArray[2][1].zeichen);
-		}
+			@Test
+			void testZeigeEingabeaufforderung() {
+				String erwartet =
+						"Geben Sie ein Kommando ein:\n" + 
+								"T x y (z.B. T 2 3 testet Feld Zeile 2, Spalte 3 auf Mine)\n" +
+								"M x y (z.B. M 6 1 kehrt Markierung Feld Zeile 6, Spalte 1)\n";
+				assertEquals(erwartet, benutzerschnittstelle.zeigeEingabeaufforderung());
+			}
 
 
-		@Test
-		@DisplayName("Test aufdecken Bombe Zelle[0][0], Spiel endet")
-		void testBombeAufdeckenZelle00() {
-			Spielfeld.zellenArray[0][0].setzeBombe();
-			Kommando kommando = new Kommando("T", 0, 0);
-			//FIXME switch to spielEnde() implementieren bei aufdecken
-			kommando.ausfuehren(spielfeld);
-			assertEquals("*", Spielfeld.zellenArray[0][0].zeichen);
-		}
+			@Test
+			@Disabled
+			@DisplayName("Test liesEingabe() bis Umwandlung in Kommando bei gueltiger Eingabe")
+			void testLiesEingabe() {
+				//XXX Fake methode liesEingabe(String testString) erstellt. Dies verstoesst gegen keine Codeteile 2x vorhanden!!
+				//FIXME Fake methode und dieser Test nicht zum laufen gebracht, ein Problem ist dieser Test deck bereits zuviele vorgaenge ab und scheint eher ein 
+				//Integrationstest zu sein. konsequenz Fake methode erst mal wieder geloescht!
 
+				//			
+				//			String testString = "M 0 0";
+				//                    Kommando testKommando = benutzerschnittstelle.liesEingabe(testString);
+				//                    Kommando testObj = new Kommando("M",0,0);
+				//                    assertEquals(testObj., testKommando);
+				//			
+			}
 
-		@Test
-		@DisplayName("Test aufdecken Bombe Zelle[2][3], Spiel endet")
-		void testBombeAufdeckenZelle23() {
-			Spielfeld.zellenArray[2][3].setzeBombe();
-			Kommando kommando = new Kommando("T", 2, 3);
-			kommando.ausfuehren(spielfeld);
-			assertEquals("*", Spielfeld.zellenArray[2][3].zeichen);
-		}
+			@Test
+			void testZeigeSpielfeldSpielEnde() {
+				Spielfeld.zellenArray[0][1].setzeBombe();
+				String erwartetesSpielfeld = 
+						"     0  1  2  3  4  5  6  7\n" +
+								"  0  "+"   "+"*  "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+								"  1  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+								"  2  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+								"  3  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+								"  4  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+								"  5  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+								"  6  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n" + 
+								"  7  "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"   "+"\n";
+				String erwarteteSchlussmeldung = "Mine explodiert, Spiel beendet.";
 
+				Kommando kommando = new Kommando("T", 0, 1);
+				kommando.ausfuehren(spielfeld);
 
-		@Test
-		@DisplayName("Test aufdecken Zelle[0][2] welche Nachbar zu Bombe[0][1] ist, Rueckmeldung BombenAnzahl")
-		void testNachbarzelleZuBombeAufdecken() {
-			Spielfeld.zellenArray[0][1].setzeBombe();
-			KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
-			spielfeld.erstelleBombenListe();
-			kI.beschrifteNachbarzellenZuBomben(spielfeld);
-			Kommando kommando = new Kommando("T", 0, 2);
+				assertEquals(2, Spielfeld.schlussmeldungsNummer);
+				assertEquals(erwartetesSpielfeld, benutzerschnittstelle.zeigeSpielfeld(spielfeld));
+				assertEquals(erwarteteSchlussmeldung, benutzerschnittstelle.zeigeSchlussmeldung());
+			}
 
-			kommando.ausfuehren(spielfeld);
-			assertEquals("1", Spielfeld.zellenArray[0][2].zeichen);
-		}
-
-
-		@Test
-		void testAufdeckenLeeresFeld() {
-			Spielfeld.zellenArray[0][1].setzeBombe();
-			Spielfeld.zellenArray[1][1].setzeBombe();
-			KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
-			spielfeld.erstelleBombenListe();
-			kI.beschrifteNachbarzellenZuBomben(spielfeld);
-			
-			Kommando kommando = new Kommando("T", 2, 3);
-			kommando.ausfuehren(spielfeld);
-
-			assertEquals("0", Spielfeld.zellenArray[2][3].zeichen);
-			assertEquals("2", Spielfeld.zellenArray[1][2].zeichen);
-			assertEquals("1", Spielfeld.zellenArray[2][2].zeichen);
-			assertEquals(" ", Spielfeld.zellenArray[0][1].zeichen);
-		}
-
-
-		@Test
-		void testAufdeckenLeeresFeldPlusNachbarnNull() {
-			Kommando kommando = new Kommando("T", 2, 3);
-			kommando.ausfuehren(spielfeld);
-
-			assertEquals("0", Spielfeld.zellenArray[2][3].zeichen);
-			assertEquals("0", Spielfeld.zellenArray[2][2].zeichen);
-			assertEquals("0", Spielfeld.zellenArray[2][4].zeichen);
-			assertEquals("0", Spielfeld.zellenArray[1][3].zeichen);
-			assertEquals("0", Spielfeld.zellenArray[3][3].zeichen);
-			assertEquals("0", Spielfeld.zellenArray[1][2].zeichen);
-			assertEquals("0", Spielfeld.zellenArray[1][4].zeichen);
-			assertEquals("0", Spielfeld.zellenArray[3][2].zeichen);
-			assertEquals("0", Spielfeld.zellenArray[3][4].zeichen);
 		}
 
 	}
@@ -366,7 +233,7 @@ class BenutzerschnittstelleTest {
 
 	@Nested
 	@DisplayName("class KI")
-	class KI {
+	class TestKI {
 		private int endeSpalte;
 		private int endeZeile;
 
@@ -950,6 +817,217 @@ class BenutzerschnittstelleTest {
 				assertEquals("3", Spielfeld.zellenArray[4][3].zeichen);
 			}
 		}
+	}
+
+
+	@Nested
+	@DisplayName("class TestKommando")
+	class TestKommando {
+
+		@Test
+		@DisplayName("Test markiere Zelle[0][0] via Kommando")
+		void testMarkiereZelle00() {
+			Kommando kommando = new Kommando("M", 0, 0);
+			kommando.ausfuehren(spielfeld);
+			assertEquals("!", Spielfeld.zellenArray[0][0].zeichen);
+		}
+
+
+		@Test
+		@DisplayName("Test markiere Zelle[2][1] via Kommando")
+		void testMarkiereZelle21() {
+			Kommando kommando = new Kommando("M", 2, 1);
+			kommando.ausfuehren(spielfeld);
+			assertEquals("!", Spielfeld.zellenArray[2][1].zeichen);
+		}
+
+
+		@Test
+		@DisplayName("Test aufdecken Bombe Zelle[0][0], Spiel endet")
+		void testBombeAufdeckenZelle00() {
+			Spielfeld.zellenArray[0][0].setzeBombe();
+			Kommando kommando = new Kommando("T", 0, 0);
+			//FIXME switch to spielEnde() implementieren bei aufdecken
+			kommando.ausfuehren(spielfeld);
+			assertEquals("*", Spielfeld.zellenArray[0][0].zeichen);
+		}
+
+
+		@Test
+		@DisplayName("Test aufdecken Bombe Zelle[2][3], Spiel endet")
+		void testBombeAufdeckenZelle23() {
+			Spielfeld.zellenArray[2][3].setzeBombe();
+			Kommando kommando = new Kommando("T", 2, 3);
+			kommando.ausfuehren(spielfeld);
+			assertEquals("*", Spielfeld.zellenArray[2][3].zeichen);
+		}
+
+		@Test
+		void testBombeAufdeckenSpielEndetSpielfeldWirdKomplettAngezeigt() {
+			Spielfeld.zellenArray[2][3].setzeBombe();
+			Kommando kommando = new Kommando("T", 2, 3);
+			kommando.ausfuehren(spielfeld);
+
+			// TODO einsetzen eines Test loops für alle Spielfelder:
+			// prüfe ob beim aufdecken einer Bombe das Spiel richtig endet!
+			// Richtig Enden heisst, aktuelles Spielfeld anzeigen + explodierte Bombe als "*" darstellen!
+			assertEquals("*", Spielfeld.zellenArray[2][3].zeichen);
+
+		}
+
+
+		@Test
+		@DisplayName("Test aufdecken Zelle[0][2] welche Nachbar zu Bombe[0][1] ist, Rueckmeldung BombenAnzahl")
+		void testNachbarzelleZuBombeAufdecken() {
+			Spielfeld.zellenArray[0][1].setzeBombe();
+			KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
+			spielfeld.erstelleBombenListe();
+			kI.beschrifteNachbarzellenZuBomben(spielfeld);
+			Kommando kommando = new Kommando("T", 0, 2);
+
+			kommando.ausfuehren(spielfeld);
+			assertEquals("1", Spielfeld.zellenArray[0][2].zeichen);
+		}
+
+
+		@Test
+		void testAufdeckenLeeresFeld() {
+			Spielfeld.zellenArray[0][1].setzeBombe();
+			Spielfeld.zellenArray[1][1].setzeBombe();
+			KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
+			spielfeld.erstelleBombenListe();
+			kI.beschrifteNachbarzellenZuBomben(spielfeld);
+
+			Kommando kommando = new Kommando("T", 2, 3);
+			kommando.ausfuehren(spielfeld);
+
+			assertEquals("0", Spielfeld.zellenArray[2][3].zeichen);
+			assertEquals("2", Spielfeld.zellenArray[1][2].zeichen);
+			assertEquals("1", Spielfeld.zellenArray[2][2].zeichen);
+			assertEquals(" ", Spielfeld.zellenArray[0][1].zeichen);
+		}
+
+
+		@Test
+		void testAufdeckenLeeresFeldPlusNachbarnNull() {
+			Kommando kommando = new Kommando("T", 2, 3);
+			kommando.ausfuehren(spielfeld);
+
+			assertEquals("0", Spielfeld.zellenArray[2][3].zeichen);
+			assertEquals("0", Spielfeld.zellenArray[2][2].zeichen);
+			assertEquals("0", Spielfeld.zellenArray[2][4].zeichen);
+			assertEquals("0", Spielfeld.zellenArray[1][3].zeichen);
+			assertEquals("0", Spielfeld.zellenArray[3][3].zeichen);
+			assertEquals("0", Spielfeld.zellenArray[1][2].zeichen);
+			assertEquals("0", Spielfeld.zellenArray[1][4].zeichen);
+			assertEquals("0", Spielfeld.zellenArray[3][2].zeichen);
+			assertEquals("0", Spielfeld.zellenArray[3][4].zeichen);
+		}
+
+	}
+
+	@Nested
+	class TestValidator {
+
+		// TODO schreibe alle noetigen Test welche der Validator abfangen soll.
+		// passe validator für jeden test an.
+		@Test
+		@DisplayName("Test aufdecken Bombe Zelle[2][3], Spiel endet")
+		void testBenutzerEingabeUnvollstaendig() {
+			String benutzerEingabe = "T 2  ";
+
+			assertFalse(true);
+		}
+	}
+
+	@Nested
+	@DisplayName("class TestZelle")
+	class TestZelle {
+
+		@Test
+		@DisplayName("Test Standard Zellenrepraesentation auf dem Spielfeld")
+		void testzeigeZelle() {
+			Zelle zelle = new Zelle(0, 1);
+			assertEquals(" ", zelle.zeichen);
+			assertEquals(0, zelle.yKoordinate);
+			assertEquals(1, zelle.xKoordinate);
+		}
+
+
+		@Nested
+		class TestZelleNurNachbarzellenAlsRueckgabe {
+
+			@Test
+			@DisplayName("Test zelleRechts")
+			void testzelleRechts() {
+				assertNotNull(Spielfeld.zellenArray[0][0]);
+
+				assertEquals(Spielfeld.zellenArray[0][1], Spielfeld.zellenArray[0][0].zelleRechts());
+
+				Zelle ursprung = Spielfeld.zellenArray[0][0];
+				ursprung.zeichen = "%";
+				Spielfeld.zellenArray[0][0].zelleRechts().zeichen = ursprung.zeichen;
+				assertEquals("%", Spielfeld.zellenArray[0][1].zeichen);
+			}
+
+
+			@Test
+			@DisplayName("Test zelleLinks")
+			void testzelleLinks() {
+				assertNotNull(Spielfeld.zellenArray[0][7]);
+				assertEquals(Spielfeld.zellenArray[0][6], Spielfeld.zellenArray[0][7].zelleLinks());
+			}
+
+
+			@Test
+			@DisplayName("Test zelleObenLinks")
+			void testzelleObenLinks() {
+				assertNotNull(Spielfeld.zellenArray[4][4]);
+				assertEquals(Spielfeld.zellenArray[3][3], Spielfeld.zellenArray[4][4].zelleObenLinks());
+			}
+
+
+			@Test
+			@DisplayName("Test zelleUntenLinks")
+			void testzelleUntenLinks() {
+				assertNotNull(Spielfeld.zellenArray[4][4]);
+				assertEquals(Spielfeld.zellenArray[5][3], Spielfeld.zellenArray[4][4].zelleUntenLinks());
+			}
+
+
+			@Test
+			@DisplayName("Test zelleObenRechts")
+			void testzelleObenRechts() {
+				assertNotNull(Spielfeld.zellenArray[4][4]);
+				assertEquals(Spielfeld.zellenArray[3][5], Spielfeld.zellenArray[4][4].zelleObenRechts());
+			}
+
+
+			@Test
+			@DisplayName("Test zelleUntenRechts")
+			void testzelleUntenRechts() {
+				assertNotNull(Spielfeld.zellenArray[4][4]);
+				assertEquals(Spielfeld.zellenArray[5][5], Spielfeld.zellenArray[4][4].zelleUntenRechts());
+			}
+
+
+			@Test
+			@DisplayName("Test Oben")
+			void testOben() {
+				assertNotNull(Spielfeld.zellenArray[4][4]);
+				assertEquals(Spielfeld.zellenArray[3][4], Spielfeld.zellenArray[4][4].zelleOben());
+			}
+
+
+			@Test
+			@DisplayName("Test Unten")
+			void testUnten() {
+				assertNotNull(Spielfeld.zellenArray[4][4]);
+				assertEquals(Spielfeld.zellenArray[5][4], Spielfeld.zellenArray[4][4].zelleUnten());
+			}
+
+		}
+
 	}
 
 }
