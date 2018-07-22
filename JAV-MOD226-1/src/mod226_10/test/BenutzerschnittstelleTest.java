@@ -5,6 +5,7 @@ import mod226_10.mineswepfinal.Kommando;
 import mod226_10.mineswepfinal.KuenstlicheIntelligenz;
 import mod226_10.mineswepfinal.PositionImSpielfeld;
 import mod226_10.mineswepfinal.Spielfeld;
+import mod226_10.mineswepfinal.Validator;
 import mod226_10.mineswepfinal.Zelle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -14,13 +15,13 @@ import org.junit.jupiter.api.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
-
 @DisplayName("class BenutzerschnittstelleTest")
 class BenutzerschnittstelleTest {
 
 	private Benutzerschnittstelle benutzerschnittstelle;
 	private Spielfeld spielfeld;
 	private KuenstlicheIntelligenz kI;
+	private Validator validator;
 
 
 	@BeforeEach
@@ -928,16 +929,125 @@ class BenutzerschnittstelleTest {
 
 	@Nested
 	class TestValidator {
+		// DONE schreibe alle noetigen Test welche der Validator abfangen soll.
+		// DONE teste Eingabe T 0 2
+		// DONE teste Eingabe M 0 2
+		// DONE teste Eingabe 'T 0'
+		// DONE teste Eingabe 'M 0  '
+		// DONE teste Eingabe T T 2, Resultat in Minesweeper? -> Eingabe Fehler.
+		// DONE teste Eingabe t 2 3, Resultat in Minesweeper? -> Eingabe Fehler.
+		// DONE teste Eingabe M 2 33, ausserhalb Spielfeld, in Minesweeper = ArrayIndexOutOfBoundsException
+		// DONE teste Eingabe M 44 3, ausserhalb Spielfeld, in Minesweeper = ArrayIndexOutOfBoundsException
+		// DONE teste Eingabe Q 2 3, Resultat in Minesweeper? -> Eingabe Fehler.
+		// TODO teste Eingabe T11
 
-		// TODO schreibe alle noetigen Test welche der Validator abfangen soll.
-		// passe validator für jeden test an.
 		@Test
-		@DisplayName("Test aufdecken Bombe Zelle[2][3], Spiel endet")
-		void testBenutzerEingabeUnvollstaendig() {
-			String benutzerEingabe = "T 2  ";
-
-			assertFalse(true);
+		void testEingabeT02() {
+			validator = new Validator("T 0 2");
+			assertTrue(validator.istGueltig());
 		}
+
+		@Test
+		void testEingabeM02() {
+			validator = new Validator("M 0 2");
+			assertTrue(validator.istGueltig());
+		}
+
+		@Test
+		void testEingabeT0() {
+			validator = new Validator("T 0");
+			assertFalse(validator.istGueltig());
+		}
+
+		@Test
+		void testEingabeM0_() {
+			validator = new Validator("M 0  ");
+			assertFalse(validator.istGueltig());
+		}
+
+		@Test
+		void testEingabeTT2() {
+			validator = new Validator("T T 2");
+			assertFalse(validator.istGueltig());
+		}
+
+		@Test
+		void testEingabet23() {
+			validator = new Validator("t 2 3");
+			assertFalse(validator.istGueltig());
+		}
+
+		@Test
+		void testEingabeM233() {
+			// DONE in Minesweeper main, Benutzereingabe M 2 33 -> ArrayIndexOutOfBoundsException
+			// aber erst wenn auf zellenArray zugegriffen wird.
+			// Diese ArrayIndexOutOfBoundsException nicht in der Klasse Validator abfangen?
+			// Vor- Nachteile?
+			// Vorteile Validator abfangen
+			// - Validator Klasse soll ja die Eingabe prüfen
+			// - eine Loesung fuer beide Varianten aufdecken und markieren, d.h.
+			// nicht bei jedem zugriff auf zellenArray wird eine Exception geworfen
+			// Nachteile
+			// - andere falsche Zugriffe auf zellenArray werden nicht behandelt
+
+			// Erster Versuch findet ArrayIndexOutOfBoundsException aus Minesweeper nicht da erst
+			// auf zellenArray der ArrayIndexOutOfBoundsException stattfindet.
+			//			ArrayIndexOutOfBoundsException exception = assertThrows(
+			//					ArrayIndexOutOfBoundsException.class, () -> validator = new Validator("M 2 33"));
+			validator = new Validator("M 2 33");
+			assertFalse(validator.istGueltig());
+		}
+
+		@Test
+		void testEingabeM443() {
+			validator = new Validator("M 44 3");
+			assertFalse(validator.istGueltig());
+		}
+
+
+		@Test
+		void testEingabeQ23() {
+			validator = new Validator("Q 2 3");
+			assertFalse(validator.istGueltig());
+		}
+
+		@Test
+		void testNumberFormatException() {
+			// eingabe = T T 2
+			//			NumberFormatException exception = assertThrows(NumberFormatException.class, () -> {validator = new Validator("T T 2");
+			//			});
+
+			// Vermutung, dieser Test lauft nur nicht weil dies bereits abgefangen wird mit den if-
+			// Pruefungen in der Validator Klasse -> Test dies, ausklammern bringt keinen erfolgreichen Test!
+			// Vermutung nicht bestaetigt.
+
+			validator = new Validator("T T 2");
+			assertFalse(validator.istGueltig());
+		}
+
+		@Test
+		// Dieser Test laeuft, wenn Validator noch ohne catch ArrayIndexOutOfBoundsException
+		// ausgestatted ist. Merke Validator ArrayIndexOutOfBoundsException bezieht sich nicht
+		// auf das zellenArray nur auf Integer.valueOf(eingabeTeile[1]); und
+		// Integer.valueOf(eingabeTeile[2]);
+		void testArrayIndexOutOfBoundsException() {
+			validator = new Validator("T 2");
+			assertFalse(validator.istGueltig());
+
+			validator = new Validator("M 0  ");
+			assertFalse(validator.istGueltig());			
+			// alter Test ohne catch ArrayIndexOutOfBoundsException in Validator 
+			//			ArrayIndexOutOfBoundsException exception = assertThrows(
+			//					ArrayIndexOutOfBoundsException.class, () -> {validator = new Validator("T 2");
+			//					});
+		}
+
+		@Test
+		void testEingabeT11() {
+			validator = new Validator("T11");
+			assertFalse(validator.istGueltig());
+		}
+
 	}
 
 	@Nested
