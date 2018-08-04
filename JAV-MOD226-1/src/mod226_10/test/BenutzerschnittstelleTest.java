@@ -3,10 +3,13 @@ package mod226_10.test;
 import mod226_10.mineswepfinal.Benutzerschnittstelle;
 import mod226_10.mineswepfinal.Kommando;
 import mod226_10.mineswepfinal.KuenstlicheIntelligenz;
+import mod226_10.mineswepfinal.Minesweeper;
 import mod226_10.mineswepfinal.PositionImSpielfeld;
 import mod226_10.mineswepfinal.Spielfeld;
 import mod226_10.mineswepfinal.Validator;
 import mod226_10.mineswepfinal.Zelle;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -15,8 +18,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("class BenutzerschnittstelleTest")
+
 class BenutzerschnittstelleTest {
+
 
 	private Benutzerschnittstelle benutzerschnittstelle;
 	private Spielfeld spielfeld;
@@ -29,6 +33,37 @@ class BenutzerschnittstelleTest {
 		spielfeld = new Spielfeld();
 		//		spielfeld.initialisiereZellenInArray();
 		benutzerschnittstelle = new Benutzerschnittstelle();
+	}
+
+	@Nested
+	class MinesweeperTest {
+		private Minesweeper ms = new Minesweeper();
+
+		@Test
+		void testSpielLaeuftVerloren() {
+
+			Spielfeld.zellenArray[2][3].setzeBombe();
+			Kommando kommando = new Kommando("T", 2, 3);
+			kommando.ausfuehren(spielfeld);
+
+			assertEquals("*", Spielfeld.zellenArray[2][3].zeichen);
+
+			// test oben nur kopie von woanders!
+			// zweiter Schritt
+
+			// DONE Problem die Bombe wird gar nie gefunden bei ms.spielLaeuft()
+			// verdacht, problem mit Liste, Problem geloest indem  
+			// alt, noch ohne Static bei spielfeld
+			//			for (Zelle zelle : spielfeld.listeAllerZellen) {
+			// Loesung -> 
+			// 				for (Zelle zelle : Spielfeld.listeAllerZellen) {
+			//			bedingt bei Spielfeld: 
+			//			public static List<Zelle> listeAllerZellen = new ArrayList<Zelle>();
+
+			ms.spielLaeuft();
+			assertFalse(ms.spielLaeuft());
+		}
+
 	}
 
 
@@ -97,7 +132,11 @@ class BenutzerschnittstelleTest {
 		@Test
 		void testInitialisiereListeAllerZellen() {
 			assertNotNull(Spielfeld.zellenArray[0][0]);
-			assertEquals(64, spielfeld.listeAllerZellen.size());
+			assertEquals(64, Spielfeld.listeAllerZellen.size());
+
+			// alt war es nicht static -> neu gibt es ueber 8000 Eintraege in der Liste!
+			// DONE erstelle fuer jeden Test breakdown, via clear Liste geloest
+			//assertEquals(64, spielfeld.listeAllerZellen.size());
 		}
 
 
@@ -225,6 +264,14 @@ class BenutzerschnittstelleTest {
 				assertEquals(2, Spielfeld.schlussmeldungsNummer);
 				assertEquals(erwartetesSpielfeld, benutzerschnittstelle.zeigeSpielfeld(spielfeld));
 				assertEquals(erwarteteSchlussmeldung, benutzerschnittstelle.zeigeSchlussmeldung());
+				// XXX Eigentlich wird nicht die Textausgabe auf der Konsole gepfrueft,
+				// sondern nur erwarteteSchlussmeldung Objekt == String Text
+				// es wird aber nicht der Return Wert in der Konsole ausgegeben
+				// sondern in der Methode wird der Text via syso ausgegeben. Dies wird 
+				// aber hier nirgends geprüft. Anders ausgedrueckt wird die Ausgabe syso aufgehoben,
+				// der Text erscheint bei Spielende also nicht, laeuft dieser Test trotzdem erfolgreich!
+				// Er sollte aber scheitern. Aber wie sollte dies geprüft werden?
+
 			}
 
 		}
@@ -848,7 +895,7 @@ class BenutzerschnittstelleTest {
 		void testBombeAufdeckenZelle00() {
 			Spielfeld.zellenArray[0][0].setzeBombe();
 			Kommando kommando = new Kommando("T", 0, 0);
-			//FIXME switch to spielEnde() implementieren bei aufdecken
+			//DONE switch to spielEnde() implementieren bei aufdecken
 			kommando.ausfuehren(spielfeld);
 			assertEquals("*", Spielfeld.zellenArray[0][0].zeichen);
 		}
@@ -1138,6 +1185,13 @@ class BenutzerschnittstelleTest {
 
 		}
 
+	}
+
+	@AfterEach
+	void tearDown() {
+		spielfeld = null;
+		Spielfeld.listeAllerZellen.clear();
+		benutzerschnittstelle = null;
 	}
 
 }

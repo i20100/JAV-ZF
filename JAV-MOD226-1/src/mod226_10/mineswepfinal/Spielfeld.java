@@ -18,11 +18,11 @@ public class Spielfeld {
 	@objid ("66f7561a-c9d2-4609-890f-2c1ccbbfa7a2")
 	public static Zelle[][] zellenArray = new Zelle[zeilen][spalten];
 
-	public List<Zelle> listeAllerZellen = new ArrayList<Zelle>();
+	public static List<Zelle> listeAllerZellen = new ArrayList<Zelle>();
 
 	public static boolean abbruchBedingung = false;
 
-	public static int schlussmeldungsNummer = 0;
+	public static int schlussmeldungsNummer = 1; // 1 fuer gewonnen, 2 verloren
 
 	@objid ("99a3ac8b-356e-443f-971a-4e45a293cdb4")
 	public List<Zelle> listeBombenOrte;

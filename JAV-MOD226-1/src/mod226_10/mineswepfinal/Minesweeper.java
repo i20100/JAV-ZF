@@ -19,6 +19,7 @@ public class Minesweeper {
 
 	@objid ("ad3a7df8-f221-4ab9-b1db-66dc0dcede7c")
 	private void spielen() {
+		whileTest();
 		do {
 			benutzerschnittstelle.zeigeSpielfeld(spielfeld);
 			benutzerschnittstelle.zeigeEingabeaufforderung();
@@ -29,20 +30,30 @@ public class Minesweeper {
 		benutzerschnittstelle.zeigeSchlussmeldung();
 	}
 
+
+	private void whileTest() {
+		// TODO Auto-generated method stub
+		boolean bStatus = true;
+		do {
+			System.out.println(bStatus);
+			bStatus = false;
+		} while (bStatus);
+		System.out.println("bStatus 1x durdchlaufen?");
+	}
+
 	@objid ("890def89-27b6-41a7-b38c-f02ea594a6ad")
-	private boolean spielLaeuft() {
+	public boolean spielLaeuft() {
 		//XXX Was soll hier rein, was war die Idee des Lehrers fuer diese Methode?
 		// pruefe ob alle Felder aufgedeckt sind, wenn ja Spiel gewonnen!
 		// pruefe ob eine bombe explodiert ist, wenn ja Spiel verloren!
-		boolean abbruchBedingung = false;
+		boolean spielLaufenLassen = true;
 
 		//pruefe gewonnen und verloren
 		{
-			// gewonnen
 			int nichtAufgedeckteFelder = 0;
 			int bombenExplodiert = 0;
-			
-			for (Zelle zelle : spielfeld.listeAllerZellen) {
+
+				for (Zelle zelle : Spielfeld.listeAllerZellen) {
 				if (zelle.zeichen == " ") {
 					nichtAufgedeckteFelder += 1;
 				}
@@ -51,18 +62,22 @@ public class Minesweeper {
 				}
 			}
 
-			if (nichtAufgedeckteFelder > 0 || bombenExplodiert > 0) {
-				abbruchBedingung = true;
-			} 
+//				FIXME if Bedingung aufsetzen fuer Spiel gewonnen 
+//			if (nichtAufgedeckteFelder == Spielfeld.listeAllerZellen.size() - Spielfeld.listeBombenOrte.size) {
+//				spielLaufenLassen = false;
+//			} 
+			if (bombenExplodiert > 0) {
+				spielLaufenLassen = false;
+			}
 		}
-		return abbruchBedingung;
+		return spielLaufenLassen;
 	}
 
 	@objid ("4811778f-9629-4242-a4c5-a2a81c116e4c")
 	private void ki(Spielfeld aktuellesSpielfeld) {
-//		if (spielfeld.listeBombenOrte.size() > 0) {
-//			System.out.println("listeBombenOrte.size = "+ Integer.toString(spielfeld.listeBombenOrte.size()));
-//		}
+		//		if (spielfeld.listeBombenOrte.size() > 0) {
+		//			System.out.println("listeBombenOrte.size = "+ Integer.toString(spielfeld.listeBombenOrte.size()));
+		//		}
 
 		KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
 		kI.verteileBomben(spielfeld, spielfeld.gewuenschteBomben);
