@@ -60,7 +60,7 @@ public class KuenstlicheIntelligenz {
 		//3. Routine erhoeht Bombenzaehler auf Zellen
 		//4. Es gibt neun Verschiedene Methoden je nach Bombenort
 
-		for (Zelle zelle : spielfeld.listeBombenOrte) {
+		for (Zelle zelle : Spielfeld.listeBomben) {
 
 			int zeile = zelle.yKoordinate;
 			int spalte = zelle.xKoordinate;

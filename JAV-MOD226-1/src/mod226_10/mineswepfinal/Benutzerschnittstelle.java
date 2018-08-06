@@ -55,8 +55,8 @@ public class Benutzerschnittstelle {
 	public String zeigeEingabeaufforderung() {
 		String eingabeaufforderung =
 				"Geben Sie ein Kommando ein:\n" + 
-						"T x y (z.B. T 2 3 testet Feld Zeile 2, Spalte 3 auf Mine)\n" +
-						"M x y (z.B. M 6 1 kehrt Markierung Feld Zeile 6, Spalte 1)\n";
+						"T y x (z.B. T 2 3 testet Feld Zeile 2, Spalte 3 auf Mine)\n" +
+						"M y x (z.B. M 6 1 kehrt Markierung Feld Zeile 6, Spalte 1)\n";
 		System.out.println(eingabeaufforderung);
 		return eingabeaufforderung;
 	}
@@ -72,7 +72,7 @@ public class Benutzerschnittstelle {
 		// gewonnen wurde oder die Bombe explodiert ist?
 		String schlussmeldung = "";
 		if (Spielfeld.schlussmeldungsNummer == 1) {
-			schlussmeldung = "Gewinner Text fehlt noch!";
+			schlussmeldung = "Alle Minen gefunden. Bravo!";
 		}
 
 		if (Spielfeld.schlussmeldungsNummer == 2) {
@@ -80,6 +80,22 @@ public class Benutzerschnittstelle {
 		}
 		System.out.println(schlussmeldung); // XXX Wie soll diese Zeile getestet werden siehe XXX von testZeigeSpielfeldSpielEnde()
 		return schlussmeldung;
+	}
+
+	public Object zeigeSpielabbruch() {
+		// DONE zeigeSpielabbruch
+		
+		String textZeigeSpielabbruch =
+				"Um das Spiel zu Beenden, schliesse dieses Fenster oder druecke Enter.";
+		System.out.println(textZeigeSpielabbruch);
+		
+		return textZeigeSpielabbruch;
+	}
+	
+	public void warteAufBenutzereingabe() {
+		// DONE zeige Eingabeaufforderung -> siehe zeigeSpielabbruch
+		@SuppressWarnings("unused")
+		String eingabe = scanner.nextLine();
 	}
 
 }

@@ -19,7 +19,8 @@ public class Minesweeper {
 
 	@objid ("ad3a7df8-f221-4ab9-b1db-66dc0dcede7c")
 	private void spielen() {
-		whileTest();
+		spielversionAnzeigen();
+		spielBegruessung();
 		do {
 			benutzerschnittstelle.zeigeSpielfeld(spielfeld);
 			benutzerschnittstelle.zeigeEingabeaufforderung();
@@ -28,17 +29,18 @@ public class Minesweeper {
 		} while (spielLaeuft());
 		benutzerschnittstelle.zeigeSpielfeld(spielfeld);
 		benutzerschnittstelle.zeigeSchlussmeldung();
+		benutzerschnittstelle.zeigeSpielabbruch();
+		benutzerschnittstelle.warteAufBenutzereingabe();
 	}
 
 
-	private void whileTest() {
+	private void spielBegruessung() {
 		// TODO Auto-generated method stub
-		boolean bStatus = true;
-		do {
-			System.out.println(bStatus);
-			bStatus = false;
-		} while (bStatus);
-		System.out.println("bStatus 1x durdchlaufen?");
+		System.out.println("Willkommen zu Minesweeper\n\n");
+	}
+
+	private void spielversionAnzeigen() {
+		System.out.println("Version 1.1");
 	}
 
 	@objid ("890def89-27b6-41a7-b38c-f02ea594a6ad")
@@ -52,20 +54,29 @@ public class Minesweeper {
 		{
 			int nichtAufgedeckteFelder = 0;
 			int bombenExplodiert = 0;
+			int markierteBomben = 0;
 
-				for (Zelle zelle : Spielfeld.listeAllerZellen) {
+			for (Zelle zelle : Spielfeld.listeAllerZellen) {
 				if (zelle.zeichen == " ") {
 					nichtAufgedeckteFelder += 1;
+				}
+				if (zelle.zeichen == "!") {
+					markierteBomben += 1;
+
 				}
 				if (zelle.zeichen == "*") {
 					bombenExplodiert += 1;
 				}
 			}
 
-//				FIXME if Bedingung aufsetzen fuer Spiel gewonnen 
-//			if (nichtAufgedeckteFelder == Spielfeld.listeAllerZellen.size() - Spielfeld.listeBombenOrte.size) {
-//				spielLaufenLassen = false;
-//			} 
+			// DONE if Bedingung aufsetzen fuer Spiel gewonnen 
+//			System.out.println("nichtAufgedeckteFelder = "+nichtAufgedeckteFelder);
+			// old
+			//			if (nichtAufgedeckteFelder == Spielfeld.listeAllerZellen.size() - Spielfeld.listeBombenOrte.size()) {
+			if (nichtAufgedeckteFelder == 0 && markierteBomben == Spielfeld.listeBomben.size()
+					) {
+				spielLaufenLassen = false;
+			} 
 			if (bombenExplodiert > 0) {
 				spielLaufenLassen = false;
 			}

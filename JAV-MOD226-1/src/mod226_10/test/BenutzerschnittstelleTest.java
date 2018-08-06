@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
-
 class BenutzerschnittstelleTest {
 
 
@@ -30,18 +29,71 @@ class BenutzerschnittstelleTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		spielfeld = new Spielfeld();
+		spielfeld = new Spielfeld(); // 1st Spielfeld -> 1st ZellenArray
 		//		spielfeld.initialisiereZellenInArray();
 		benutzerschnittstelle = new Benutzerschnittstelle();
 	}
 
 	@Nested
 	class MinesweeperTest {
-		private Minesweeper ms = new Minesweeper();
+		//		private Minesweeper ms = new Minesweeper(); // // 2nd Spielfeld -> 2nd ZellenArray
+		Minesweeper ms = new Minesweeper(); // // 2nd Spielfeld -> 2nd ZellenArray
+
+		@BeforeEach
+		void setUp() throws Exception {
+			Spielfeld.listeAllerZellen.clear(); // Nï¿½tig, weil initialisiereZellenInArray mehrmals laeuft. Nur bei Testklasse der Fall.
+			spielfeld.initialisiereZellenInArray();
+		}
+
+		@Test
+		void testSpielfeldListeAllerZellen() {
+			assertEquals(64, Spielfeld.listeAllerZellen.size());
+		}
+
+		@Test
+		void testSpielLaeuftGewonnen() {
+			Spielfeld.zellenArray[4][4].setzeBombe();
+			Kommando kommando = new Kommando("T", 0, 0);
+			kommando.ausfuehren(spielfeld);
+
+			assertEquals("0", Spielfeld.zellenArray[0][0].zeichen);
+
+			kommando = new Kommando("M", 4, 4);
+			kommando.ausfuehren(spielfeld);
+			assertEquals("!", Spielfeld.zellenArray[4][4].zeichen);
+
+			// DONE erstelleBombenListe() zu static Methode wechseln
+			// DONE alle verweise zu erstelleBombenListe() aendern zu static
+			// TODO alle Verweise zu ListeAllerBomben bei tear down loeschen, d.h
+			// if not null set clear Liste
+
+			spielfeld.erstelleBombenListe();
+			assertEquals(1, Spielfeld.listeBomben.size());
+			assertEquals(64, Spielfeld.listeAllerZellen.size());
+
+			// TODO teste alle Felder nicht mehr " " als Zeichen. -> entspricht Spiel gewonnen
+			// in Minesweeper angepasst -> nichtAufgedeckteFelder == 0 -> spielLaeuft false
+			System.out.println("Spielfeld.listeAllerZellen.size():");
+			System.out.println(Spielfeld.listeAllerZellen.size());
+			for (Zelle zelle : Spielfeld.listeAllerZellen) {
+				if (zelle.zeichen != " ") {
+					System.out.println("zeichen ! \" \":");
+					System.out.println(zelle.zeichen);
+					System.out.println("y, x koord: "+ zelle.yKoordinate + ", " + zelle.xKoordinate );
+				}
+				if (zelle.zeichen == " ") {
+					System.out.println("zeichen ist \" \":");
+					System.out.println(zelle.zeichen);
+					System.out.println("y, x koord: "+ zelle.yKoordinate + ", " + zelle.xKoordinate );
+				}
+			}
+
+			ms.spielLaeuft();
+			assertFalse(ms.spielLaeuft());
+		}
 
 		@Test
 		void testSpielLaeuftVerloren() {
-
 			Spielfeld.zellenArray[2][3].setzeBombe();
 			Kommando kommando = new Kommando("T", 2, 3);
 			kommando.ausfuehren(spielfeld);
@@ -60,49 +112,13 @@ class BenutzerschnittstelleTest {
 			//			bedingt bei Spielfeld: 
 			//			public static List<Zelle> listeAllerZellen = new ArrayList<Zelle>();
 
+			spielfeld.erstelleBombenListe();
+			assertEquals(64, Spielfeld.listeAllerZellen.size());
+
 			ms.spielLaeuft();
 			assertFalse(ms.spielLaeuft());
 		}
 
-	}
-
-
-	@Test
-	@DisplayName("Test zaehleZellen")
-	void testzaehleZellen() {
-		int erwartet = Spielfeld.zeilen*Spielfeld.spalten;
-
-		KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
-		int zellen = kI.zaehleZellen(spielfeld);
-		assertEquals(erwartet, zellen);
-	}
-
-
-	@Test
-	@DisplayName("Test verteileBomben zufaellig verteilen")
-	void testverteileBomben() {
-		int gewuenschteBomben = spielfeld.gewuenschteBomben;
-		KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
-		kI.verteileBomben(spielfeld, gewuenschteBomben);
-		int verteilteBomben = kI.zaehleVerteilteBomben(spielfeld); 
-		assertEquals(gewuenschteBomben, verteilteBomben);
-	}
-
-
-	@Test
-	@DisplayName("?? Teste gewuenschte = verteilte Bomben")
-	void testverteilteBomben() {
-		int gewuenschteBomben = spielfeld.gewuenschteBomben;
-		KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
-		kI.verteileBomben(spielfeld, gewuenschteBomben);
-		spielfeld.erstelleBombenListe();
-		assertEquals(gewuenschteBomben, spielfeld.listeBombenOrte.size());
-
-		int zeileBombenliste = spielfeld.listeBombenOrte.get(0).yKoordinate;
-		int spalteBombenliste = spielfeld.listeBombenOrte.get(0).xKoordinate;
-		spielfeld.aufdecken(zeileBombenliste, spalteBombenliste);
-		String zeichenReferenz = Spielfeld.zellenArray[zeileBombenliste][spalteBombenliste].zeichen;
-		assertEquals("*", zeichenReferenz);
 	}
 
 
@@ -145,8 +161,8 @@ class BenutzerschnittstelleTest {
 		void testerstelleBombenListe() {
 			Spielfeld.zellenArray[0][3].setzeBombe();
 			spielfeld.erstelleBombenListe();
-			assertEquals(0, spielfeld.listeBombenOrte.get(0).yKoordinate);
-			assertEquals(3, spielfeld.listeBombenOrte.get(0).xKoordinate);
+			assertEquals(0, Spielfeld.listeBomben.get(0).yKoordinate);
+			assertEquals(3, Spielfeld.listeBomben.get(0).xKoordinate);
 		}
 
 
@@ -156,10 +172,10 @@ class BenutzerschnittstelleTest {
 			Spielfeld.zellenArray[0][3].setzeBombe();
 			Spielfeld.zellenArray[1][3].setzeBombe();
 			spielfeld.erstelleBombenListe();
-			assertEquals(0, spielfeld.listeBombenOrte.get(0).yKoordinate);
-			assertEquals(3, spielfeld.listeBombenOrte.get(0).xKoordinate);
-			assertEquals(1, spielfeld.listeBombenOrte.get(1).yKoordinate);
-			assertEquals(3, spielfeld.listeBombenOrte.get(1).xKoordinate);
+			assertEquals(0, Spielfeld.listeBomben.get(0).yKoordinate);
+			assertEquals(3, Spielfeld.listeBomben.get(0).xKoordinate);
+			assertEquals(1, Spielfeld.listeBomben.get(1).yKoordinate);
+			assertEquals(3, Spielfeld.listeBomben.get(1).xKoordinate);
 		}
 
 
@@ -221,11 +237,18 @@ class BenutzerschnittstelleTest {
 			void testZeigeEingabeaufforderung() {
 				String erwartet =
 						"Geben Sie ein Kommando ein:\n" + 
-								"T x y (z.B. T 2 3 testet Feld Zeile 2, Spalte 3 auf Mine)\n" +
-								"M x y (z.B. M 6 1 kehrt Markierung Feld Zeile 6, Spalte 1)\n";
+								"T y x (z.B. T 2 3 testet Feld Zeile 2, Spalte 3 auf Mine)\n" +
+								"M y x (z.B. M 6 1 kehrt Markierung Feld Zeile 6, Spalte 1)\n";
 				assertEquals(erwartet, benutzerschnittstelle.zeigeEingabeaufforderung());
 			}
 
+			@Test
+			void testZeigeSpielabbruch() {
+				String erwartet =
+						"Um das Spiel zu Beenden, schliesse dieses Fenster oder druecke Enter.";
+				// TODO Problem nun erwartet zeigeSpielabbruch ein Enter als Eingabe..
+				assertEquals(erwartet, benutzerschnittstelle.zeigeSpielabbruch());
+			}
 
 			@Test
 			@Disabled
@@ -268,9 +291,9 @@ class BenutzerschnittstelleTest {
 				// sondern nur erwarteteSchlussmeldung Objekt == String Text
 				// es wird aber nicht der Return Wert in der Konsole ausgegeben
 				// sondern in der Methode wird der Text via syso ausgegeben. Dies wird 
-				// aber hier nirgends geprüft. Anders ausgedrueckt wird die Ausgabe syso aufgehoben,
+				// aber hier nirgends geprï¿½ft. Anders ausgedrueckt wird die Ausgabe syso aufgehoben,
 				// der Text erscheint bei Spielende also nicht, laeuft dieser Test trotzdem erfolgreich!
-				// Er sollte aber scheitern. Aber wie sollte dies geprüft werden?
+				// Er sollte aber scheitern. Aber wie sollte dies geprï¿½ft werden?
 
 			}
 
@@ -865,6 +888,49 @@ class BenutzerschnittstelleTest {
 				assertEquals("3", Spielfeld.zellenArray[4][3].zeichen);
 			}
 		}
+
+
+		@Nested
+		class TestZellenManipulation {
+
+			@Test
+			@DisplayName("Test zaehleZellen")
+			void testzaehleZellen() {
+				int erwartet = Spielfeld.zeilen*Spielfeld.spalten;
+
+				KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
+				int zellen = kI.zaehleZellen(spielfeld);
+				assertEquals(erwartet, zellen);
+			}
+
+
+			@Test
+			@DisplayName("Test verteileBomben zufaellig verteilen")
+			void testverteileBomben() {
+				int gewuenschteBomben = spielfeld.gewuenschteBomben;
+				KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
+				kI.verteileBomben(spielfeld, gewuenschteBomben);
+				int verteilteBomben = kI.zaehleVerteilteBomben(spielfeld); 
+				assertEquals(gewuenschteBomben, verteilteBomben);
+			}
+
+
+			@Test
+			@DisplayName("?? Teste gewuenschte = verteilte Bomben")
+			void testverteilteBomben() {
+				int gewuenschteBomben = spielfeld.gewuenschteBomben;
+				KuenstlicheIntelligenz kI = new KuenstlicheIntelligenz();
+				kI.verteileBomben(spielfeld, gewuenschteBomben);
+				spielfeld.erstelleBombenListe();
+				assertEquals(gewuenschteBomben, Spielfeld.listeBomben.size());
+
+				int zeileBombenliste = Spielfeld.listeBomben.get(0).yKoordinate;
+				int spalteBombenliste = Spielfeld.listeBomben.get(0).xKoordinate;
+				spielfeld.aufdecken(zeileBombenliste, spalteBombenliste);
+				String zeichenReferenz = Spielfeld.zellenArray[zeileBombenliste][spalteBombenliste].zeichen;
+				assertEquals("*", zeichenReferenz);
+			}
+		}
 	}
 
 
@@ -916,8 +982,8 @@ class BenutzerschnittstelleTest {
 			Kommando kommando = new Kommando("T", 2, 3);
 			kommando.ausfuehren(spielfeld);
 
-			// TODO einsetzen eines Test loops für alle Spielfelder:
-			// prüfe ob beim aufdecken einer Bombe das Spiel richtig endet!
+			// TODO einsetzen eines Test loops fï¿½r alle Spielfelder:
+			// prï¿½fe ob beim aufdecken einer Bombe das Spiel richtig endet!
 			// Richtig Enden heisst, aktuelles Spielfeld anzeigen + explodierte Bombe als "*" darstellen!
 			assertEquals("*", Spielfeld.zellenArray[2][3].zeichen);
 
@@ -1031,7 +1097,7 @@ class BenutzerschnittstelleTest {
 			// Diese ArrayIndexOutOfBoundsException nicht in der Klasse Validator abfangen?
 			// Vor- Nachteile?
 			// Vorteile Validator abfangen
-			// - Validator Klasse soll ja die Eingabe prüfen
+			// - Validator Klasse soll ja die Eingabe prï¿½fen
 			// - eine Loesung fuer beide Varianten aufdecken und markieren, d.h.
 			// nicht bei jedem zugriff auf zellenArray wird eine Exception geworfen
 			// Nachteile

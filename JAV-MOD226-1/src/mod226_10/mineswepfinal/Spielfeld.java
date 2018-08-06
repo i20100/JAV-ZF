@@ -25,7 +25,7 @@ public class Spielfeld {
 	public static int schlussmeldungsNummer = 1; // 1 fuer gewonnen, 2 verloren
 
 	@objid ("99a3ac8b-356e-443f-971a-4e45a293cdb4")
-	public List<Zelle> listeBombenOrte;
+	public static List<Zelle> listeBomben;
 
 	@objid ("8357d361-1727-40a7-9732-5b3c132d7471")
 	public KuenstlicheIntelligenz kI;
@@ -45,10 +45,10 @@ public class Spielfeld {
 	}
 
 	// TODO teste diesen Konstruktor. Geht das? Klasse als parameter uebergeben welche die gleiche Klasse ist welche erstellt werden soll?
-	@objid ("8b409b3a-b54b-43c4-b752-3ff91e0e07e8")
-	public Spielfeld(Spielfeld spielfeld) {
-		initialisiereZellenInArray();
-	}
+//	@objid ("8b409b3a-b54b-43c4-b752-3ff91e0e07e8")
+//	public Spielfeld(Spielfeld spielfeld) {
+//		initialisiereZellenInArray();
+//	}
 
 	@objid ("c34c7b64-7e01-4c60-8aaa-f7843ceaddba")
 	public void initialisiereZellenInArray() {
@@ -93,12 +93,12 @@ public class Spielfeld {
 
 	@objid ("a1797932-0fff-4039-8175-c9472d67cb97")
 	public void erstelleBombenListe() {
-		listeBombenOrte = new ArrayList<Zelle>();
+		listeBomben = new ArrayList<Zelle>();
 
 		for (int i = 0; i < zellenArray.length; i++) {
 			for (int j = 0; j < zellenArray[i].length; j++) {
 				if (zellenArray[i][j].bombe == true) {
-					listeBombenOrte.add(zellenArray[i][j]);
+					listeBomben.add(zellenArray[i][j]);
 				}
 			}
 		}
