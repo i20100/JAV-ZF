@@ -246,7 +246,7 @@ class BenutzerschnittstelleTest {
 			void testZeigeSpielabbruch() {
 				String erwartet =
 						"Um das Spiel zu Beenden, schliesse dieses Fenster oder druecke Enter.";
-				// TODO Problem nun erwartet zeigeSpielabbruch ein Enter als Eingabe..
+				// TODO Problem nun erwartet zeigeSpielabbruch ein Enter als Eingabe.. wie soll dies getestet werden? Test haengt sich selber hier auf...
 				assertEquals(erwartet, benutzerschnittstelle.zeigeSpielabbruch());
 			}
 
