@@ -1,5 +1,27 @@
 package mod226B_02;
 
+class Firma {
+	private Person[] mitarbeiter;
+
+	public Firma (Person[] p) {
+		setMitarbeiter(p);
+	}
+
+	/**
+	 * @return the mitarbeiter
+	 */
+	public Person[] getMitarbeiter() {
+		return mitarbeiter;
+	}
+
+	/**
+	 * @param mitarbeiter the mitarbeiter to set
+	 */
+	public void setMitarbeiter(Person[] mitarbeiter) {
+		this.mitarbeiter = mitarbeiter;
+	}
+}
+
 class Person {
 	protected String name;
 	protected String vorname;
@@ -63,14 +85,18 @@ class Fachangestellter extends Person {
 
 public class Personen {
 	public static void main(String[] args) {
-		Chef personal3 = new Chef("Klein", "Thomas", 2, "Verkauf");
-		Fachangestellter personal1 = new Fachangestellter("Sattler", "Beatrice", 1, personal3);
-		Person personal4 = new Person("Meier", "Hans", 3);
+		@SuppressWarnings("unused")
+		Firma f = new Firma(
+				new Person[] {new Chef("Sattler", "Beatrice",25 , "Verkauf")} ); // <==
+// Teste die Aussage aus dem Video ein Cast von Kreis zu Rechteck geht nicht aber ein cast von Rechteck zu Rechteck geht und keine Daten gehen verloren?
+		
+		Chef chef1 = new Chef("Meier", "Hans", 1, "Einkauf");
+		Person p1;
+		p1 = chef1;
+		
+		Chef chef2;
+		chef2 = (Chef) p1;
+		System.out.println(chef2.getAbteilung());
 
-		personal1.setVorgesetzter(personal3); 		//*1
-		personal4 = personal1; 				//*2
-		//	  personal4.vorgesetzter = personal3; 		//*3 -> Fehler
-		//	  personal1 = personal4; 				//*4 -> Fehler
-		personal1 = (Fachangestellter) personal4; 	//*5
 	}
 }
