@@ -1,10 +1,18 @@
 package grafik_editor;
 
-public class Linie extends Figur {
+import java.awt.Color;
+
+public class Linie extends Figur implements Gruppe{
 	private int endX, endY;
 
 	public Linie(int x, int y, int endX, int endY) {
 		super(x, y);
+		this.setEndX(endX);
+		this.setEndY(endY);
+	}
+
+	public Linie(int x, int y, Color c, int endX, int endY) {
+		super(x, y, c);
 		this.setEndX(endX);
 		this.setEndY(endY);
 	}
@@ -35,6 +43,12 @@ public class Linie extends Figur {
 	 */
 	public void setEndY(int endY) {
 		this.endY = endY;
+	}
+
+	@Override
+	public void gruppenCompositeAktion() {
+		super.setX(x+50);
+		super.setY(y+50);
 	}
 
 }

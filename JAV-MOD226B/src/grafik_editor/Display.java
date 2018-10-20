@@ -1,5 +1,6 @@
 package grafik_editor;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -57,6 +58,9 @@ public class Display extends JFrame {
 	 * Zeichnet alle Figuren.
 	 * @param g Referenz auf das Graphics-Objekt zum Zeichnen.
 	 */
+	/**
+	 * @param g
+	 */
 	private void zeichneFiguren(Graphics g) {
 		for (Figur f : figuren) {
 			if (f instanceof Rechteck) {
@@ -64,13 +68,84 @@ public class Display extends JFrame {
 				//        g.drawRect(r.getX(), r.getY(), r.getBreite(), r.getHoehe()); // Original code
 				g.drawRect(r.y, r.x, r.getBreite(), r.getHoehe()); // adapted code, since x, y are super but only protected attributes
 			}
+			if (f instanceof Rechteckgefuellt) {
+				Rechteckgefuellt rg = (Rechteckgefuellt) f;
+				if (f.c == null) {// if Color not set, fill rectangle with Standardcolor
+					g.fillRect(rg.x, rg.y, rg.getBreite(), rg.getHoehe());
+				} 
+				Color current = g.getColor();
+				g.setColor(f.c); //else fill with set Color
+				g.fillRect(rg.x, rg.y, rg.getBreite(), rg.getHoehe());
+				g.setColor(current); // reset Color to current aka Reset Color selection to default
+			}
+
 			if (f instanceof Linie) {
 				Linie l = (Linie) f;
+				Color current = g.getColor();
+				g.setColor(f.c);
 				g.drawLine(l.x, l.y, l.getEndX(), l.getEndY());
+				g.setColor(current); // reset Color to current aka Reset Color selection to default
 			}
 			if (f instanceof Kreis) {
 				Kreis k = (Kreis) f;
+				if (k.isGefuellt() == true) {
+					if (f.c == null) {
+						g.fillOval(k.x, k.y, k.getRadius(), k.getRadius());
+					}
+					Color current = g.getColor();
+					g.setColor(f.c);
+					g.fillOval(k.x, k.y, k.getRadius(), k.getRadius());
+					g.setColor(current); // reset Color to current aka Reset Color selection to default
+				}
+				if (f.c == null) {
+					g.drawOval(k.x, k.y, k.getRadius(), k.getRadius());
+				}
+				Color current = g.getColor();
+				g.setColor(f.c);
 				g.drawOval(k.x, k.y, k.getRadius(), k.getRadius());
+				g.setColor(current); // reset Color to current aka Reset Color selection to default
+
+				//				if (k.gefuellt == false) { // if fill is false drawOval else draw fillOval
+				//					if (f.c != null) { // if no color is set draw black oval
+				//					g.drawOval(k.x, k.y, k.getRadius(), k.getRadius());
+				//				} // else draw colored oval
+				//					Color current = g.getColor();
+				//					g.setColor(f.c);
+				//					g.drawOval(k.x, k.y, k.getRadius(), k.getRadius());
+				//					g.setColor(current); // reset Color to current aka Reset Color selection to default
+				//				}
+				//				// else
+				//				Color current = g.getColor();
+				//				g.setColor(f.c);
+				//				g.fillOval(k.x, k.y, k.getRadius(), k.getRadius());
+				//				g.setColor(current); // reset Color to current aka Reset Color selection to default
+			}
+			if (f instanceof Text) {
+				Text t = (Text) f;
+				g.drawString(t.getText(), t.x, t.y);
+			}
+			if (f instanceof Bogen) {
+				Bogen b = (Bogen) f;
+				g.drawArc(b.x, b.y, b.getBreite(), b.getHoehe(), b.getStartWinkel(), b.getBogenWinkel());
+			}
+			if (f instanceof Ellipse) {
+				Ellipse e = (Ellipse) f;
+				if (e.isGefuellt() == true) {
+					if (f.c == null) {
+						g.fillOval(e.x, e.y, e.getBreite(), e.getHoehe());
+					}
+					Color current = g.getColor();
+					g.setColor(f.c);
+					g.fillOval(e.x, e.y, e.getBreite(), e.getHoehe());
+					g.setColor(current); // reset Color to current aka Reset Color selection to default
+				}
+				if (f.c == null) {
+					g.drawOval(e.x, e.y, e.getBreite(), e.getHoehe());
+				}
+				Color current = g.getColor();
+				g.setColor(f.c);
+				g.drawOval(e.x, e.y, e.getBreite(), e.getHoehe());
+				g.setColor(current); // reset Color to current aka Reset Color selection to default
 			}
 		}
 	}

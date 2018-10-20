@@ -1,6 +1,6 @@
 package grafik_editor;
 
-public class Rechteck extends Figur{
+public class Rechteck extends Figur implements Gruppe {
 	private int breite, hoehe;
 
 	public Rechteck(int x, int y, int breite, int hoehe) {
@@ -8,6 +8,7 @@ public class Rechteck extends Figur{
 		this.setBreite(breite);
 		this.setHoehe(hoehe);
 	}
+	
 
 	/**
 	 * @return the breite
@@ -35,6 +36,13 @@ public class Rechteck extends Figur{
 	 */
 	public void setHoehe(int hoehe) {
 		this.hoehe = hoehe;
+	}
+
+
+	@Override
+	public void gruppenCompositeAktion() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
