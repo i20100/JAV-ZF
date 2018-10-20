@@ -24,7 +24,7 @@ public class Main {
 		Ellipse e2 = new Ellipse(30, 230, Color.RED, 50, 90);
 		Ellipse e3 = new Ellipse(40, 240, Color.ORANGE, 50, 90, true);
 		Ellipse e4 = new Ellipse(50, 250, null, 50, 90, true);
-		
+
 		display.hinzufuegen(r);
 		display.hinzufuegen(r2);
 		display.hinzufuegen(l);
@@ -42,21 +42,35 @@ public class Main {
 		display.hinzufuegen(e2);
 		display.hinzufuegen(e3);
 		display.hinzufuegen(e4);
-		
+
 		// Initialize Composite class 
 		CompositeGruppe cg = new CompositeGruppe();
-		
+
 		// Composes the Leafs
 		cg.add(l);
 		cg.add(l2);
 		cg.add(t);
-		
+
 		// call the Composie method for all elements in the list
 		cg.gruppenCompositeAktion();
-		
+
 		display.hinzufuegen(l);
 		display.hinzufuegen(l2);
 		display.hinzufuegen(t);
+
+		r.move(50, 50);
+		display.hinzufuegen(r);
+		Linie l4 = new Linie(100, 400, 300, 400);
+		Linie l5 = new Linie(200, 350, 400, 350);
+		l4.move(100, 50);
+		display.hinzufuegen(l4);
+		display.hinzufuegen(l5);
+
+		// Test gem. Aufgabe 3, Kapitel 3, zeigt das bei beiden die move Methode von der Klasse Linie angewendet wird.
+		Linie l6 = new Linie(10, 20, 30, 40);
+		l6.move(10, 10);
+		Figur f = new Linie(10, 20, 30, 40);
+		f.move(10, 10);
 	}
 
 

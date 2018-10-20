@@ -16,6 +16,13 @@ public class Linie extends Figur implements Gruppe{
 		this.setEndX(endX);
 		this.setEndY(endY);
 	}
+	
+	@Override
+	public void move(int deltaX, int deltaY) {
+		super.move(deltaX, deltaY);
+		setEndX(deltaX+getEndX());
+		setEndY(deltaY+getEndY());
+	}
 
 	/**
 	 * @return the endX

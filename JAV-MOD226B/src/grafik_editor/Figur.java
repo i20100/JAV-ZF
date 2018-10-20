@@ -16,6 +16,11 @@ public class Figur implements Gruppe{
 		this.y = y;
 		this.c = c;
 	}
+	
+	public void move(int deltaX, int deltaY) {
+		x += deltaX;
+		y += deltaY;
+	}
 
 
 	public int getX() {
