@@ -45,10 +45,13 @@ public class Linie extends Figur implements Gruppe{
 		this.endY = endY;
 	}
 
-	@Override
+//	@Override
+//	public void gruppenCompositeAktion() {
+//		super.setX(x+50);
+//		super.setY(y+50);
+//	}
 	public void gruppenCompositeAktion() {
-		super.setX(x+50);
-		super.setY(y+50);
+		super.gruppenCompositeAktion();
 	}
 
 }
