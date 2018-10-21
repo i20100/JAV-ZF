@@ -14,7 +14,7 @@ public class Main {
 		Linie l3 = new Linie(70, 60, Color.GREEN, 50, 30);
 		Kreis k = new Kreis(70, 60, 20);
 		Kreis k2 = new Kreis(50, 50, 30);
-		Text t = new Text(100, 100, 10, "Font?", "Hello World!");
+		Text t = new Text(100, 100, "Hello World!");
 		Bogen b = new Bogen(200, 200, 50, 90, 45, 180);
 		Ellipse e = new Ellipse(20, 220, 50, 90);
 		Kreis k3 = new Kreis(50, 40, Color.CYAN, 30, true); // gefuellter Kreis
@@ -76,7 +76,7 @@ public class Main {
 		display.hinzufuegen(l7);
 		display.hinzufuegen(l8);
 		
-		// Test strecken() Kreis, Rechteck, Bogen, Ellipse, Rechteckgefuellt
+		// Test strecken() Kreis, Rechteck, Bogen, Ellipse, Rechteckgefuellt, Text
 		k4.strecken(2);
 		display.hinzufuegen(k4);
 		r2.strecken(1.5);
@@ -93,6 +93,9 @@ public class Main {
 		display.hinzufuegen(rg);
 		display.hinzufuegen(rg2);
 		display.hinzufuegen(rg3);
+		Text t2 = new Text(400, 100, "Hello World!");
+		t2.strecken(4);
+		display.hinzufuegen(t2);
 	}
 
 

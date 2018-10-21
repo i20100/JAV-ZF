@@ -2,6 +2,7 @@ package grafik_editor;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Toolkit;
@@ -81,9 +82,7 @@ public class Display extends JFrame {
 				Rechteck r = (Rechteck)f;
 				//        g.drawRect(r.getX(), r.getY(), r.getBreite(), r.getHoehe()); // Original code
 				g.drawRect(r.y, r.x, r.getBreite(), r.getHoehe()); // adapted code, since x, y are super but only protected attributes
-			
 			}
-
 			if (f instanceof Linie) {
 				Linie l = (Linie) f;
 				Color current = g.getColor();
@@ -126,8 +125,22 @@ public class Display extends JFrame {
 				//				g.setColor(current); // reset Color to current aka Reset Color selection to default
 			}
 			if (f instanceof Text) {
+				//g.setFont(new Font(null, 0, 20)); // Tester for Fontsize
 				Text t = (Text) f;
-				g.drawString(t.getText(), t.x, t.y);
+				// if strecken() shall be applied do:
+				if (t.getStrecken() != 0) {
+					Font originalFont = g.getFont(); // save current font
+					if (t.getSchriftgroesse() == 0) {
+						t.setSchriftgroesse(12);
+					}
+					g.setFont(new Font(null, 0, (int) (t.getSchriftgroesse()*t.getStrecken())));
+					g.drawString(t.getText(), t.x, t.y);
+					g.setFont(originalFont); // re apply current font
+				}
+				// if strecken() shall not be applied do:
+				else if (t.getStrecken() == 0) {
+					g.drawString(t.getText(), t.x, t.y);
+				}
 			}
 			if (f instanceof Bogen) {
 				Bogen b = (Bogen) f;
@@ -152,6 +165,7 @@ public class Display extends JFrame {
 				g.drawOval(e.x, e.y, e.getBreite(), e.getHoehe());
 				g.setColor(current); // reset Color to current aka Reset Color selection to default
 			}
+
 		}
 	}
 

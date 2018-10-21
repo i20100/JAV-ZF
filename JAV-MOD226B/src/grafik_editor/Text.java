@@ -4,7 +4,13 @@ public class Text extends Figur implements Gruppe{
 	private int schriftgroesse;
 	private String schriftart;
 	private String text;
-	
+	private double strecken;
+
+	public Text(int x, int y, String text) {
+		super(x, y);
+		this.text = text;
+	}
+
 	public Text(int x, int y, int schriftgroesse, String schriftart, String text) {
 		super(x, y);
 		this.schriftgroesse = schriftgroesse;
@@ -62,8 +68,22 @@ public class Text extends Figur implements Gruppe{
 
 	@Override
 	void strecken(double faktor) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auf size von textattribute zugreifen, ist das moeglich?
+		setStrecken(faktor);
+	}
+
+	/**
+	 * @return the strecken
+	 */
+	public double getStrecken() {
+		return strecken;
+	}
+
+	/**
+	 * @param strecken the strecken to set
+	 */
+	public void setStrecken(double strecken) {
+		this.strecken = strecken;
 	}
 
 }
