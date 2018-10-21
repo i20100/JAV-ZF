@@ -74,8 +74,12 @@ public class Kreis extends Figur implements Gruppe{
 
 	@Override
 	public void gruppenCompositeAktion() {
-		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	void strecken(double faktor) {
+		setRadius((int) (radius*faktor));
 	}
 
 }

@@ -69,8 +69,13 @@ public class Ellipse extends Figur implements Gruppe{
 
 	@Override
 	public void gruppenCompositeAktion() {
-		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	void strecken(double faktor) {
+		setBreite((int) (breite*faktor));
+		setHoehe((int) (hoehe*faktor));
 	}
 
 

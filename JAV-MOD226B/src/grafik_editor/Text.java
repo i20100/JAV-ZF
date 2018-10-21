@@ -60,4 +60,10 @@ public class Text extends Figur implements Gruppe{
 		super.setY(y+50);
 	}
 
+	@Override
+	void strecken(double faktor) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

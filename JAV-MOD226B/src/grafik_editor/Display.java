@@ -63,11 +63,10 @@ public class Display extends JFrame {
 	 */
 	private void zeichneFiguren(Graphics g) {
 		for (Figur f : figuren) {
-			if (f instanceof Rechteck) {
-				Rechteck r = (Rechteck)f;
-				//        g.drawRect(r.getX(), r.getY(), r.getBreite(), r.getHoehe()); // Original code
-				g.drawRect(r.y, r.x, r.getBreite(), r.getHoehe()); // adapted code, since x, y are super but only protected attributes
-			}
+			/*  DONE Problem, da nun Rechteckgefuellt ein Kind von Rechteck ist, 
+			 *  erhalte ich unerwuenschte zusaetzliche Rechteke im Editor -> Loesung:
+			 *  'if Rechteckgefuellt do, elseif Rechteck do for Rechteck only'
+			 */
 			if (f instanceof Rechteckgefuellt) {
 				Rechteckgefuellt rg = (Rechteckgefuellt) f;
 				if (f.c == null) {// if Color not set, fill rectangle with Standardcolor
@@ -77,6 +76,12 @@ public class Display extends JFrame {
 				g.setColor(f.c); //else fill with set Color
 				g.fillRect(rg.x, rg.y, rg.getBreite(), rg.getHoehe());
 				g.setColor(current); // reset Color to current aka Reset Color selection to default
+			}
+			else if (f instanceof Rechteck) {
+				Rechteck r = (Rechteck)f;
+				//        g.drawRect(r.getX(), r.getY(), r.getBreite(), r.getHoehe()); // Original code
+				g.drawRect(r.y, r.x, r.getBreite(), r.getHoehe()); // adapted code, since x, y are super but only protected attributes
+			
 			}
 
 			if (f instanceof Linie) {

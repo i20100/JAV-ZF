@@ -76,4 +76,10 @@ public class Bogen extends Figur implements Gruppe{
 		super.setX(x+50);
 		super.setY(y+50);
 	}
+
+	@Override
+	void strecken(double faktor) {
+		setBreite((int) (breite*faktor));
+		setHoehe((int) (hoehe*faktor));
+	}
 }

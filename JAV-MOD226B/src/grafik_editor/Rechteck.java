@@ -1,5 +1,7 @@
 package grafik_editor;
 
+import java.awt.Color;
+
 public class Rechteck extends Figur implements Gruppe {
 	private int breite, hoehe;
 
@@ -9,6 +11,13 @@ public class Rechteck extends Figur implements Gruppe {
 		this.setHoehe(hoehe);
 	}
 	
+
+	public Rechteck(int x, int y, Color c, int breite, int hoehe) {
+		super(x, y, c);
+		this.setBreite(breite);
+		this.setHoehe(hoehe);
+	}
+
 
 	/**
 	 * @return the breite
@@ -41,8 +50,14 @@ public class Rechteck extends Figur implements Gruppe {
 
 	@Override
 	public void gruppenCompositeAktion() {
-		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	void strecken(double faktor) {
+		setBreite((int) (breite*faktor));
+		setHoehe((int) (hoehe*faktor));
 	}
 
 }
