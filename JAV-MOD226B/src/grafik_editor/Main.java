@@ -67,15 +67,15 @@ public class Main {
 		l6.move(10, 10);
 		Figur f = new Linie(10, 20, 30, 40);
 		f.move(10, 10);
-		
+
 		// Test strecken() gem. Zusatzaufgaben aus Kapitel 3
 		Linie l7 = new Linie(300, 10, 400, 10);
 		Linie l8 = new Linie(300, 20, 400, 20);
 		l8.strecken(.75);
-		
+
 		display.hinzufuegen(l7);
 		display.hinzufuegen(l8);
-		
+
 		// Test strecken() Kreis, Rechteck, Bogen, Ellipse, Rechteckgefuellt, Text
 		k4.strecken(2);
 		display.hinzufuegen(k4);
@@ -87,15 +87,36 @@ public class Main {
 		e.strecken(2);
 		display.hinzufuegen(e);
 		Rechteckgefuellt rg = new Rechteckgefuellt(30, 320, 40, 90);
-		Rechteckgefuellt rg2 = new Rechteckgefuellt(200, 320, 40, 90);
+		Rechteckgefuellt rg2 = new Rechteckgefuellt(200, 320, 20, 30);
 		rg2.strecken(2);
 		Rechteckgefuellt rg3 = new Rechteckgefuellt(40, 330, Color.CYAN, 40, 90);		
 		display.hinzufuegen(rg);
 		display.hinzufuegen(rg2);
 		display.hinzufuegen(rg3);
-		Text t2 = new Text(400, 100, "Hello World!");
+		Text t2 = new Text(400, 50, "Hello World!");
 		t2.strecken(4);
 		display.hinzufuegen(t2);
+
+		// spiegeln tests, Linie, Bogen	
+		Text spiegeln = new Text(400, 80, "Spiegeln tests:");
+		Linie l9 = new Linie(400, 100, Color.RED, 450, 130);
+		Linie l10 = new Linie(400, 140, Color.RED, 450, 170);
+		Linie l11 = new Linie(400, 140, Color.RED, 450, 170);
+		display.hinzufuegen(spiegeln);
+		display.hinzufuegen(l9);
+		l10.spiegeln(true);
+		display.hinzufuegen(l10);
+		display.hinzufuegen(l11);
+		Bogen b3 = new Bogen(500, 100, 50, 90, 5, 80);
+		Bogen b4 = new Bogen(500, 100, Color.RED, 50, 90, 5, 80);
+		Bogen b5 = new Bogen(500, 100, Color.ORANGE, 50, 90, 5, 80);
+		b4.spiegeln(true);
+		b5.spiegeln(false);
+		display.hinzufuegen(b3);
+		display.hinzufuegen(b4);
+		display.hinzufuegen(b5);
+		
+		
 	}
 
 

@@ -60,4 +60,10 @@ public class Rechteck extends Figur implements Gruppe {
 		setHoehe((int) (hoehe*faktor));
 	}
 
+
+	@Override
+	void spiegeln(boolean vertikal) {
+		// not implemented, cause no effect!		
+	}
+
 }

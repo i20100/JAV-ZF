@@ -78,6 +78,10 @@ public class Ellipse extends Figur implements Gruppe{
 		setHoehe((int) (hoehe*faktor));
 	}
 
+	@Override
+	void spiegeln(boolean vertikal) {
+	}
+
 
 
 

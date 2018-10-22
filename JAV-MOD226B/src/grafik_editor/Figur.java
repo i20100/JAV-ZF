@@ -22,7 +22,20 @@ public abstract class Figur implements Gruppe{
 		y += deltaY;
 	}
 	
+	/**
+	 * Erlaubt das veraendern der Groesse eines Figur also das Skalieren.
+	 * 
+	 * @param faktor um welcher die Figur vergroessert oder verkleinert wird
+	 */
 	abstract void strecken(double faktor);
+	
+	/**
+	 * Spiegelt ein Objekt horizontal oder vertikal, 
+	 * d.h. das Objekt wird in das entsprechnde Spiegelbild umgewandelt.
+	 * 
+	 * @param vertikal boolischer Wert, bei wahr wird vertikal, bei false horizontal gespiegelt
+	 */
+	abstract void spiegeln(boolean vertikal);
 
 	public int getX() {
 		return x;

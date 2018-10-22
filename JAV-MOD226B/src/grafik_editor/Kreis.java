@@ -82,4 +82,9 @@ public class Kreis extends Figur implements Gruppe{
 		setRadius((int) (radius*faktor));
 	}
 
+	@Override
+	void spiegeln(boolean vertikal) {
+		// not implemented, cause no effect!
+	}
+
 }

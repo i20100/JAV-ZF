@@ -144,7 +144,13 @@ public class Display extends JFrame {
 			}
 			if (f instanceof Bogen) {
 				Bogen b = (Bogen) f;
+				if (f.c == null) {
+					g.drawArc(b.x, b.y, b.getBreite(), b.getHoehe(), b.getStartWinkel(), b.getBogenWinkel());
+				}
+				Color current = g.getColor();
+				g.setColor(f.c);
 				g.drawArc(b.x, b.y, b.getBreite(), b.getHoehe(), b.getStartWinkel(), b.getBogenWinkel());
+				g.setColor(current); // reset Color to current aka Reset Color selection to default
 			}
 			if (f instanceof Ellipse) {
 				Ellipse e = (Ellipse) f;

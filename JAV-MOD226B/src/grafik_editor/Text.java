@@ -68,7 +68,6 @@ public class Text extends Figur implements Gruppe{
 
 	@Override
 	void strecken(double faktor) {
-		// TODO Auf size von textattribute zugreifen, ist das moeglich?
 		setStrecken(faktor);
 	}
 
@@ -84,6 +83,11 @@ public class Text extends Figur implements Gruppe{
 	 */
 	public void setStrecken(double strecken) {
 		this.strecken = strecken;
+	}
+
+	@Override
+	void spiegeln(boolean vertikal) {
+		// not implemented, cause over the limit of this Lesson!		
 	}
 
 }

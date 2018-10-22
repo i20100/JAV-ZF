@@ -1,13 +1,41 @@
 package grafik_editor;
 
+import java.awt.Color;
+
+/**
+ * Zeichent einen Bogen gemaess {@link java.awt.Graphics#drawArc(int, int, int, int, int, int)}
+ * @see java.awt.Graphics#drawArc(int, int, int, int, int, int)
+ * 
+ * @author Vincent
+ *
+ */
 public class Bogen extends Figur implements Gruppe{
 	private int hoehe;
 	private int breite;
 	private int startWinkel;
 	private int bogenWinkel;
 
+	/**
+	 * Gemaess Erklaerung, ist 0° bei drei Uhr, negative Werte sind gegen den Uhrzeigersinn, positive mit.
+	 * 
+	 * @see java.awt.Graphics#drawArc(int, int, int, int, int, int)
+	 * @param x
+	 * @param y
+	 * @param h
+	 * @param b
+	 * @param sw
+	 * @param bw
+	 */
 	public Bogen(int x, int y, int h, int b, int sw, int bw) {
 		super(x, y);
+		setHoehe(h);
+		setBreite(b);
+		setStartWinkel(sw);
+		setBogenWinkel(bw);
+	}
+
+	public Bogen(int x, int y, Color c, int h, int b, int sw, int bw) {
+		super(x, y, c);
 		setHoehe(h);
 		setBreite(b);
 		setStartWinkel(sw);
@@ -81,5 +109,18 @@ public class Bogen extends Figur implements Gruppe{
 	void strecken(double faktor) {
 		setBreite((int) (breite*faktor));
 		setHoehe((int) (hoehe*faktor));
+	}
+
+	@Override
+	void spiegeln(boolean vertikal) {
+		//vertikal
+			if (vertikal) {
+			setStartWinkel(-startWinkel);
+			setBogenWinkel(-bogenWinkel);
+		}
+		// else horizontal
+		else {
+			setStartWinkel(180-bogenWinkel);
+		}
 	}
 }

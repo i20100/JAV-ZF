@@ -17,24 +17,6 @@ public class Linie extends Figur implements Gruppe{
 		this.setEndY(endY);
 	}
 	
-	@Override
-	public void move(int deltaX, int deltaY) {
-		super.move(deltaX, deltaY);
-		setEndX(deltaX+getEndX());
-		setEndY(deltaY+getEndY());
-	}
-
-	@Override
-	void strecken(double faktor) {
-		int distanzX = getEndX()-super.x;
-		int distanzY = getEndY()-super.y;
-		distanzX *= faktor;
-		distanzY *= faktor;
-//		setEndX(distanzX+getEndX());
-//		setEndY(distanzY+getEndY());
-		setEndX(distanzX+super.x);
-		setEndY(distanzY+super.y);
-	}
 
 	/**
 	 * @return the endX
@@ -71,6 +53,33 @@ public class Linie extends Figur implements Gruppe{
 //	}
 	public void gruppenCompositeAktion() {
 		super.gruppenCompositeAktion();
+	}
+
+	@Override
+	public void move(int deltaX, int deltaY) {
+		super.move(deltaX, deltaY);
+		setEndX(deltaX+getEndX());
+		setEndY(deltaY+getEndY());
+	}
+	
+	@Override
+	void strecken(double faktor) {
+		int distanzX = getEndX()-super.x;
+		int distanzY = getEndY()-super.y;
+		distanzX *= faktor;
+		distanzY *= faktor;
+//		setEndX(distanzX+getEndX());
+//		setEndY(distanzY+getEndY());
+		setEndX(distanzX+super.x);
+		setEndY(distanzY+super.y);
+	}
+
+	@Override
+	void spiegeln(boolean vertikal) {
+		//vertikal true or false does not matter?
+			int newEndX = super.x;
+			super.x = getEndX();
+			setEndX(newEndX);
 	}
 
 
