@@ -43,7 +43,7 @@ public class Kreis extends Figur implements Gruppe{
 		this.setRadius(radius);
 		this.setGefuellt(true);
 	}
-	
+
 	/**
 	 * @return the radius
 	 */
@@ -74,7 +74,7 @@ public class Kreis extends Figur implements Gruppe{
 
 	@Override
 	public void gruppenCompositeAktion() {
-		
+
 	}
 
 	@Override
@@ -84,6 +84,11 @@ public class Kreis extends Figur implements Gruppe{
 
 	@Override
 	void spiegeln(boolean vertikal) {
+		// not implemented, cause no effect!
+	}
+
+	@Override
+	public void drehen() {
 		// not implemented, cause no effect!
 	}
 

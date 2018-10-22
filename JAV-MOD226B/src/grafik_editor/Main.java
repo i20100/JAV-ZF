@@ -99,8 +99,8 @@ public class Main {
 
 		// spiegeln tests, Linie, Bogen	
 		Text spiegeln = new Text(400, 80, "Spiegeln tests:");
-		Linie l9 = new Linie(400, 100, Color.RED, 450, 130);
-		Linie l10 = new Linie(400, 140, Color.RED, 450, 170);
+		Linie l9 = new Linie(400, 100, 450, 130);
+		Linie l10 = new Linie(400, 140, 450, 170);
 		Linie l11 = new Linie(400, 140, Color.RED, 450, 170);
 		display.hinzufuegen(spiegeln);
 		display.hinzufuegen(l9);
@@ -115,8 +115,32 @@ public class Main {
 		display.hinzufuegen(b3);
 		display.hinzufuegen(b4);
 		display.hinzufuegen(b5);
-		
-		
+
+		// drehen tests, Linie, Rechteck, Ellipse, Bogen
+		Text drehen = new Text(400, 190, "Drehen 90° tests:");
+		Linie l12 = new Linie(400, 200, 450, 220);
+		Linie l13 = new Linie(400, 200, Color.ORANGE, 450, 220);
+		l13.drehen();
+		display.hinzufuegen(drehen);
+		display.hinzufuegen(l12);
+		display.hinzufuegen(l13);
+		Rechteck r3 = new Rechteck(400, 230, 30, 20);
+		Rechteck r4 = new Rechteckgefuellt(400, 230, Color.ORANGE, 30, 20);
+		r4.drehen();
+		display.hinzufuegen(r3);
+		display.hinzufuegen(r4);
+		Ellipse e5 = new Ellipse(400, 270, 20, 40);
+		Ellipse e6 = new Ellipse(400, 270, Color.ORANGE, 20, 40);
+		e6.drehen();
+		display.hinzufuegen(e5);
+		display.hinzufuegen(e6);
+		Bogen b6 = new Bogen(470, 200, 25, 50, 5, 80);
+		Bogen b7 = new Bogen(470, 200, Color.ORANGE, 25, 50, 5, 80);
+		b7.drehen();
+		b7.drehen();
+		display.hinzufuegen(b6);
+		display.hinzufuegen(b7);
+
 	}
 
 

@@ -82,5 +82,11 @@ public class Linie extends Figur implements Gruppe{
 			setEndX(newEndX);
 	}
 
+	@Override
+	public void drehen() {
+		// 90° drehen = spiegeln vertikal bei Linie
+		spiegeln(true);
+	}
+
 
 }

@@ -69,7 +69,7 @@ public class Ellipse extends Figur implements Gruppe{
 
 	@Override
 	public void gruppenCompositeAktion() {
-		
+
 	}
 
 	@Override
@@ -80,6 +80,14 @@ public class Ellipse extends Figur implements Gruppe{
 
 	@Override
 	void spiegeln(boolean vertikal) {
+	}
+
+	@Override
+	public void drehen() {
+		// hoehe und breite werden vertauscht
+		int oldHoehe = getHoehe();
+		setHoehe(getBreite());
+		setBreite(oldHoehe);
 	}
 
 

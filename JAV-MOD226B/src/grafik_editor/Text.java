@@ -90,4 +90,9 @@ public class Text extends Figur implements Gruppe{
 		// not implemented, cause over the limit of this Lesson!		
 	}
 
+	@Override
+	public void drehen() {
+		// not implemented, cause over the limit of this Lesson!		
+	}
+
 }

@@ -114,7 +114,7 @@ public class Bogen extends Figur implements Gruppe{
 	@Override
 	void spiegeln(boolean vertikal) {
 		//vertikal
-			if (vertikal) {
+		if (vertikal) {
 			setStartWinkel(-startWinkel);
 			setBogenWinkel(-bogenWinkel);
 		}
@@ -122,5 +122,10 @@ public class Bogen extends Figur implements Gruppe{
 		else {
 			setStartWinkel(180-bogenWinkel);
 		}
+	}
+
+	@Override
+	public void drehen() {
+		setStartWinkel(startWinkel+270);
 	}
 }

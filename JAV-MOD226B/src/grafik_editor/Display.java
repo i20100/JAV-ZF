@@ -80,8 +80,14 @@ public class Display extends JFrame {
 			}
 			else if (f instanceof Rechteck) {
 				Rechteck r = (Rechteck)f;
-				//        g.drawRect(r.getX(), r.getY(), r.getBreite(), r.getHoehe()); // Original code
-				g.drawRect(r.y, r.x, r.getBreite(), r.getHoehe()); // adapted code, since x, y are super but only protected attributes
+				if (f.c == null) {// if Color not set, draw rectangle with Standardcolor
+					//        g.drawRect(r.getX(), r.getY(), r.getBreite(), r.getHoehe()); // Original code
+					g.drawRect(r.x, r.y, r.getBreite(), r.getHoehe()); // adapted code, since x, y are super but only protected attributes
+				}
+				Color current = g.getColor();
+				g.setColor(f.c); //else fill with set Color
+				g.drawRect(r.x, r.y, r.getBreite(), r.getHoehe()); // adapted code, since x, y are super but only protected attributes
+				g.setColor(current); // reset Color to current aka Reset Color selection to default
 			}
 			if (f instanceof Linie) {
 				Linie l = (Linie) f;

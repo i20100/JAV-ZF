@@ -10,7 +10,7 @@ public class Rechteck extends Figur implements Gruppe {
 		this.setBreite(breite);
 		this.setHoehe(hoehe);
 	}
-	
+
 
 	public Rechteck(int x, int y, Color c, int breite, int hoehe) {
 		super(x, y, c);
@@ -50,7 +50,7 @@ public class Rechteck extends Figur implements Gruppe {
 
 	@Override
 	public void gruppenCompositeAktion() {
-		
+
 	}
 
 
@@ -64,6 +64,15 @@ public class Rechteck extends Figur implements Gruppe {
 	@Override
 	void spiegeln(boolean vertikal) {
 		// not implemented, cause no effect!		
+	}
+
+
+	@Override
+	public void drehen() {
+		// hoehe und breite werden vertauscht
+		int oldHoehe = getHoehe();
+		setHoehe(getBreite());
+		setBreite(oldHoehe);
 	}
 
 }

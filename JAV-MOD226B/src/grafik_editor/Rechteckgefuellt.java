@@ -19,7 +19,7 @@ public class Rechteckgefuellt extends Rechteck implements Gruppe{
 	}
 
 	/**
- 	 * Erstellt ein ausgefuelltes Rechteck mit einer gewaehlten Farbe
+	 * Erstellt ein ausgefuelltes Rechteck mit einer gewaehlten Farbe
 	 * 
 	 * @param x
 	 * @param y
@@ -27,7 +27,7 @@ public class Rechteckgefuellt extends Rechteck implements Gruppe{
 	 * @param b
 	 * @param h
 	 * 
- 	 * @see     java.awt.Graphics#fillRect(int, int, int, int) for 'x, y, breite, hoehe' explanaition
+	 * @see     java.awt.Graphics#fillRect(int, int, int, int) for 'x, y, breite, hoehe' explanaition
 	 * @see		java.awt.Color for more on color object usage and possibilties
 	 */
 	public Rechteckgefuellt(int x, int y, Color c, int b, int h) {
@@ -41,5 +41,10 @@ public class Rechteckgefuellt extends Rechteck implements Gruppe{
 	@Override
 	void strecken(double faktor) {
 		super.strecken(faktor);
+	}
+
+	@Override
+	public void drehen() {
+		super.drehen();
 	}
 }

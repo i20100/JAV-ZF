@@ -16,19 +16,19 @@ public abstract class Figur implements Gruppe{
 		this.y = y;
 		this.c = c;
 	}
-	
+
 	public void move(int deltaX, int deltaY) {
 		x += deltaX;
 		y += deltaY;
 	}
-	
+
 	/**
 	 * Erlaubt das veraendern der Groesse eines Figur also das Skalieren.
 	 * 
 	 * @param faktor um welcher die Figur vergroessert oder verkleinert wird
 	 */
 	abstract void strecken(double faktor);
-	
+
 	/**
 	 * Spiegelt ein Objekt horizontal oder vertikal, 
 	 * d.h. das Objekt wird in das entsprechnde Spiegelbild umgewandelt.
@@ -36,6 +36,12 @@ public abstract class Figur implements Gruppe{
 	 * @param vertikal boolischer Wert, bei wahr wird vertikal, bei false horizontal gespiegelt
 	 */
 	abstract void spiegeln(boolean vertikal);
+
+	/**
+	 * Drehen erlaubt das Drehen von Objekten um 90° im Uhrzeigersinn
+	 * 
+	 */
+	abstract void drehen();
 
 	public int getX() {
 		return x;
