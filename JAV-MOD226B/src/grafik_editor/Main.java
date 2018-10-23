@@ -141,6 +141,14 @@ public class Main {
 		display.hinzufuegen(b6);
 		display.hinzufuegen(b7);
 
+		// drehen tests 2, Linie, Rechteck, Ellipse, Bogen
+		Text drehen2 = new Text(400, 330, "Drehen einzelne Grad tests:");
+		display.hinzufuegen(drehen2);
+		Rechteck r5 = new Rechteck(400, 350, 30, 20);
+		Rechteck r6 = new Rechteck(400, 350, Color.ORANGE, 30, 20);
+		r6.drehen();
+		display.hinzufuegen(r5);
+		display.hinzufuegen(r6);
 	}
 
 

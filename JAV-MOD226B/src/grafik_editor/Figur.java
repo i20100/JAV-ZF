@@ -39,10 +39,19 @@ public abstract class Figur implements Gruppe{
 
 	/**
 	 * Drehen erlaubt das Drehen von Objekten um 90° im Uhrzeigersinn
-	 * 
 	 */
 	abstract void drehen();
+	
+	/**
+	 * Drehen erlaubt das Drehen von Objekten um einen beliebigen Winkel.
+	 * 
+	 * @param winkel
+	 */
+	void drehen(int winkel) {
+	}
+		
 
+	
 	public int getX() {
 		return x;
 	}

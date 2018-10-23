@@ -74,5 +74,4 @@ public class Rechteck extends Figur implements Gruppe {
 		setHoehe(getBreite());
 		setBreite(oldHoehe);
 	}
-
 }
