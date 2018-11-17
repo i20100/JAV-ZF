@@ -5,8 +5,8 @@ import java.awt.Cursor;
 import javax.swing.JFrame;
 
 @SuppressWarnings("serial")
-public class Fenster extends JFrame {
-	public Fenster() {
+public class Fenster_10_1 extends JFrame {
+	public Fenster_10_1() {
 		super("Einfaches Fenster");
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -17,7 +17,7 @@ public class Fenster extends JFrame {
 
 	public static void main(String[] args) {
 
-		Fenster frame = new Fenster();
+		Fenster_10_1 frame = new Fenster_10_1();
 
 		int[] types = {Cursor.CROSSHAIR_CURSOR, Cursor.HAND_CURSOR, 
 				Cursor.MOVE_CURSOR, Cursor.TEXT_CURSOR, Cursor.WAIT_CURSOR, 
