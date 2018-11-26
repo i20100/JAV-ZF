@@ -1,4 +1,8 @@
 # Schulprojekt JAVA Zwischenfach
+## Struktur der Module
+* MOD226A - Modul A aus 226 - ThemenSchwerpunkt?
+* MOD226B - Modul B aus 226 - ???
+
 ## Eclipse Projekt auf GitHub bringen
 ### Voraussetzung und Ablauf
 * Kenntnisse Git (empfohlen mindestens Git Tutorial durchgespielt, siehe https://git-scm.com/docs/gittutorial)
@@ -36,3 +40,7 @@ Voraussetzung
 16. Klar gibt es einen Fehler Pushen geht nur wenn es etwas zu pushen gibt.
 17. Also erstmal commit machen auf Dateien!
 18. Push nochmal versuchen. Klappt. Gehe wieder zu Punkt 13.
+
+## altes Eclipseprojekt von GitHub wieder in Eclipse oeffnen
+1. Wenn lokaler Klone nicht besteht, GitHub Projekt klonen in lokalen git Ordner.
+2. Eclipse Projekt Wizard benutzen um Projekt zu finden. **Achtung bei Multi Eclipse oder git Projekten, siehe Egit.md**

@@ -158,7 +158,7 @@ public class Personen {
 		System.out.println(chef2.getAbteilung());
 
 		//		f.setMitarbeiter(new Fachangestellter("von Siebenthal", "Marie", 5, f.getMitarbeiter()));
-	
+
 		Fachangestellter fa = new Fachangestellter("von Siebenthal", "Marie", 5, chef1);
 		Lernender l = new Lernender("Schweizer", "Kevin", 3, 2);
 
@@ -171,10 +171,10 @@ public class Personen {
 		angestellte[1] = fa;
 		angestellte[2] = l;
 		angestellte[3] = new Fachangestellter("Schweizer", "Alois", 6, chef1);
-		
+
 		for (Person person : angestellte) {
 			System.out.println("Der Ferienanspruch beträgt: " + person.berechneFerien(46));
 		}
-		
+
 	}
 }
