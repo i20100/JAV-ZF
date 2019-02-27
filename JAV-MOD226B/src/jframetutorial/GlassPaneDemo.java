@@ -179,7 +179,8 @@ class CBListener extends MouseInputAdapter {
     }
 
     //A basic implementation of redispatching events.
-    private void redispatchMouseEvent(MouseEvent e,
+    @SuppressWarnings("deprecation")
+	private void redispatchMouseEvent(MouseEvent e,
                                       boolean repaint) {
         Point glassPanePoint = e.getPoint();
         Container container = contentPane;

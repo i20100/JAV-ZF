@@ -1,5 +1,7 @@
 package mod226B_02.aufgabenausbuch;
 
+import java.util.Iterator;
+
 public class List_3_23 {
 	private Element head, end;
 
@@ -25,8 +27,9 @@ public class List_3_23 {
 		}
 	}
 
-	public Iterator iterator() {
-		return new Iterator() {
+	@SuppressWarnings("rawtypes")
+	public Iterator_3_22 iterator() {
+		return (Iterator_3_22) new Iterator() {
 			private Element e = head;
 
 			public boolean hasNext() {
@@ -52,8 +55,9 @@ class TestList_3_23 {
 		list.add("Element 1");
 		list.add("Element 2");
 		list.add("Element 3");
+		list.add("TestList_3_23");
 
-		Iterator it = list.iterator();
+		Iterator_3_22 it = list.iterator();
 
 		while (it.hasNext()) {
 			String s = (String) it.next();

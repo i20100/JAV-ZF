@@ -66,6 +66,7 @@ class TestIterator_3_22 {
 		list.add("Element 1");
 		list.add("Element 2");
 		list.add("Element 3");
+		list.add("TestIterator_3_22");
 
 		Iterator_3_22 it = list.iterator();
 
