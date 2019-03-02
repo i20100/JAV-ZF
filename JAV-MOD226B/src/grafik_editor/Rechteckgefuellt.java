@@ -1,6 +1,7 @@
 package grafik_editor;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 public class Rechteckgefuellt extends Rechteck implements Gruppe{
 
@@ -46,5 +47,10 @@ public class Rechteckgefuellt extends Rechteck implements Gruppe{
 	@Override
 	public void drehen() {
 		super.drehen();
+	}
+
+	@Override
+	protected void zeichne(Graphics g) {
+		g.fillRect(x, y, getBreite(), getHoehe());
 	}
 }

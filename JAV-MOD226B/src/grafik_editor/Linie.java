@@ -1,6 +1,7 @@
 package grafik_editor;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 public class Linie extends Figur implements Gruppe{
 	private int endX, endY;
@@ -16,7 +17,7 @@ public class Linie extends Figur implements Gruppe{
 		this.setEndX(endX);
 		this.setEndY(endY);
 	}
-	
+
 
 	/**
 	 * @return the endX
@@ -46,11 +47,11 @@ public class Linie extends Figur implements Gruppe{
 		this.endY = endY;
 	}
 
-//	@Override
-//	public void gruppenCompositeAktion() {
-//		super.setX(x+50);
-//		super.setY(y+50);
-//	}
+	//	@Override
+	//	public void gruppenCompositeAktion() {
+	//		super.setX(x+50);
+	//		super.setY(y+50);
+	//	}
 	public void gruppenCompositeAktion() {
 		super.gruppenCompositeAktion();
 	}
@@ -61,15 +62,15 @@ public class Linie extends Figur implements Gruppe{
 		setEndX(deltaX+getEndX());
 		setEndY(deltaY+getEndY());
 	}
-	
+
 	@Override
 	void strecken(double faktor) {
 		int distanzX = getEndX()-super.x;
 		int distanzY = getEndY()-super.y;
 		distanzX *= faktor;
 		distanzY *= faktor;
-//		setEndX(distanzX+getEndX());
-//		setEndY(distanzY+getEndY());
+		//		setEndX(distanzX+getEndX());
+		//		setEndY(distanzY+getEndY());
 		setEndX(distanzX+super.x);
 		setEndY(distanzY+super.y);
 	}
@@ -77,16 +78,20 @@ public class Linie extends Figur implements Gruppe{
 	@Override
 	void spiegeln(boolean vertikal) {
 		//vertikal true or false does not matter?
-			int newEndX = super.x;
-			super.x = getEndX();
-			setEndX(newEndX);
+		int newEndX = super.x;
+		super.x = getEndX();
+		setEndX(newEndX);
 	}
 
 	@Override
 	public void drehen() {
-		// 90Â° drehen = spiegeln vertikal bei Linie
+		// 90° drehen = spiegeln vertikal bei Linie
 		spiegeln(true);
 	}
 
+	@Override
+	protected void zeichne(Graphics g) {
+		g.drawLine(x, y, getEndX(), getEndY());
+	}
 
 }

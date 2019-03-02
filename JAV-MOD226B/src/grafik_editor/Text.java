@@ -1,5 +1,7 @@
 package grafik_editor;
 
+import java.awt.Graphics;
+
 public class Text extends Figur implements Gruppe{
 	private int schriftgroesse;
 	private String schriftart;
@@ -93,6 +95,31 @@ public class Text extends Figur implements Gruppe{
 	@Override
 	public void drehen() {
 		// not implemented, cause over the limit of this Lesson!		
+	}
+
+	@Override
+	protected void zeichne(Graphics g) {
+		// TODO Text Optionen wiederherstellen wie beim alten Status
+		//		{
+		//		//g.setFont(new Font(null, 0, 20)); // Tester for Fontsize
+		//		Text t = (Text) f;
+		//		// if strecken() shall be applied do:
+		//		if (t.getStrecken() != 0) {
+		//			Font originalFont = g.getFont(); // save current font
+		//			if (t.getSchriftgroesse() == 0) {
+		//				t.setSchriftgroesse(12);
+		//			}
+		//			g.setFont(new Font(null, 0, (int) (t.getSchriftgroesse()*t.getStrecken())));
+		//			g.drawString(t.getText(), t.x, t.y);
+		//			g.setFont(originalFont); // re apply current font
+		//		}
+		//		// if strecken() shall not be applied do:
+		//		else if (t.getStrecken() == 0) {
+		//			g.drawString(t.getText(), t.x, t.y);
+		//		}
+		//		}
+		
+		
 	}
 
 }

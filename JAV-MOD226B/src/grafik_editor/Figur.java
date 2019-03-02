@@ -1,8 +1,9 @@
 package grafik_editor;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
-public abstract class Figur implements Gruppe{
+public abstract class Figur extends Zeichnung implements Gruppe{
 	protected int x, y;
 	protected Color c;
 
@@ -80,4 +81,6 @@ public abstract class Figur implements Gruppe{
 		setX(x+50);
 		setY(y+500);
 	}
+
+	protected abstract void zeichne(Graphics g);
 }

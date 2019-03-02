@@ -1,6 +1,7 @@
 package grafik_editor;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 public class Kreis extends Figur implements Gruppe{
 	private int radius;
@@ -90,6 +91,14 @@ public class Kreis extends Figur implements Gruppe{
 	@Override
 	public void drehen() {
 		// not implemented, cause no effect!
+	}
+
+	@Override
+	protected void zeichne(Graphics g) {
+		if (isGefuellt() == true) {
+			g.fillOval(x, y, getRadius(), getRadius());
+		}
+		g.drawOval(x, y, getRadius(), getRadius());
 	}
 
 }

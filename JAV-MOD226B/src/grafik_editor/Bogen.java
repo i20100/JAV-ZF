@@ -1,6 +1,7 @@
 package grafik_editor;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 /**
  * Zeichent einen Bogen gemaess {@link java.awt.Graphics#drawArc(int, int, int, int, int, int)}
@@ -16,7 +17,7 @@ public class Bogen extends Figur implements Gruppe{
 	private int bogenWinkel;
 
 	/**
-	 * Gemaess Erklaerung, ist 0Â° bei drei Uhr, negative Werte sind gegen den Uhrzeigersinn, positive mit.
+	 * Gemaess Erklaerung, ist 0° bei drei Uhr, negative Werte sind gegen den Uhrzeigersinn, positive mit.
 	 * 
 	 * @see java.awt.Graphics#drawArc(int, int, int, int, int, int)
 	 * @param x
@@ -127,5 +128,10 @@ public class Bogen extends Figur implements Gruppe{
 	@Override
 	public void drehen() {
 		setStartWinkel(startWinkel+270);
+	}
+
+	@Override
+	protected void zeichne(Graphics g) {
+		g.drawArc(x, y, getBreite(), getHoehe(), getStartWinkel(), getBogenWinkel());
 	}
 }

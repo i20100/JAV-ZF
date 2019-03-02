@@ -1,6 +1,7 @@
 package grafik_editor;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 public class Rechteck extends Figur implements Gruppe {
 	private int breite, hoehe;
@@ -73,5 +74,11 @@ public class Rechteck extends Figur implements Gruppe {
 		int oldHoehe = getHoehe();
 		setHoehe(getBreite());
 		setBreite(oldHoehe);
+	}
+
+
+	@Override
+	protected void zeichne(Graphics g) {
+		g.drawRect(x, y, getBreite(), getHoehe()); // adapted code, since x, y are super but only protected attributes
 	}
 }

@@ -5,150 +5,220 @@ import java.awt.Color;
 public class Main {
 	private static final Display display = new Display();
 
-
 	public static void main(String[] args) {
-		Rechteck r = new Rechteck(20, 20, 100, 20);
-		Rechteck r2 = new Rechteck(40, 30, 100, 20);
-		Linie l = new Linie(50, 30, 100, 20);
-		Linie l2 = new Linie(70, 60, 50, 30);
-		Linie l3 = new Linie(70, 60, Color.GREEN, 50, 30);
-		Kreis k = new Kreis(70, 60, 20);
-		Kreis k2 = new Kreis(50, 50, 30);
-		Text t = new Text(100, 100, "Hello World!");
-		Bogen b = new Bogen(200, 200, 50, 90, 45, 180);
-		Ellipse e = new Ellipse(20, 220, 50, 90);
-		Kreis k3 = new Kreis(50, 40, Color.CYAN, 30, true); // gefuellter Kreis
-		Kreis k4 = new Kreis(60, 40, Color.RED, 30); // farbiger Kreis ohne Fuellung
-		Ellipse e2 = new Ellipse(30, 230, Color.RED, 50, 90);
-		Ellipse e3 = new Ellipse(40, 240, Color.ORANGE, 50, 90, true);
-		Ellipse e4 = new Ellipse(50, 250, null, 50, 90, true);
+		Text textForTestSet1 = new Text(10, 10, "Rechtecke, Linien, Ellipsen und Kreise Test:");
+		Rechteck r = new Rechteck(10, 20, 10, 10);
+		Rechteck r2 = new Rechteck(10, 20, 15, 10);
+		Linie l = new Linie(40, 20, Color.RED, 40, 30);
+		Linie l2 = new Linie(40, 20, Color.GREEN, 50, 30);
+		Linie l3 = new Linie(40, 20, Color.BLUE, 50, 20);
+		Kreis k = new Kreis(60, 20, 10);
+		Kreis k2 = new Kreis(75, 20, Color.RED, 10);
+		Kreis k3 = new Kreis(90, 20, Color.GREEN, 10);
+		Kreis k4 = new Kreis(105, 20, Color.BLUE, 10); // farbiger Kreis ohne Fuellung
+		Kreis k5 = new Kreis(120, 20, Color.BLACK, 10, true); // Kreis mit Fuellung
+		Text t = new Text(140, 30, "Hello World!");
+		Bogen b = new Bogen(10, 40, 50, 90, 45, 180);
+		Ellipse e = new Ellipse(140, 40, null, 10, 20, true);
+		Ellipse e2 = new Ellipse(150, 40, Color.RED, 10, 20);
+		Ellipse e3 = new Ellipse(160, 40, Color.GREEN, 10, 20);
+		Ellipse e4 = new Ellipse(170, 40, Color.BLUE, 10, 20);
 
-		display.hinzufuegen(r);
-		display.hinzufuegen(r2);
-		display.hinzufuegen(l);
-		display.hinzufuegen(l2);
-		display.hinzufuegen(l3);
-		display.hinzufuegen(k);
-		display.hinzufuegen(k2);
-		display.hinzufuegen(t);
-		display.hinzufuegen(b);
-		display.hinzufuegen(e);
-		display.hinzufuegen(k3);
-		display.hinzufuegen(k4);
-		display.hinzufuegen(e2);
-		display.hinzufuegen(e3);
-		display.hinzufuegen(e4);
+		display.zeichnung.hinzufuegen(textForTestSet1);
+		display.zeichnung.hinzufuegen(r);
+		display.zeichnung.hinzufuegen(r2);
+		display.zeichnung.hinzufuegen(l);
+		display.zeichnung.hinzufuegen(l2);
+		display.zeichnung.hinzufuegen(l3);
+		display.zeichnung.hinzufuegen(k);
+		display.zeichnung.hinzufuegen(k2);
+		display.zeichnung.hinzufuegen(t);
+		display.zeichnung.hinzufuegen(b);
+		display.zeichnung.hinzufuegen(e);
+		display.zeichnung.hinzufuegen(k3);
+		display.zeichnung.hinzufuegen(k4);
+		display.zeichnung.hinzufuegen(k5);
+		display.zeichnung.hinzufuegen(e2);
+		display.zeichnung.hinzufuegen(e3);
+		display.zeichnung.hinzufuegen(e4);
 
-		// Initialize Composite class 
-		CompositeGruppe cg = new CompositeGruppe();
+		//TODO Composite class breaks intended x, y of above tests.
+		//		1. But why does it break the code?
+		//		2. Why did I use this composite anyway?
+		// to 1. -> see composite class it has a x+50, y+500 method!
+		//		solve 2.
+		
+		/*
+		 * // Initialize Composite class CompositeGruppe cg = new CompositeGruppe();
+		 * 
+		 * // Composes the Leafs cg.add(l); cg.add(l2); cg.add(t);
+		 * 
+		 * // call the Composie method for all elements in the list
+		 * cg.gruppenCompositeAktion();
+		 * 
+		 * display.data.hinzufuegen(l); display.data.hinzufuegen(l2); display.data.hinzufuegen(t);
+		 */
 
-		// Composes the Leafs
-		cg.add(l);
-		cg.add(l2);
-		cg.add(t);
-
-		// call the Composie method for all elements in the list
-		cg.gruppenCompositeAktion();
-
-		display.hinzufuegen(l);
-		display.hinzufuegen(l2);
-		display.hinzufuegen(t);
+		Text moveTestText = new Text(10, 100, "Move Line Test:");
+		display.zeichnung.hinzufuegen(moveTestText);
 
 		r.move(50, 50);
-		display.hinzufuegen(r);
-		Linie l4 = new Linie(100, 400, 300, 400);
-		Linie l5 = new Linie(200, 350, 400, 350);
-		l4.move(100, 50);
-		display.hinzufuegen(l4);
-		display.hinzufuegen(l5);
+		display.zeichnung.hinzufuegen(r);
+		Linie l4 = new Linie(10, 110, Color.BLUE, 300, 110);
+		Linie l5 = new Linie(10, 110, Color.RED, 300, 110);
+		l4.move(0, -5);
+		display.zeichnung.hinzufuegen(l4);
+		display.zeichnung.hinzufuegen(l5);
 
 		// Test gem. Aufgabe 3, Kapitel 3, zeigt das bei beiden die move Methode von der Klasse Linie angewendet wird.
-		Linie l6 = new Linie(10, 20, 30, 40);
-		l6.move(10, 10);
-		Figur f = new Linie(10, 20, 30, 40);
-		f.move(10, 10);
+		Text moveTestText2 = new Text(10, 140, "Move Line Test2:");
+		display.zeichnung.hinzufuegen(moveTestText2);
+		Linie referenzLinie = new Linie(10, 150, 300, 150);
+		Linie l6 = new Linie(10, 150, Color.RED, 300, 150);
+		l6.move(5, 5);
+
+		Linie referenzLinie2 = new Linie(10, 160, 300, 160);
+		Figur f = new Linie(10, 160, Color.GREEN, 300, 160);
+		f.move(5, 5);
+
+		display.zeichnung.hinzufuegen(referenzLinie);
+		display.zeichnung.hinzufuegen(referenzLinie2);
+		display.zeichnung.hinzufuegen(l6);
+		display.zeichnung.hinzufuegen(f);
+
 
 		// Test strecken() gem. Zusatzaufgaben aus Kapitel 3
-		Linie l7 = new Linie(300, 10, 400, 10);
-		Linie l8 = new Linie(300, 20, 400, 20);
+		Text streckenTest = new Text(10, 190, "Strecke Line Test:");
+		display.zeichnung.hinzufuegen(streckenTest);
+		Linie l7 = new Linie(10, 200, 200, 200);
+		Linie l8 = new Linie(10, 205, 200, 205);
 		l8.strecken(.75);
 
-		display.hinzufuegen(l7);
-		display.hinzufuegen(l8);
+		display.zeichnung.hinzufuegen(l7);
+		display.zeichnung.hinzufuegen(l8);
+
+		//Symetrie Test, dies ist nur zur Darstellung und muss nicht erfuellt werden
+		Text symetrie = new Text(10, 230, "Test der aktuellen Symetrie der Figuren:");
+		display.zeichnung.hinzufuegen(symetrie);
+
+		Rechteck rgs1 = new Rechteckgefuellt(10, 240, null, 10, 20);
+		Kreis kst1 = new Kreis(10, 240, Color.red, 10);
+		display.zeichnung.hinzufuegen(rgs1);
+		display.zeichnung.hinzufuegen(kst1);
+
+		Rechteck rgs2 = new Rechteckgefuellt(40, 240, null, 20, 20);
+		Kreis kst2 = new Kreis(40, 240, Color.red, 20);
+		display.zeichnung.hinzufuegen(rgs2);
+		display.zeichnung.hinzufuegen(kst2);
+
+		Rechteck rgs3 = new Rechteckgefuellt(80, 240, null, 40, 20);
+		Kreis kst3 = new Kreis(80, 240, Color.red, 40);
+		display.zeichnung.hinzufuegen(rgs3);
+		display.zeichnung.hinzufuegen(kst3);
+
+		Rechteck rgs4 = new Rechteckgefuellt(140, 240, null, 50, 50);
+		Kreis kst4 = new Kreis(140, 240, Color.red, 50);
+		Kreis k2st4 = new Kreis(140, 240, Color.GREEN, 10);
+		Kreis k3st4 = new Kreis(140, 240, Color.BLUE, 75);
+		display.zeichnung.hinzufuegen(rgs4);
+		display.zeichnung.hinzufuegen(kst4);
+		display.zeichnung.hinzufuegen(k2st4);
+		display.zeichnung.hinzufuegen(k3st4);
 
 		// Test strecken() Kreis, Rechteck, Bogen, Ellipse, Rechteckgefuellt, Text
-		k4.strecken(2);
-		display.hinzufuegen(k4);
-		r2.strecken(1.5);
-		display.hinzufuegen(r2);
-		Bogen b2 = new Bogen(200, 200, 50, 90, 45, 180);
-		b2.strecken(2);
-		display.hinzufuegen(b2);
-		e.strecken(2);
-		display.hinzufuegen(e);
-		Rechteckgefuellt rg = new Rechteckgefuellt(30, 320, 40, 90);
-		Rechteckgefuellt rg2 = new Rechteckgefuellt(200, 320, 20, 30);
+		Text streckenTest2 = new Text(10, 340, "Strecke restliche Figuren Test:");
+		display.zeichnung.hinzufuegen(streckenTest2);
+
+		Kreis ks1 = new Kreis(10, 350, 10);
+		Kreis ks2 = new Kreis(10, 350, Color.RED, 10);
+		ks2.strecken(2);
+		display.zeichnung.hinzufuegen(ks1);
+		display.zeichnung.hinzufuegen(ks2);
+
+		Rechteck rs1 = new Rechteck(40, 350, 10, 10);
+		Rechteck rs2 = new Rechteck(40, 350, Color.RED, 10, 10);
+		rs2.strecken(2);
+		display.zeichnung.hinzufuegen(rs1);
+		display.zeichnung.hinzufuegen(rs2);
+
+		Bogen bs1 = new Bogen(80, 350, 10, 10, 45, 180);
+		Bogen bs2 = new Bogen(80, 350, Color.RED, 10, 10, 45, 180);
+		bs2.strecken(2);
+		display.zeichnung.hinzufuegen(bs1);
+		display.zeichnung.hinzufuegen(bs2);
+
+		Ellipse es1 = new Ellipse(120, 350, 15, 5);
+		Ellipse es2 = new Ellipse(120, 350, Color.RED, 15, 5);
+		es2.strecken(2);
+		display.zeichnung.hinzufuegen(es1);
+		display.zeichnung.hinzufuegen(es2);
+
+
+		Rechteckgefuellt rg = new Rechteckgefuellt(160, 350, 5, 20);
+		Rechteckgefuellt rg2 = new Rechteckgefuellt(170, 350, Color.RED, 5, 20);
 		rg2.strecken(2);
-		Rechteckgefuellt rg3 = new Rechteckgefuellt(40, 330, Color.CYAN, 40, 90);		
-		display.hinzufuegen(rg);
-		display.hinzufuegen(rg2);
-		display.hinzufuegen(rg3);
-		Text t2 = new Text(400, 50, "Hello World!");
-		t2.strecken(4);
-		display.hinzufuegen(t2);
+		display.zeichnung.hinzufuegen(rg);
+		display.zeichnung.hinzufuegen(rg2);
+
+
+		Text tn1 = new Text(10, 400, "Normaler Text");
+		Text tgs1 = new Text(10, 420, "Normaler Text gestreckt 2x");
+		tgs1.strecken(2);
+		display.zeichnung.hinzufuegen(tn1);
+		display.zeichnung.hinzufuegen(tgs1);
 
 		// spiegeln tests, Linie, Bogen	
 		Text spiegeln = new Text(400, 80, "Spiegeln tests:");
 		Linie l9 = new Linie(400, 100, 450, 130);
 		Linie l10 = new Linie(400, 140, 450, 170);
 		Linie l11 = new Linie(400, 140, Color.RED, 450, 170);
-		display.hinzufuegen(spiegeln);
-		display.hinzufuegen(l9);
+		display.zeichnung.hinzufuegen(spiegeln);
+		display.zeichnung.hinzufuegen(l9);
 		l10.spiegeln(true);
-		display.hinzufuegen(l10);
-		display.hinzufuegen(l11);
+		display.zeichnung.hinzufuegen(l10);
+		display.zeichnung.hinzufuegen(l11);
 		Bogen b3 = new Bogen(500, 100, 50, 90, 5, 80);
 		Bogen b4 = new Bogen(500, 100, Color.RED, 50, 90, 5, 80);
 		Bogen b5 = new Bogen(500, 100, Color.ORANGE, 50, 90, 5, 80);
 		b4.spiegeln(true);
 		b5.spiegeln(false);
-		display.hinzufuegen(b3);
-		display.hinzufuegen(b4);
-		display.hinzufuegen(b5);
+		display.zeichnung.hinzufuegen(b3);
+		display.zeichnung.hinzufuegen(b4);
+		display.zeichnung.hinzufuegen(b5);
 
 		// drehen tests, Linie, Rechteck, Ellipse, Bogen
-		Text drehen = new Text(400, 190, "Drehen 90Â° tests:");
+		Text drehen = new Text(400, 190, "Drehen 90° tests:");
 		Linie l12 = new Linie(400, 200, 450, 220);
 		Linie l13 = new Linie(400, 200, Color.ORANGE, 450, 220);
 		l13.drehen();
-		display.hinzufuegen(drehen);
-		display.hinzufuegen(l12);
-		display.hinzufuegen(l13);
+		display.zeichnung.hinzufuegen(drehen);
+		display.zeichnung.hinzufuegen(l12);
+		display.zeichnung.hinzufuegen(l13);
 		Rechteck r3 = new Rechteck(400, 230, 30, 20);
 		Rechteck r4 = new Rechteckgefuellt(400, 230, Color.ORANGE, 30, 20);
 		r4.drehen();
-		display.hinzufuegen(r3);
-		display.hinzufuegen(r4);
+		display.zeichnung.hinzufuegen(r3);
+		display.zeichnung.hinzufuegen(r4);
 		Ellipse e5 = new Ellipse(400, 270, 20, 40);
 		Ellipse e6 = new Ellipse(400, 270, Color.ORANGE, 20, 40);
 		e6.drehen();
-		display.hinzufuegen(e5);
-		display.hinzufuegen(e6);
+		display.zeichnung.hinzufuegen(e5);
+		display.zeichnung.hinzufuegen(e6);
 		Bogen b6 = new Bogen(470, 200, 25, 50, 5, 80);
 		Bogen b7 = new Bogen(470, 200, Color.ORANGE, 25, 50, 5, 80);
 		b7.drehen();
 		b7.drehen();
-		display.hinzufuegen(b6);
-		display.hinzufuegen(b7);
+		display.zeichnung.hinzufuegen(b6);
+		display.zeichnung.hinzufuegen(b7);
 
 		// drehen tests 2, Linie, Rechteck, Ellipse, Bogen
 		Text drehen2 = new Text(400, 330, "Drehen einzelne Grad tests:");
-		display.hinzufuegen(drehen2);
+		display.zeichnung.hinzufuegen(drehen2);
 		Rechteck r5 = new Rechteck(400, 350, 30, 20);
 		Rechteck r6 = new Rechteck(400, 350, Color.ORANGE, 30, 20);
 		r6.drehen();
-		display.hinzufuegen(r5);
-		display.hinzufuegen(r6);
+		display.zeichnung.hinzufuegen(r5);
+		display.zeichnung.hinzufuegen(r6);
 	}
 
 
