@@ -6,6 +6,11 @@ import java.awt.Graphics;
 public class Rechteckgefuellt extends Rechteck implements Gruppe{
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -219650488062245384L;
+
+	/**
 	 * Erstellt ein ausgefuelltes Rechteck mit der Standardfarbe
 	 * 
 	 * @param x

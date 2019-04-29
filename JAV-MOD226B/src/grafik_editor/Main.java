@@ -1,9 +1,15 @@
 package grafik_editor;
 
 import java.awt.Color;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Main {
 	private static final Display display = new Display();
+	
+	// save file path
+	private static String path = new String("src/grafik_editor/figurObjekte.m226");
 
 	public static void main(String[] args) {
 		Text textForTestSet1 = new Text(10, 10, "Rechtecke, Linien, Ellipsen und Kreise Test:");
@@ -79,7 +85,7 @@ public class Main {
 
 		Linie referenzLinie2 = new Linie(10, 160, 300, 160);
 		Figur f = new Linie(10, 160, Color.GREEN, 300, 160);
-		f.move(5, 5);
+		f.move(5, 10);
 
 		display.zeichnung.hinzufuegen(referenzLinie);
 		display.zeichnung.hinzufuegen(referenzLinie2);
@@ -212,13 +218,80 @@ public class Main {
 		display.zeichnung.hinzufuegen(b7);
 
 		// drehen tests 2, Linie, Rechteck, Ellipse, Bogen
-		Text drehen2 = new Text(400, 330, "Drehen einzelne Grad tests:");
+		Text drehen2 = new Text(400, 330, "Drehen einzelne Grad tests: CODE fehlt!");
 		display.zeichnung.hinzufuegen(drehen2);
 		Rechteck r5 = new Rechteck(400, 350, 30, 20);
 		Rechteck r6 = new Rechteck(400, 350, Color.ORANGE, 30, 20);
 		r6.drehen();
 		display.zeichnung.hinzufuegen(r5);
 		display.zeichnung.hinzufuegen(r6);
+		
+		// Speichere die Figuren-Objekte:
+
+		// erstelle Figur save file
+		// DONE remember to delete this file when done! Delete in FigurLoader
+		File file = new File(path);
+		
+		// Display.zeichnung ergo speichere aktuelles 'display' Object
+		try {
+			FigurSaver.save(display, file);
+		} catch (IOException exception) {
+			exception.printStackTrace();
+		}
+		
+		// Loesche alle Figuren
+		display.zeichnung.allesLoeschen();
+		System.out.println("Figuren geloescht.");
+		
+		// Wait 3 seconds
+		waitX(3_000);
+		
+		// DONE refreshe die Ausgabe
+		System.out.println("Refreshing!");
+		// DONE how to refresh the display?
+		/* TODO document the repaint() method
+		 * 
+		 * repaint() works because Display extends JFrame!
+		 * First check out Display then JFrame!
+		 */
+		// TODO git commit repaint() separate from save_and_load!
+		display.repaint();
+		
+		// Wait 3 seconds
+		waitX(3_000);
+
+		System.out.println("Reloading objects!");
+		
+		// DONE reload objects from File with FigurLoader
+		try {
+			display.zeichnung = FigurLoader.load(display, file);
+		} catch (FileNotFoundException exception) {
+			exception.printStackTrace();
+		} catch (IOException exception) {
+			exception.printStackTrace();
+		}
+
+		// repaint() display with reloaded objects
+		display.repaint();
+	}
+
+
+	/**
+	 * Waits inserted time in milliseconds
+	 * 
+	 * @param x time in milliseconds
+	 */
+	private static void waitX(int x) {
+		// DONE wait 'time' in milliseconds
+		int time = x; // time in milliseconds
+
+		System.out.println("Waiting "+time/1000+" seconds to continue.");
+		
+		try {
+			Thread.sleep(time);
+		} catch (InterruptedException exception) {
+			exception.printStackTrace();
+		}
 	}
 
 

@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Rechteck extends Figur implements Gruppe {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1511313260976576442L;
 	private int breite, hoehe;
 
 	public Rechteck(int x, int y, int breite, int hoehe) {

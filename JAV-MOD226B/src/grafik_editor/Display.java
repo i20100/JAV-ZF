@@ -51,5 +51,35 @@ public class Display extends JFrame {
 			}
 		});
 	}
+	
+	public Zeichnung getZeichnung() {
+		return zeichnung;
+	}
+
+	/* TODO wird in der Aufgabe 3 Kaptiel 4 vorgeschlagen, es brauche eine setZeichnungsmethode.
+	 * Der Grund bzw. Nutzen ist mir unbekannt.
+	 * Das Programm laeuft auch ohne diesen Zusatzcode.
+	 * 
+	 * Muss das Feld 'zeichung' private sein? Nicht sicher da kein UML dazu...
+	 * Und deshalb der Zugriff ueber setZeichnung erfolgen??? 
+	 * 
+	 * 'In der Klasse braucht es neu eine Methode zum Setzen des zugehoerigen Zeichnungs-Objekt'
+	 * 
+	 * 'Das Testprogramm muss so ergaenzt werden, dass ein Zeichnungsobjekt 
+	 * mit einigen Figuren erzeugt wird. Dieses muss dem Display mit der 
+	 * setZeichnung()-Methode zur Anzeige uebergeben werden.'
+	 * 
+	 */
+	/**
+	 * Aufgabe setZeichnung noch unklar
+	 * 
+	 * Wurde aber in Kapitel 4, Aufgabe 3 vorgeschlagen und deshalb mal eingebaut aber
+	 * ohne Funktion bzw. Code.
+	 * 
+	 * @param zeichnung
+	 */
+	public void setZeichnung(Zeichnung zeichnung) {
+		this.zeichnung = zeichnung;
+	}
 
 }

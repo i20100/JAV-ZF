@@ -11,6 +11,10 @@ import java.awt.Graphics;
  *
  */
 public class Bogen extends Figur implements Gruppe{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2747044743565194892L;
 	private int hoehe;
 	private int breite;
 	private int startWinkel;

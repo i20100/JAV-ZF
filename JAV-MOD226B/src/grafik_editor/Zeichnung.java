@@ -3,6 +3,7 @@ package grafik_editor;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.Vector;
 
 
@@ -14,12 +15,13 @@ import java.util.Vector;
 /**
  * Die Klasse Zeichnung ist das ??Interface?? zwischen Display und Figur
  * 
- * Die Klasse Zeichnung zeichent alle Figuren. Die Figuren werden im Attribut figuren gesammelt.
+ * Die Klasse Zeichnung zeichent alle Figuren. Die Figuren werden im 'Vector-array' figuren gesammelt.
  * 
  * @author vinma
  *
  */
-public class Zeichnung {
+@SuppressWarnings("serial")
+public class Zeichnung implements Serializable {
 	private Vector<Figur> figuren;
 
 	/* TODO why do I need both of these constructors, if I uncomment one the program will not work anymore.
@@ -99,7 +101,7 @@ public class Zeichnung {
 	 */
 	public void hinzufuegen(Figur figur) {
 		figuren.add(figur);
-		//		repaint();
+//				repaint();
 	}
 
 	/**
@@ -109,15 +111,5 @@ public class Zeichnung {
 		figuren.clear();
 		//		repaint();
 	}
-
-	/* TODO wird in der Aufgabe 3 Kaptiel 4 vorgeschlagen, es brauche eine setZeichnungsmethode.
-	 * Der Grund bzw. Nutzen ist mir unbekannt.
-	 * Das Programm laeuft auch ohne diesen Zusatzcode.
-	 */
-	//	In der Klasse braucht es neu eine Methode zum Setzen des zugehoerigen Zeichnungs-Objekt
-	public void setZeichnung(Zeichnung zeichnung) {
-
-	}
-
 
 }

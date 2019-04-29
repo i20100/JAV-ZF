@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Kreis extends Figur implements Gruppe{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5469418155330704875L;
 	private int radius;
 	private boolean gefuellt;
 

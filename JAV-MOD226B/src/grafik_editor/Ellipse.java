@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Ellipse extends Figur implements Gruppe{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -530224612263062173L;
 	private int breite;
 	private int hoehe;
 	private boolean gefuellt;

@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Linie extends Figur implements Gruppe{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5706689675375652115L;
 	private int endX, endY;
 
 	public Linie(int x, int y, int endX, int endY) {

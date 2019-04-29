@@ -3,6 +3,10 @@ package grafik_editor;
 import java.awt.Graphics;
 
 public class Text extends Figur implements Gruppe{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4431767579872354809L;
 	private int schriftgroesse;
 	private String schriftart;
 	private String text;

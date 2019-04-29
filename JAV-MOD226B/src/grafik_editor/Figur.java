@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public abstract class Figur extends Zeichnung implements Gruppe{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6867959261569807436L;
 	protected int x, y;
 	protected Color c;
 
@@ -18,13 +22,19 @@ public abstract class Figur extends Zeichnung implements Gruppe{
 		this.c = c;
 	}
 
+	/**
+	 * Verschiebt eine Figur auf X und Y Ebene 
+	 * 
+	 * @param deltaX positiver Wert verschiebt nach rechts
+	 * @param deltaY positiver Wert verschiebt nach unten
+	 */
 	public void move(int deltaX, int deltaY) {
 		x += deltaX;
 		y += deltaY;
 	}
 
 	/**
-	 * Erlaubt das veraendern der Groesse eines Figur also das Skalieren.
+	 * Erlaubt das veraendern der Groesse einer Figur also das Skalieren.
 	 * 
 	 * @param faktor um welcher die Figur vergroessert oder verkleinert wird
 	 */
@@ -39,7 +49,7 @@ public abstract class Figur extends Zeichnung implements Gruppe{
 	abstract void spiegeln(boolean vertikal);
 
 	/**
-	 * Drehen erlaubt das Drehen von Objekten um 90Â° im Uhrzeigersinn
+	 * Drehen erlaubt das Drehen von Objekten um 90° im Uhrzeigersinn
 	 */
 	abstract void drehen();
 	
